@@ -2546,6 +2546,194 @@ body.cart-open {
   border: 1px solid rgba(217, 4, 41, 0.25);
 }
 
+/* Payment Method Selector Tabs */
+.payment-method-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 18px;
+  width: 100%;
+}
+
+.payment-method-tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 14px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  font-size: 0.84rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-align: center;
+}
+
+.payment-method-tab:hover {
+  color: #fff;
+  border-color: rgba(217, 4, 41, 0.4);
+  background: rgba(217, 4, 41, 0.08);
+}
+
+.payment-method-tab.active {
+  background: var(--color-crimson);
+  color: #fff;
+  border-color: var(--color-crimson);
+  box-shadow: 0 4px 18px rgba(217, 4, 41, 0.4);
+}
+
+.payment-method-tab i {
+  font-size: 1rem;
+}
+
+.payment-method-tab.vinted-tab.active {
+  background: linear-gradient(135deg, #09b1ba 0%, #007782 100%);
+  border-color: #09b1ba;
+  box-shadow: 0 4px 20px rgba(9, 177, 186, 0.35);
+}
+
+.payment-method-tab.vinted-tab:hover:not(.active) {
+  border-color: rgba(9, 177, 186, 0.5);
+  background: rgba(9, 177, 186, 0.1);
+  color: #fff;
+}
+
+/* Payment Panels */
+.payment-panel {
+  display: none;
+  animation: fadeInModal 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.payment-panel.active {
+  display: block;
+}
+
+/* Vinted Card Styling */
+.vinted-card {
+  background: linear-gradient(180deg, rgba(9, 177, 186, 0.08) 0%, rgba(5, 10, 15, 0.8) 100%);
+  border: 1px solid rgba(9, 177, 186, 0.35);
+  border-radius: 10px;
+  padding: 20px;
+  text-align: left;
+  margin-bottom: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 25px rgba(9, 177, 186, 0.12);
+  position: relative;
+  overflow: hidden;
+}
+
+.vinted-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #09b1ba, #00d2d3, #ff2a4d);
+}
+
+.vinted-badge-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.vinted-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(9, 177, 186, 0.18);
+  border: 1px solid rgba(9, 177, 186, 0.4);
+  color: #2bcbba;
+  font-size: 0.74rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+
+.vinted-card-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.vinted-card-title i {
+  color: #09b1ba;
+}
+
+.vinted-card-desc {
+  font-size: 0.88rem;
+  color: #cbd5e1;
+  line-height: 1.55;
+  margin-bottom: 16px;
+}
+
+.vinted-features-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 18px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.vinted-features-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.84rem;
+  color: #f1f5f9;
+  line-height: 1.45;
+}
+
+.vinted-features-list li i {
+  color: #2bcbba;
+  font-size: 0.92rem;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.vinted-note-box {
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px dashed rgba(9, 177, 186, 0.4);
+  border-radius: 6px;
+  padding: 12px 14px;
+  font-size: 0.82rem;
+  color: #94a3b8;
+  line-height: 1.45;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.vinted-note-box i {
+  color: #38ef7d;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.vinted-submit-btn {
+  background: linear-gradient(135deg, #007782 0%, #09b1ba 100%) !important;
+  border-color: #09b1ba !important;
+  color: #fff !important;
+  box-shadow: 0 6px 25px rgba(9, 177, 186, 0.35) !important;
+}
+
+.vinted-submit-btn:hover {
+  background: linear-gradient(135deg, #09b1ba 0%, #00d2d3 100%) !important;
+  box-shadow: 0 8px 30px rgba(9, 177, 186, 0.55) !important;
+  transform: translateY(-2px);
+}
+
 .payment-instruction-text {
   font-size: 0.86rem;
   color: #fff;
