@@ -2368,6 +2368,96 @@ body.cart-open {
   display: inline-block;
 }
 
+/* Information Policy Modals */
+.info-modal {
+  max-width: 600px;
+  width: 94%;
+  background: linear-gradient(180deg, #18090d 0%, #0c0406 100%);
+  border: 1px solid rgba(217, 4, 41, 0.35);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9), 0 0 35px rgba(217, 4, 41, 0.2);
+  border-radius: var(--radius-md);
+  padding: 24px;
+}
+
+.info-modal-header {
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.info-modal-body {
+  font-size: 0.90rem;
+  line-height: 1.65;
+  color: #cbd5e1;
+  text-align: left;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 60vh;
+  overflow-y: auto;
+  padding-right: 6px;
+}
+
+.info-modal-body::-webkit-scrollbar {
+  width: 5px;
+}
+
+.info-modal-body::-webkit-scrollbar-thumb {
+  background: var(--color-crimson);
+  border-radius: 4px;
+}
+
+.info-card-block {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-left: 3px solid var(--color-crimson);
+  border-radius: 6px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  transition: all var(--transition-fast);
+}
+
+.info-card-block:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(217, 4, 41, 0.3);
+  transform: translateX(2px);
+}
+
+.info-card-block i {
+  color: var(--color-bright-red);
+  font-size: 1.05rem;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.info-card-text {
+  font-size: 0.88rem;
+  color: #e2e8f0;
+  line-height: 1.55;
+}
+
+.info-card-text b {
+  color: #fff;
+  font-weight: 700;
+}
+
+.info-modal-footer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+@media (max-width: 540px) {
+  .info-modal-footer {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* Payment Modal Breakdown & Requisites */
 .payment-order-summary {
   width: 100%;
