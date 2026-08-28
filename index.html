@@ -22,7 +22,7 @@
   <!-- Supabase JS Client -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <link rel="stylesheet" href="styles.css?v=74">
+  <link rel="stylesheet" href="styles.css?v=77">
 </head>
 <body>
 
@@ -339,10 +339,7 @@
           R8ILT SHOP — магазин оригинальной уличной, околофутбольной и субкультурной одежды. Бренды Pit Bull Germany, Svastone, Белояр, Thor Steinar с гарантией подлинности.
         </p>
         <div class="social-links">
-          <a href="#" class="social-link" title="Telegram"><i class="fa-brands fa-telegram"></i></a>
-          <a href="#" class="social-link" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
-          <a href="#" class="social-link" title="TikTok"><i class="fa-brands fa-tiktok"></i></a>
-          <a href="#" class="social-link" title="Discord"><i class="fa-brands fa-discord"></i></a>
+          <a href="https://t.me/r8iltshop" target="_blank" rel="noopener noreferrer" class="social-link" title="Telegram"><i class="fa-brands fa-telegram"></i></a>
         </div>
       </div>
 
@@ -359,10 +356,8 @@
       <div class="footer-col">
         <h4 class="footer-heading gothic-text" data-i18n="footer_info_title">Информация</h4>
         <ul class="footer-links">
-          <li><a href="#" data-i18n="footer_size_guide">Таблица размеров</a></li>
           <li><a href="#" data-i18n="footer_shipping">Оплата и доставка</a></li>
           <li><a href="#" data-i18n="footer_returns">Возврат и обмен</a></li>
-          <li><a href="#" data-i18n="footer_certs">Сертификаты подлинности</a></li>
         </ul>
       </div>
     </div>
@@ -581,89 +576,151 @@
           </div>
         </div>
 
-        <p class="payment-instruction-text" data-i18n="payment_instruction">
-          Пожалуйста, переведите точную сумму заказа по любым удобным реквизитам ниже:
-        </p>
-
-        <!-- Requisites Cards with One-Click Copy -->
-        <div class="requisites-container">
-          <!-- Monobank -->
-          <div class="requisite-card">
-            <div class="requisite-card-header">
-              <div class="requisite-bank-tag mono-tag">
-                <i class="fa-solid fa-credit-card"></i> <span data-i18n="payment_mono_title">Монобанк (UAH / EUR)</span>
-              </div>
-              <button type="button" class="btn-copy-req" onclick="copyRequisite('4441111055523041')" title="Скопировать номер карты">
-                <i class="fa-regular fa-copy"></i> <span data-i18n="payment_copy_btn">Копировать</span>
-              </button>
-            </div>
-            <div class="requisite-number" id="monoCardNumber">4441 1110 5552 3041</div>
-            <div class="requisite-holder">
-              <span class="req-label">Получатель:</span> <span class="req-val" data-i18n="payment_mono_recipient">Пацула Вадим Анатолиевич / Patsula Vadim</span>
-            </div>
-          </div>
-
-          <!-- Revolut -->
-          <div class="requisite-card">
-            <div class="requisite-card-header">
-              <div class="requisite-bank-tag revolut-tag">
-                <i class="fa-solid fa-building-columns"></i> <span data-i18n="payment_revolut_title">Revolut (IBAN / SEPA)</span>
-              </div>
-              <button type="button" class="btn-copy-req" onclick="copyRequisite('DE02100101787231708750')" title="Скопировать IBAN">
-                <i class="fa-regular fa-copy"></i> <span data-i18n="payment_copy_btn">Копировать</span>
-              </button>
-            </div>
-            <div class="requisite-number iban-number" id="revolutIban">DE02 1001 0178 7231 7087 50</div>
-            <div class="requisite-holder">
-              <span class="req-label">Получатель:</span> <span class="req-val" data-i18n="payment_revolut_recipient">Savelii Shkurko</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Mandatory Receipt Upload Section -->
-        <div class="receipt-upload-section">
-          <label class="receipt-upload-label" data-i18n="receipt_upload_title">
-            <i class="fa-solid fa-file-invoice-dollar"></i> Квитанция / скриншот оплаты *
-          </label>
-
-          <div class="receipt-dropzone" id="receiptDropzone">
-            <input type="file" id="receiptFileInput" accept="image/*,application/pdf" style="display:none;" required>
-            
-            <div class="dropzone-empty-state" id="dropzoneEmpty">
-              <div class="dropzone-icon">
-                <i class="fa-solid fa-cloud-arrow-up"></i>
-              </div>
-              <p class="dropzone-text" data-i18n="receipt_drop_text">Нажмите или перетащите скриншот оплаты сюда</p>
-              <span class="dropzone-hint" data-i18n="receipt_drop_hint">JPG, PNG, WEBP или PDF (макс. 15 МБ)</span>
-              <button type="button" class="btn btn-outline btn-sm btn-browse-receipt" id="btnBrowseReceipt" data-i18n="receipt_btn_browse">
-                <i class="fa-solid fa-arrow-up-from-bracket"></i> Прикрепить скриншот
-              </button>
-            </div>
-
-            <div class="dropzone-file-preview" id="dropzonePreview" style="display:none;">
-              <div class="preview-thumb-wrap" id="previewThumbWrap">
-                <img id="receiptImageThumb" src="" alt="Квитанция" class="receipt-thumb">
-                <div id="receiptPdfIcon" class="pdf-icon" style="display:none;"><i class="fa-solid fa-file-pdf"></i></div>
-              </div>
-              <div class="preview-file-info">
-                <span class="preview-filename" id="previewFileName">receipt.jpg</span>
-                <span class="preview-filesize" id="previewFileSize">1.2 MB</span>
-                <span class="preview-status"><i class="fa-solid fa-circle-check"></i> <span data-i18n="receipt_attached">Скриншот прикреплен</span></span>
-              </div>
-              <button type="button" class="btn-remove-receipt" id="btnRemoveReceipt" title="Удалить / Заменить файл">
-                <i class="fa-solid fa-trash-can"></i>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div class="payment-actions-wrap">
-          <button type="button" class="btn btn-primary btn-block payment-confirm-btn" id="paymentConfirmPaidBtn">
-            <i class="fa-solid fa-paper-plane"></i> <span data-i18n="btn_i_paid_confirm">Оформить заказ и отправить чек</span>
+        <!-- Payment Method Tabs -->
+        <div class="payment-method-tabs">
+          <button type="button" class="payment-method-tab active" id="tabPayDirectBtn" onclick="switchPaymentMethod('direct')">
+            <i class="fa-solid fa-credit-card"></i>
+            <span data-i18n="payment_tab_direct">Прямой перевод (Реквизиты)</span>
           </button>
-          <a href="https://t.me/r8ilt" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-block tg-receipt-btn" style="gap:10px;">
-            <i class="fa-brands fa-telegram"></i> <span data-i18n="order_success_tg_receipt">Связаться с менеджером в Telegram</span>
-          </a>
+          <button type="button" class="payment-method-tab vinted-tab" id="tabPayVintedBtn" onclick="switchPaymentMethod('vinted')">
+            <i class="fa-solid fa-bag-shopping"></i>
+            <span data-i18n="payment_tab_vinted">Заказ через Vinted</span>
+          </button>
+        </div>
+
+        <!-- Panel 1: Direct Bank Transfer & Mandatory Receipt -->
+        <div class="payment-panel active" id="payDirectPanel">
+          <p class="payment-instruction-text" data-i18n="payment_instruction">
+            Пожалуйста, переведите точную сумму заказа по любым удобным реквизитам ниже:
+          </p>
+
+          <!-- Requisites Cards with One-Click Copy -->
+          <div class="requisites-container">
+            <!-- Monobank -->
+            <div class="requisite-card">
+              <div class="requisite-card-header">
+                <div class="requisite-bank-tag mono-tag">
+                  <i class="fa-solid fa-credit-card"></i> <span data-i18n="payment_mono_title">Монобанк (UAH / EUR)</span>
+                </div>
+                <button type="button" class="btn-copy-req" onclick="copyRequisite('4441111055523041')" title="Скопировать номер карты">
+                  <i class="fa-regular fa-copy"></i> <span data-i18n="payment_copy_btn">Копировать</span>
+                </button>
+              </div>
+              <div class="requisite-number" id="monoCardNumber">4441 1110 5552 3041</div>
+              <div class="requisite-holder">
+                <span class="req-label">Получатель:</span> <span class="req-val" data-i18n="payment_mono_recipient">Пацула Вадим Анатолиевич / Patsula Vadim</span>
+              </div>
+            </div>
+
+            <!-- Revolut -->
+            <div class="requisite-card">
+              <div class="requisite-card-header">
+                <div class="requisite-bank-tag revolut-tag">
+                  <i class="fa-solid fa-building-columns"></i> <span data-i18n="payment_revolut_title">Revolut (IBAN / SEPA)</span>
+                </div>
+                <button type="button" class="btn-copy-req" onclick="copyRequisite('DE02100101787231708750')" title="Скопировать IBAN">
+                  <i class="fa-regular fa-copy"></i> <span data-i18n="payment_copy_btn">Копировать</span>
+                </button>
+              </div>
+              <div class="requisite-number iban-number" id="revolutIban">DE02 1001 0178 7231 7087 50</div>
+              <div class="requisite-holder">
+                <span class="req-label">Получатель:</span> <span class="req-val" data-i18n="payment_revolut_recipient">Savelii Shkurko</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mandatory Receipt Upload Section -->
+          <div class="receipt-upload-section">
+            <label class="receipt-upload-label" data-i18n="receipt_upload_title">
+              <i class="fa-solid fa-file-invoice-dollar"></i> Квитанция / скриншот оплаты *
+            </label>
+
+            <div class="receipt-dropzone" id="receiptDropzone">
+              <input type="file" id="receiptFileInput" accept="image/*,application/pdf" style="display:none;" required>
+              
+              <div class="dropzone-empty-state" id="dropzoneEmpty">
+                <div class="dropzone-icon">
+                  <i class="fa-solid fa-cloud-arrow-up"></i>
+                </div>
+                <p class="dropzone-text" data-i18n="receipt_drop_text">Нажмите или перетащите скриншот оплаты сюда</p>
+                <span class="dropzone-hint" data-i18n="receipt_drop_hint">JPG, PNG, WEBP или PDF (макс. 15 МБ)</span>
+                <button type="button" class="btn btn-outline btn-sm btn-browse-receipt" id="btnBrowseReceipt" data-i18n="receipt_btn_browse">
+                  <i class="fa-solid fa-arrow-up-from-bracket"></i> Прикрепить скриншот
+                </button>
+              </div>
+
+              <div class="dropzone-file-preview" id="dropzonePreview" style="display:none;">
+                <div class="preview-thumb-wrap" id="previewThumbWrap">
+                  <img id="receiptImageThumb" src="" alt="Квитанция" class="receipt-thumb">
+                  <div id="receiptPdfIcon" class="pdf-icon" style="display:none;"><i class="fa-solid fa-file-pdf"></i></div>
+                </div>
+                <div class="preview-file-info">
+                  <span class="preview-filename" id="previewFileName">receipt.jpg</span>
+                  <span class="preview-filesize" id="previewFileSize">1.2 MB</span>
+                  <span class="preview-status"><i class="fa-solid fa-circle-check"></i> <span data-i18n="receipt_attached">Скриншот прикреплен</span></span>
+                </div>
+                <button type="button" class="btn-remove-receipt" id="btnRemoveReceipt" title="Удалить / Заменить файл">
+                  <i class="fa-solid fa-trash-can"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="payment-actions-wrap">
+            <button type="button" class="btn btn-primary btn-block payment-confirm-btn" id="paymentConfirmPaidBtn">
+              <i class="fa-solid fa-paper-plane"></i> <span data-i18n="btn_i_paid_confirm">Оформить заказ и отправить чек</span>
+            </button>
+            <a href="https://t.me/r8iltmanager" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-block tg-receipt-btn" style="gap:10px;">
+              <i class="fa-brands fa-telegram"></i> <span data-i18n="order_success_tg_receipt">Связаться с менеджером в Telegram</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Panel 2: Vinted Safe Deal Request -->
+        <div class="payment-panel" id="payVintedPanel">
+          <div class="vinted-card">
+            <div class="vinted-badge-row">
+              <span class="vinted-badge"><i class="fa-solid fa-shield-check"></i> Vinted Buyer Protection</span>
+              <span class="vinted-badge" style="background:rgba(255,255,255,0.06);color:#fff;border-color:rgba(255,255,255,0.15);">Безопасная сделка</span>
+            </div>
+            
+            <h3 class="vinted-card-title">
+              <i class="fa-solid fa-bag-shopping"></i> <span data-i18n="vinted_card_title">Покупка через сервис Vinted</span>
+            </h3>
+            
+            <p class="vinted-card-desc" data-i18n="vinted_card_desc">
+              Вы можете оформить безопасную покупку через европейскую платформу Vinted с официальной защитой покупателя и удобной доставкой.
+            </p>
+
+            <ul class="vinted-features-list">
+              <li>
+                <i class="fa-solid fa-circle-check"></i>
+                <span data-i18n="vinted_feat_1">100% Защита средств покупателя Vinted Buyer Protection</span>
+              </li>
+              <li>
+                <i class="fa-solid fa-circle-check"></i>
+                <span data-i18n="vinted_feat_2">Официальное отслеживание посылки и страховка доставки</span>
+              </li>
+              <li>
+                <i class="fa-solid fa-circle-check"></i>
+                <span data-i18n="vinted_feat_3">Менеджер оперативно создаст персональный лот на Vinted и пришлет вам прямую ссылку в Telegram или на Email</span>
+              </li>
+            </ul>
+
+            <div class="vinted-note-box">
+              <i class="fa-solid fa-headset"></i>
+              <span data-i18n="vinted_note_text">После нажатия кнопки мы мгновенно получим вашу заявку и менеджер свяжется с вами для отправки ссылки на Vinted!</span>
+            </div>
+          </div>
+
+          <div class="payment-actions-wrap">
+            <button type="button" class="btn btn-primary btn-block vinted-submit-btn" id="paymentSubmitVintedBtn">
+              <i class="fa-solid fa-paper-plane"></i> <span data-i18n="btn_vinted_submit">Отправить заявку через Vinted</span>
+            </button>
+            <a href="https://t.me/r8iltmanager" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-block tg-receipt-btn" style="gap:10px;">
+              <i class="fa-brands fa-telegram"></i> <span data-i18n="order_success_tg_receipt">Связаться с менеджером в Telegram</span>
+            </a>
+          </div>
         </div>
       </div>
     </div>
@@ -683,7 +740,7 @@
       </p>
 
       <div class="success-actions">
-        <a href="https://t.me/r8ilt" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-block tg-confirm-btn" style="gap:10px;">
+        <a href="https://t.me/r8iltmanager" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-block tg-confirm-btn" style="gap:10px;">
           <i class="fa-brands fa-telegram"></i> <span data-i18n="order_success_tg">Связаться в Telegram</span>
         </a>
         <button type="button" class="btn btn-outline btn-block" id="successCloseBtn" data-i18n="order_success_close">Вернуться в магазин</button>
@@ -828,6 +885,6 @@
     <span class="floating-cart-badge" id="floatingCartCount">0</span>
   </button>
 
-  <script src="app.js?v=74"></script>
+  <script src="app.js?v=77"></script>
 </body>
 </html>
