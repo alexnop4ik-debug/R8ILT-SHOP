@@ -2472,7 +2472,7 @@ function formatSupabaseErrorMessage(error) {
     return 'Пожалуйста, укажите корректный адрес электронной почты.';
   }
   if (msg.includes('email not confirmed')) {
-    return 'Пожалуйста, подтвердите ваш email через письмо на почте.';
+    return 'Подтверждение почты отключено. Пожалуйста, войдите с вашим паролем.';
   }
   return error.message || 'Ошибка соединения с сервером.';
 }
