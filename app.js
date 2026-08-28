@@ -1692,6 +1692,16 @@ function closeCheckoutModal() {
   document.body.classList.remove('modal-open');
 }
 
+// HTML Escaper for Telegram HTML parse_mode
+function escapeHtml(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
 // Generate Order Number: 3 digits and 3 letters (e.g. "742-XAB")
 function generateOrderNumber() {
   const digits = Math.floor(100 + Math.random() * 900); // 3 digits: 100-999
@@ -1707,10 +1717,20 @@ function generateOrderNumber() {
 function buildTelegramOrderCaption(order) {
   const itemsList = order.items.map(item => {
     const p = products.find(prod => prod.id === item.id);
-    const name = (p && p.names && (p.names['ru'] || p.names['en'])) || item.brandName;
-    const size = item.selectedSize || (p && p.size ? (Array.isArray(p.size) ? p.size.join('/') : p.size) : '');
+    const name = escapeHtml((p && p.names && (p.names['ru'] || p.names['en'])) || item.brandName);
+    const size = escapeHtml(item.selectedSize || (p && p.size ? (Array.isArray(p.size) ? p.size.join('/') : p.size) : ''));
     return `• <b>${name}</b> ${size ? `(${size})` : ''} — ${item.qty} шт. × ${item.price} €`;
   }).join('\n');
+
+  const country = escapeHtml(order.shipping.country);
+  const region = escapeHtml(order.shipping.region);
+  const zip = escapeHtml(order.shipping.zip);
+  const city = escapeHtml(order.shipping.city);
+  const postOffice = escapeHtml(order.shipping.postOffice);
+  const address = escapeHtml(order.shipping.address);
+  const name = escapeHtml(order.shipping.name);
+  const phone = escapeHtml(order.shipping.phone);
+  const email = escapeHtml(order.shipping.email);
 
   return `⚔️ <b>НОВЫЙ ЗАКАЗ: № ${order.orderId}</b>\n` +
          `━━━━━━━━━━━━━━━━━━━━━\n` +
@@ -1721,15 +1741,15 @@ function buildTelegramOrderCaption(order) {
          `• Доставка: <b>${order.shippingCost} €</b>\n` +
          `• <b>ИТОГО К ОПЛАТЕ: ${order.total} €</b>\n\n` +
          `📍 <b>ДАННЫЕ ДЛЯ ДОСТАВКИ:</b>\n` +
-         `• Страна: <b>${order.shipping.country}</b>\n` +
-         `• Регион/Штат: <b>${order.shipping.region}</b>\n` +
-         `• Индекс: <b>${order.shipping.zip}</b>\n` +
-         `• Город: <b>${order.shipping.city}</b>\n` +
-         `• Отделение почты: <b>${order.shipping.postOffice}</b>\n` +
-         `• Адрес проживания: <b>${order.shipping.address}</b>\n` +
-         `• Получатель (ФИО): <b>${order.shipping.name}</b>\n` +
-         `• Телефон: <b>${order.shipping.phone}</b>\n` +
-         `• Email: <b>${order.shipping.email}</b>\n\n` +
+         `• Страна: <b>${country}</b>\n` +
+         `• Регион/Штат: <b>${region}</b>\n` +
+         `• Индекс: <b>${zip}</b>\n` +
+         `• Город: <b>${city}</b>\n` +
+         `• Отделение почты: <b>${postOffice}</b>\n` +
+         `• Адрес: <b>${address}</b>\n` +
+         `• Получатель: <b>${name}</b>\n` +
+         `• Телефон: <b>${phone}</b>\n` +
+         `• Email: <b>${email}</b>\n\n` +
          `🕒 <i>${new Date().toLocaleString('ru-RU', { timeZone: 'Europe/Kyiv' })}</i>\n` +
          `📎 <i>Квитанция об оплате прикреплена к сообщению.</i>`;
 }
@@ -1752,10 +1772,15 @@ async function sendOrderToTelegram(orderData, receiptFile) {
       body: formData
     });
 
-    if (response.ok) {
-      const data = await response.json();
-      if (data && (data.ok || data.success)) {
-        return { success: true };
+    const data = await response.json();
+    console.log('[Telegram API Response]:', data);
+
+    if (response.ok && data && (data.ok || data.success)) {
+      return { success: true, data };
+    } else {
+      console.error('[Telegram API Error]:', data);
+      if (data && data.description) {
+        console.warn(`Telegram API Description: ${data.description}`);
       }
     }
   } catch (err) {
@@ -1769,27 +1794,30 @@ async function sendOrderToTelegram(orderData, receiptFile) {
   if (clientToken && clientChatId) {
     try {
       const directFormData = new FormData();
-      directFormData.append('chat_id', clientChatId);
+      directFormData.append('chat_id', clientChatId.trim());
       directFormData.append('caption', caption);
       directFormData.append('parse_mode', 'HTML');
       if (receiptFile) {
         directFormData.append('photo', receiptFile, receiptFile.name);
       }
 
-      const directRes = await fetch(`https://api.telegram.org/bot${clientToken}/sendPhoto`, {
+      const directRes = await fetch(`https://api.telegram.org/bot${clientToken.trim()}/sendPhoto`, {
         method: 'POST',
         body: directFormData
       });
       const directData = await directRes.json();
+      console.log('[Direct Telegram Response]:', directData);
       if (directData && directData.ok) {
-        return { success: true };
+        return { success: true, data: directData };
+      } else if (directData && directData.description) {
+        console.warn(`Telegram Direct Description: ${directData.description}`);
       }
     } catch (e) {
       console.error('Direct Telegram API error:', e);
     }
   }
 
-  return { success: true, localOnly: true };
+  return { success: false, localOnly: true };
 }
 
 // Receipt Upload Drag & Drop and Preview Handlers
