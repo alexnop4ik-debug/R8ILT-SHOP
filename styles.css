@@ -221,6 +221,51 @@ textarea:focus-visible {
   }
 }
 
+@keyframes lavaFlowMobile1 {
+  0% {
+    transform: translate3d(0, 0, 0) scale(0.92);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translate3d(65px, 95px, 0) scale(1.22);
+    opacity: 0.88;
+  }
+  100% {
+    transform: translate3d(25px, 170px, 0) scale(0.88);
+    opacity: 0.65;
+  }
+}
+
+@keyframes lavaFlowMobile2 {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1.15);
+    opacity: 0.65;
+  }
+  50% {
+    transform: translate3d(-60px, -90px, 0) scale(0.85);
+    opacity: 0.85;
+  }
+  100% {
+    transform: translate3d(-85px, -160px, 0) scale(1.18);
+    opacity: 0.7;
+  }
+}
+
+@keyframes lavaFlowMobile3 {
+  0% {
+    transform: translate3d(0, 0, 0) scale(0.85);
+    opacity: 0.55;
+  }
+  50% {
+    transform: translate3d(-50px, 60px, 0) scale(1.25);
+    opacity: 0.88;
+  }
+  100% {
+    transform: translate3d(60px, -50px, 0) scale(0.95);
+    opacity: 0.6;
+  }
+}
+
 .noise-overlay {
   position: fixed;
   top: 0;
@@ -2452,6 +2497,41 @@ textarea:focus-visible {
 
 /* Mobile Phones & Phablets (768px and below) */
 @media (max-width: 768px) {
+  /* Organic Living Lava Lamp on Mobile Devices */
+  .bg-glow {
+    filter: blur(55px);
+    -webkit-filter: blur(55px);
+    opacity: 0.72;
+  }
+
+  .bg-glow-1 {
+    width: 320px;
+    height: 320px;
+    top: 4%;
+    left: -15%;
+    background: radial-gradient(circle at 45% 45%, #ff002b 0%, rgba(220, 0, 35, 0.78) 38%, rgba(130, 0, 20, 0.35) 65%, transparent 80%);
+    animation: lavaFlowMobile1 9s ease-in-out infinite alternate;
+  }
+
+  .bg-glow-2 {
+    width: 300px;
+    height: 300px;
+    bottom: 8%;
+    right: -15%;
+    background: radial-gradient(circle at 55% 55%, #c70024 0%, rgba(175, 0, 30, 0.75) 42%, rgba(90, 0, 15, 0.3) 70%, transparent 80%);
+    animation: lavaFlowMobile2 11s ease-in-out infinite alternate;
+  }
+
+  .bg-glow-3 {
+    width: 260px;
+    height: 260px;
+    top: 46%;
+    left: 20%;
+    background: radial-gradient(circle at 50% 50%, #ff2a4d 0%, rgba(255, 42, 77, 0.72) 40%, rgba(140, 5, 25, 0.3) 65%, transparent 80%);
+    animation: lavaFlowMobile3 8s ease-in-out infinite alternate;
+    opacity: 0.68;
+  }
+
   .container {
     padding: 0 16px;
   }
