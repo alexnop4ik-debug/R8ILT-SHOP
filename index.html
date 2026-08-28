@@ -19,7 +19,7 @@
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   
-  <link rel="stylesheet" href="styles.css?v=48">
+  <link rel="stylesheet" href="styles.css?v=53">
 </head>
 <body>
 
@@ -416,12 +416,135 @@
     <span class="toast-text" id="toastText">Товар добавлен в корзину</span>
   </div>
 
+  <!-- Checkout Order Modal Form -->
+  <div class="checkout-modal-overlay" id="checkoutOverlay" role="dialog" aria-modal="true" aria-labelledby="checkoutModalTitle">
+    <div class="checkout-modal">
+      <div class="checkout-header">
+        <div class="checkout-title-wrap">
+          <i class="fa-solid fa-truck-ramp-box checkout-icon"></i>
+          <h2 class="checkout-title gothic-text" id="checkoutModalTitle" data-i18n="checkout_modal_title">Оформление заказа</h2>
+        </div>
+        <button class="checkout-close" id="checkoutClose" aria-label="Закрыть">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="checkout-body">
+        <!-- Order mini summary -->
+        <div class="checkout-summary-card">
+          <div class="checkout-summary-header">
+            <span data-i18n="checkout_order_items">Товары в заказе:</span>
+            <span class="checkout-summary-total" id="checkoutSummaryTotal">0 €</span>
+          </div>
+          <div class="checkout-items-preview" id="checkoutItemsPreview">
+            <!-- Injected via JS -->
+          </div>
+        </div>
+
+        <form id="checkoutForm" class="checkout-form" novalidate>
+          <div class="checkout-form-grid">
+            
+            <!-- Country -->
+            <div class="form-group full-width">
+              <label for="checkoutCountry" data-i18n="checkout_label_country">Страна назначения *</label>
+              <div class="select-wrapper">
+                <select id="checkoutCountry" required>
+                  <!-- Populated dynamically via JS -->
+                </select>
+                <i class="fa-solid fa-chevron-down select-arrow"></i>
+              </div>
+            </div>
+
+            <!-- State / Region -->
+            <div class="form-group">
+              <label for="checkoutRegion" data-i18n="checkout_label_region">Штат / Регион / Область *</label>
+              <input type="text" id="checkoutRegion" placeholder="e.g. Bayern, California, Mazowieckie" required>
+            </div>
+
+            <!-- Postal / ZIP Code -->
+            <div class="form-group">
+              <label for="checkoutZip" data-i18n="checkout_label_zip">Почтовый индекс *</label>
+              <input type="text" id="checkoutZip" placeholder="e.g. 80331, 90210, 00-001" required>
+            </div>
+
+            <!-- City / Settlement -->
+            <div class="form-group">
+              <label for="checkoutCity" data-i18n="checkout_label_city">Населенный пункт (Город / Поселок) *</label>
+              <input type="text" id="checkoutCity" placeholder="e.g. München, Los Angeles, Warszawa" required>
+            </div>
+
+            <!-- Local Phone Number -->
+            <div class="form-group">
+              <label for="checkoutPhone" data-i18n="checkout_label_phone">Мобильный номер местного оператора *</label>
+              <input type="tel" id="checkoutPhone" placeholder="+49 170 1234567" required>
+            </div>
+
+            <!-- Full Name (Latin) -->
+            <div class="form-group">
+              <label for="checkoutName" data-i18n="checkout_label_name">ФИО получателя (латиницей) *</label>
+              <input type="text" id="checkoutName" placeholder="e.g. Maksym Shevchenko" required>
+            </div>
+
+            <!-- Email (Gmail) -->
+            <div class="form-group">
+              <label for="checkoutEmail" data-i18n="checkout_label_email">Email (на Gmail) *</label>
+              <input type="email" id="checkoutEmail" placeholder="your.name@gmail.com" required>
+            </div>
+
+            <!-- Post Office Address & Branch Number -->
+            <div class="form-group full-width">
+              <label for="checkoutPostOffice" data-i18n="checkout_label_post_office">Адрес и номер отделения почты *</label>
+              <input type="text" id="checkoutPostOffice" placeholder="e.g. DHL Packstation 105, Nova Post №1, FedEx DropBox" required>
+            </div>
+
+            <!-- Residential Address -->
+            <div class="form-group full-width">
+              <label for="checkoutAddress" data-i18n="checkout_label_address">Адрес фактического проживания *</label>
+              <input type="text" id="checkoutAddress" placeholder="e.g. Leopoldstraße 45, Apt 12" required>
+            </div>
+
+          </div>
+
+          <div class="checkout-footer">
+            <div class="checkout-terms-note">
+              <i class="fa-solid fa-shield-halved"></i>
+              <span data-i18n="checkout_security_note">Гарантия подлинности и быстрая отправка в день заказа.</span>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block checkout-submit-btn" id="checkoutSubmitBtn">
+              <i class="fa-solid fa-check"></i> <span data-i18n="checkout_btn_submit">Подтвердить и отправить заказ</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Order Success Confirmation Modal -->
+  <div class="checkout-modal-overlay" id="orderSuccessOverlay" role="dialog" aria-modal="true">
+    <div class="checkout-modal order-success-modal">
+      <div class="success-icon-wrap">
+        <i class="fa-solid fa-circle-check"></i>
+      </div>
+      <h2 class="gothic-text success-title" data-i18n="order_success_title">Заказ успешно оформлен!</h2>
+      <p class="success-order-num" id="successOrderNumber">№ R8-82491</p>
+      <p class="success-desc" id="successOrderDesc" data-i18n="order_success_desc">
+        Данные для отправки приняты. Наш менеджер свяжется с вами по указанному номеру или email для отправки трек-номера.
+      </p>
+      <div class="success-actions">
+        <a href="https://t.me/r8ilt" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-block" style="gap:10px;">
+          <i class="fa-brands fa-telegram"></i> <span data-i18n="order_success_tg">Связаться в Telegram для подтверждения</span>
+        </a>
+        <button type="button" class="btn btn-outline btn-block" id="successCloseBtn" data-i18n="order_success_close">Вернуться в магазин</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Floating Bottom-Right Quick Cart Button -->
   <button class="floating-cart-btn" id="floatingCartBtn" aria-label="Открыть корзину" title="Корзина">
     <i class="fa-solid fa-bag-shopping"></i>
     <span class="floating-cart-badge" id="floatingCartCount">0</span>
   </button>
 
-  <script src="app.js?v=48"></script>
+  <script src="app.js?v=53"></script>
 </body>
 </html>
