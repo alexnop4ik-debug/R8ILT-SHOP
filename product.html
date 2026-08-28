@@ -19,7 +19,10 @@
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   
-  <link rel="stylesheet" href="styles.css?v=64">
+  <!-- Supabase JS Client -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <link rel="stylesheet" href="styles.css?v=68">
 </head>
 <body class="product-page-body">
 
@@ -32,10 +35,6 @@
   <header class="header" id="header">
     <div class="container header-container">
       <div class="header-brand-wrap">
-        <button class="menu-toggle" id="menuToggle" aria-label="Menu">
-          <i class="fa-solid fa-bars"></i>
-        </button>
-
         <a href="index.html" class="logo">
           <span class="gothic-text">R8ILT</span>
         </a>
@@ -75,6 +74,20 @@
               <span class="lang-pill pill-de">DE</span>
             </button>
           </div>
+        </div>
+
+        <!-- User Account / Auth Button -->
+        <div class="user-auth-wrap" id="userAuthWrap">
+          <!-- State 1: Guest (Logged Out) -->
+          <button class="action-btn auth-btn" id="headerAuthBtn" title="Войти в личный кабинет" aria-label="Войти в личный кабинет">
+            <i class="fa-regular fa-user"></i>
+          </button>
+
+          <!-- State 2: Logged In (Member Profile) -->
+          <button class="action-btn account-btn" id="headerAccountBtn" title="Личный кабинет" style="display:none;">
+            <i class="fa-solid fa-user-shield"></i>
+            <span class="account-btn-label" id="headerUserLabel" data-i18n="nav_account">Кабинет</span>
+          </button>
         </div>
 
         <button class="action-btn cart-btn" id="cartToggle" title="Cart">
@@ -475,12 +488,143 @@
     </div>
   </div>
 
+  <!-- Auth Modal (Login & Register Tabs) -->
+  <div class="checkout-modal-overlay" id="authOverlay" role="dialog" aria-modal="true" aria-labelledby="authModalTitle">
+    <div class="checkout-modal auth-modal">
+      <div class="checkout-header">
+        <div class="checkout-title-wrap">
+          <i class="fa-solid fa-shield-halved checkout-icon"></i>
+          <h2 class="checkout-title gothic-text" id="authModalTitle" data-i18n="auth_modal_title">R8ILT CLUB</h2>
+        </div>
+        <button class="checkout-close" id="authClose" aria-label="Закрыть">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="checkout-body auth-modal-body">
+        <!-- Auth Tabs: Login vs Register -->
+        <div class="auth-tabs">
+          <button type="button" class="auth-tab active" id="tabLoginBtn">
+            <i class="fa-solid fa-arrow-right-to-bracket"></i> <span data-i18n="auth_tab_login">Вход</span>
+          </button>
+          <button type="button" class="auth-tab" id="tabRegisterBtn">
+            <i class="fa-solid fa-user-plus"></i> <span data-i18n="auth_tab_register">Регистрация</span>
+          </button>
+        </div>
+
+        <!-- Alert Box for feedback/errors -->
+        <div class="auth-alert" id="authAlert" style="display:none;"></div>
+
+        <!-- Form 1: Login -->
+        <form id="loginForm" class="auth-form active">
+          <div class="form-group">
+            <label for="loginEmail" data-i18n="auth_label_email">Email адрес *</label>
+            <div class="auth-input-wrapper">
+              <i class="fa-regular fa-envelope auth-input-icon"></i>
+              <input type="email" id="loginEmail" placeholder="yourname@gmail.com" required autocomplete="email">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="loginPassword" data-i18n="auth_label_password">Пароль *</label>
+            <div class="auth-input-wrapper">
+              <i class="fa-solid fa-lock auth-input-icon"></i>
+              <input type="password" id="loginPassword" placeholder="••••••••" required autocomplete="current-password">
+              <button type="button" class="auth-toggle-pwd" onclick="togglePasswordVisibility('loginPassword')">
+                <i class="fa-regular fa-eye"></i>
+              </button>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block auth-submit-btn" id="loginSubmitBtn">
+            <span data-i18n="auth_btn_login">Войти в аккаунт</span> <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </form>
+
+        <!-- Form 2: Register -->
+        <form id="registerForm" class="auth-form" style="display:none;">
+          <div class="form-group">
+            <label for="regEmail" data-i18n="auth_label_email">Email адрес *</label>
+            <div class="auth-input-wrapper">
+              <i class="fa-regular fa-envelope auth-input-icon"></i>
+              <input type="email" id="regEmail" placeholder="yourname@gmail.com" required autocomplete="email">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="regPassword" data-i18n="auth_label_reg_password">Придумайте пароль (от 6 символов) *</label>
+            <div class="auth-input-wrapper">
+              <i class="fa-solid fa-lock auth-input-icon"></i>
+              <input type="password" id="regPassword" placeholder="••••••••" minlength="6" required autocomplete="new-password">
+              <button type="button" class="auth-toggle-pwd" onclick="togglePasswordVisibility('regPassword')">
+                <i class="fa-regular fa-eye"></i>
+              </button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="regPasswordConfirm" data-i18n="auth_label_password_confirm">Повторите пароль *</label>
+            <div class="auth-input-wrapper">
+              <i class="fa-solid fa-shield auth-input-icon"></i>
+              <input type="password" id="regPasswordConfirm" placeholder="••••••••" minlength="6" required autocomplete="new-password">
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block auth-submit-btn" id="registerSubmitBtn">
+            <span data-i18n="auth_btn_register">Создать аккаунт</span> <i class="fa-solid fa-user-check"></i>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- User Account & Order History Modal -->
+  <div class="checkout-modal-overlay" id="accountOverlay" role="dialog" aria-modal="true" aria-labelledby="accountModalTitle">
+    <div class="checkout-modal account-modal">
+      <div class="checkout-header">
+        <div class="checkout-title-wrap">
+          <i class="fa-solid fa-user-shield checkout-icon"></i>
+          <h2 class="checkout-title gothic-text" id="accountModalTitle" data-i18n="account_modal_title">Личный кабинет</h2>
+        </div>
+        <button class="checkout-close" id="accountClose" aria-label="Закрыть">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="checkout-body account-modal-body">
+        <!-- User Profile Card -->
+        <div class="account-profile-card">
+          <div class="account-avatar">
+            <i class="fa-solid fa-user"></i>
+          </div>
+          <div class="account-info">
+            <span class="account-badge"><i class="fa-solid fa-award"></i> R8ILT CLUB MEMBER</span>
+            <h3 class="account-email" id="accountUserEmail">user@gmail.com</h3>
+          </div>
+          <button type="button" class="btn-logout" id="logoutBtn" title="Выйти из аккаунта">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i> <span data-i18n="auth_btn_logout">Выйти</span>
+          </button>
+        </div>
+
+        <!-- Orders History Section -->
+        <div class="account-orders-section">
+          <div class="account-section-header">
+            <h4 class="gothic-text" data-i18n="account_orders_title"><i class="fa-solid fa-clock-rotate-left"></i> История заказов</h4>
+            <span class="orders-count-badge" id="accountOrdersCount">0 заказов</span>
+          </div>
+
+          <div class="account-orders-list" id="accountOrdersList">
+            <!-- Populated dynamically via JS from Supabase / localStorage -->
+            <div class="orders-loading">
+              <i class="fa-solid fa-spinner fa-spin"></i> <span data-i18n="account_orders_loading">Загрузка истории заказов...</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Floating Bottom-Right Quick Cart Button -->
   <button class="floating-cart-btn" id="floatingCartBtn" aria-label="Открыть корзину" title="Корзина">
     <i class="fa-solid fa-bag-shopping"></i>
     <span class="floating-cart-badge" id="floatingCartCount">0</span>
   </button>
 
-  <script src="app.js?v=64"></script>
+  <script src="app.js?v=68"></script>
 </body>
 </html>
