@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>R8ILT SHOP | Streetwear & Combat Apparel</title>
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+  <link rel="shortcut icon" href="favicon/favicon.ico">
+  <link rel="manifest" href="favicon/site.webmanifest">
+  
+  <!-- Google Fonts: Strict Luxury & Modern Darkwear Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&family=Syncopate:wght@400;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <link rel="stylesheet" href="styles.css?v=46">
+</head>
+<body>
+
+  <!-- Ambient Glow Effects (Lava Lamp Fluids) -->
+  <div class="bg-glow bg-glow-1"></div>
+  <div class="bg-glow bg-glow-2"></div>
+  <div class="bg-glow bg-glow-3"></div>
+  <div class="noise-overlay"></div>
+
+  <!-- Navigation Header -->
+  <header class="header" id="header">
+    <div class="container header-container">
+      <div class="header-brand-wrap">
+        <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <a href="#" class="logo">
+          <span class="gothic-text">R8ILT</span>
+        </a>
+      </div>
+
+      <nav class="nav" id="nav">
+        <ul class="nav-list">
+          <li class="nav-item"><a href="#brands" class="nav-link active" data-i18n="nav_brands">Бренды</a></li>
+          <li class="nav-item"><a href="#catalog" class="nav-link" data-i18n="nav_catalog">Каталог</a></li>
+          <li class="nav-item"><a href="#reviews" class="nav-link" data-i18n="nav_reviews">Отзывы</a></li>
+          <li class="nav-item"><a href="#about" class="nav-link" data-i18n="nav_about">О магазине</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <!-- Language Selector Dropdown with CSS Vector Flags -->
+        <div class="lang-selector" id="langSelector">
+          <button class="lang-btn" id="langCurrentBtn" aria-label="Change language">
+            <span class="flag-icon flag-ru" id="currentFlagIcon"></span>
+            <span class="lang-code" id="currentLangCode">RU</span>
+            <i class="fa-solid fa-chevron-down lang-chevron"></i>
+          </button>
+          <div class="lang-dropdown" id="langDropdown">
+            <button class="lang-option active" data-lang="ru">
+              <span class="flag-icon flag-ru"></span>
+              <span class="lang-title">Русский</span>
+              <span class="lang-pill pill-ru">RU</span>
+            </button>
+            <button class="lang-option" data-lang="en">
+              <span class="flag-icon flag-en"></span>
+              <span class="lang-title">English</span>
+              <span class="lang-pill pill-en">EN</span>
+            </button>
+            <button class="lang-option" data-lang="de">
+              <span class="flag-icon flag-de"></span>
+              <span class="lang-title">Deutsch</span>
+              <span class="lang-pill pill-de">DE</span>
+            </button>
+          </div>
+        </div>
+
+        <button class="action-btn cart-btn" id="cartToggle" title="Cart">
+          <i class="fa-solid fa-bag-shopping"></i>
+          <span class="badge" id="cartCount">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container hero-container">
+      <div class="hero-content">
+        <span class="hero-tag" data-i18n="hero_tag">Pit Bull Germany • Svastone • Белояр • Thor Steinar</span>
+        <h1 class="hero-title gothic-title" data-i18n="hero_title">R8ILT SHOP</h1>
+        <p class="hero-subtitle" data-i18n="hero_subtitle">
+          Магазин оригинальной брендовой одежды. Здесь собраны вещи от известных брендов - Pit Bull Germany, Svastone, Белояр и Thor Steinar. Привозим оригинальную одежду напрямую и подбираем вещи.
+        </p>
+        <div class="hero-actions">
+          <a href="#catalog" class="btn btn-primary">
+            <span class="btn-text" data-i18n="btn_catalog">В каталог товаров</span>
+            <i class="fa-solid fa-arrow-down"></i>
+          </a>
+          <a href="#brands" class="btn btn-secondary">
+            <span class="btn-text" data-i18n="btn_all_brands">Все бренды</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="hero-card-glow"></div>
+        <div class="hero-image-frame logo-showcase-frame">
+          <img src="fotkii/photo_2026-08-27_11-53-52.jpg" alt="R8ILT Store Emblem" class="hero-img hero-logo-img">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Brands Showcase Section -->
+  <section class="section categories-section" id="brands">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title gothic-title" data-i18n="brands_title">Бренды в наличии</h2>
+        <p class="section-subtitle" data-i18n="brands_subtitle">Официальная оригинальная продукция от культовых производителей</p>
+      </div>
+
+      <div class="categories-grid">
+        <div class="category-card" data-brand="pitbull">
+          <div class="category-bg bg-hoodie"></div>
+          <div class="category-overlay"></div>
+          <div class="category-info">
+            <h3 class="category-name gothic-text">Pit Bull Germany</h3>
+            <span class="category-link" data-i18n="view_items">Смотреть вещи →</span>
+          </div>
+        </div>
+
+        <div class="category-card" data-brand="svastone">
+          <div class="category-bg bg-tees"></div>
+          <div class="category-overlay"></div>
+          <div class="category-info">
+            <h3 class="category-name gothic-text">Svastone</h3>
+            <span class="category-link" data-i18n="view_items">Смотреть вещи →</span>
+          </div>
+        </div>
+
+        <div class="category-card" data-brand="beloyar">
+          <div class="category-bg bg-pants"></div>
+          <div class="category-overlay"></div>
+          <div class="category-info">
+            <h3 class="category-name gothic-text" data-i18n="brand_beloyar_title">Белояр</h3>
+            <span class="category-link" data-i18n="view_items">Смотреть вещи →</span>
+          </div>
+        </div>
+
+        <div class="category-card" data-brand="thorsteinar">
+          <div class="category-bg bg-acc"></div>
+          <div class="category-overlay"></div>
+          <div class="category-info">
+            <h3 class="category-name gothic-text">Thor Steinar</h3>
+            <span class="category-link" data-i18n="view_items">Смотреть вещи →</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Product Catalog -->
+  <section class="section catalog-section" id="catalog">
+    <div class="container">
+      <div class="section-header">
+        <div class="header-split">
+          <div>
+            <h2 class="section-title gothic-title" data-i18n="catalog_title">Каталог Товаров</h2>
+            <p class="section-subtitle" data-i18n="catalog_subtitle">Оригинальные позиции от мировых производителей</p>
+          </div>
+          
+          <!-- Dual Row Filters: Brand & Apparel Type -->
+          <div class="filter-container">
+            <!-- Row 1: Brands -->
+            <div class="filter-group">
+              <span class="filter-label" data-i18n="filter_brand_label">Бренд:</span>
+              <div class="filter-tabs filter-tabs-brands">
+                <button class="filter-btn active" data-filter-type="brand" data-filter="all" data-i18n="filter_all_brands">Все бренды</button>
+                <button class="filter-btn" data-filter-type="brand" data-filter="pitbull">Pit Bull Germany</button>
+                <button class="filter-btn" data-filter-type="brand" data-filter="svastone">Svastone</button>
+                <button class="filter-btn" data-filter-type="brand" data-filter="beloyar" data-i18n="filter_brand_beloyar">Белояр</button>
+                <button class="filter-btn" data-filter-type="brand" data-filter="thorsteinar">Thor Steinar</button>
+                <button class="filter-btn" data-filter-type="brand" data-filter="other" data-i18n="filter_brand_other">Разное</button>
+              </div>
+            </div>
+
+            <!-- Row 2: Clothing Types -->
+            <div class="filter-group">
+              <span class="filter-label" data-i18n="filter_category_label">Тип вещи:</span>
+              <div class="filter-tabs filter-tabs-categories">
+                <button class="filter-btn active" data-filter-type="category" data-filter="all" data-i18n="filter_all_types">Все типы</button>
+                <button class="filter-btn" data-filter-type="category" data-filter="bombers" data-i18n="filter_bombers">Бомберы / Куртки</button>
+                <button class="filter-btn" data-filter-type="category" data-filter="hoodies" data-i18n="filter_hoodies">Худи</button>
+                <button class="filter-btn" data-filter-type="category" data-filter="sweatshirts" data-i18n="filter_sweatshirts">Свитшоты</button>
+                <button class="filter-btn" data-filter-type="category" data-filter="tees" data-i18n="filter_tees">Футболки / Майки</button>
+                <button class="filter-btn" data-filter-type="category" data-filter="pants" data-i18n="filter_pants">Штаны</button>
+                <button class="filter-btn" data-filter-type="category" data-filter="shorts" data-i18n="filter_shorts">Шорты</button>
+                <button class="filter-btn" data-filter-type="category" data-filter="misc" data-i18n="filter_misc">Разное</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-grid" id="productGrid">
+        <!-- Products injected dynamically via app.js -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Client Reviews / Customer Photos Carousel (20 items, 5-6 visible at once) -->
+  <section class="section reviews-section" id="reviews">
+    <div class="container">
+      <div class="section-header header-split">
+        <div>
+          <h2 class="section-title gothic-title" data-i18n="reviews_title">ФОТО & ОТЗЫВЫ КЛИЕНТОВ</h2>
+          <p class="section-subtitle" data-i18n="reviews_subtitle">Реальные кадры и отзывы наших покупателей</p>
+        </div>
+        <div class="carousel-nav-btns">
+          <button class="carousel-btn prev-btn" id="reviewsPrev" aria-label="Предыдущие отзывы">
+            <i class="fa-solid fa-chevron-left"></i>
+          </button>
+          <button class="carousel-btn next-btn" id="reviewsNext" aria-label="Следующие отзывы">
+            <i class="fa-solid fa-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="reviews-carousel-wrapper">
+        <div class="reviews-carousel-track" id="reviewsTrack">
+          
+          <div class="client-photo-card">
+            <div class="client-photo-inner">
+              <img src="otzivi/photo_2026-02-03_15-47-28.jpg" alt="Фото отзыва клиента" loading="lazy">
+            </div>
+          </div>
+
+          <div class="client-photo-card">
+            <div class="client-photo-inner">
+              <img src="otzivi/photo_2026-04-01_12-58-28.jpg" alt="Фото отзыва клиента" loading="lazy">
+            </div>
+          </div>
+
+          <div class="client-photo-card">
+            <div class="client-photo-inner">
+              <img src="otzivi/photo_2026-04-07_17-27-43.jpg" alt="Фото отзыва клиента" loading="lazy">
+            </div>
+          </div>
+
+          <div class="client-photo-card">
+            <div class="client-photo-inner">
+              <img src="otzivi/photo_2026-04-16_16-47-01.jpg" alt="Фото отзыва клиента" loading="lazy">
+            </div>
+          </div>
+
+          <div class="client-photo-card">
+            <div class="client-photo-inner">
+              <img src="otzivi/photo_2026-05-13_12-23-32.jpg" alt="Фото отзыва клиента" loading="lazy">
+            </div>
+          </div>
+
+          <div class="client-photo-card">
+            <div class="client-photo-inner">
+              <img src="otzivi/photo_2026-05-21_22-25-16.jpg" alt="Фото отзыва клиента" loading="lazy">
+            </div>
+          </div>
+
+          <div class="client-photo-card">
+            <div class="client-photo-inner">
+              <img src="otzivi/photo_2026-05-26_18-08-27.jpg" alt="Фото отзыва клиента" loading="lazy">
+            </div>
+          </div>
+
+          <div class="client-photo-card">
+            <div class="client-photo-inner">
+              <img src="otzivi/photo_2026-06-11_16-25-29.jpg" alt="Фото отзыва клиента" loading="lazy">
+            </div>
+          </div>
+
+          <div class="client-photo-card">
+            <div class="client-photo-inner">
+              <img src="otzivi/photo_2026-06-18_20-34-18.jpg" alt="Фото отзыва клиента" loading="lazy">
+            </div>
+          </div>
+
+          <div class="client-photo-card">
+            <div class="client-photo-inner">
+              <img src="otzivi/photo_2026-07-10_20-42-37.jpg" alt="Фото отзыва клиента" loading="lazy">
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Telegram Reviews Channel CTA -->
+      <div class="reviews-channel-cta">
+        <div class="reviews-cta-content">
+          <div class="reviews-cta-icon">
+            <i class="fa-brands fa-telegram-plane"></i>
+          </div>
+          <div class="reviews-cta-text">
+            <h4 class="reviews-cta-title" data-i18n="reviews_cta_title">Хотите увидеть больше отзывов?</h4>
+            <p class="reviews-cta-sub" data-i18n="reviews_cta_sub">Десятки реальных фото-отчетов и отзывов покупателей в нашем Telegram-канале</p>
+          </div>
+        </div>
+        <a href="https://t.me/r8iltodziv" target="_blank" rel="noopener noreferrer" class="btn btn-primary reviews-cta-btn">
+          <i class="fa-brands fa-telegram"></i> <span data-i18n="reviews_cta_btn">Перейти в канал</span>
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer" id="about">
+    <div class="container footer-container">
+      <div class="footer-col brand-col">
+        <a href="#" class="logo footer-logo">
+          <span class="gothic-text">R8ILT</span>
+        </a>
+        <p class="footer-desc" data-i18n="footer_desc">
+          R8ILT SHOP — магазин оригинальной уличной, околофутбольной и субкультурной одежды. Бренды Pit Bull Germany, Svastone, Белояр, Thor Steinar с гарантией подлинности.
+        </p>
+        <div class="social-links">
+          <a href="#" class="social-link" title="Telegram"><i class="fa-brands fa-telegram"></i></a>
+          <a href="#" class="social-link" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" class="social-link" title="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+          <a href="#" class="social-link" title="Discord"><i class="fa-brands fa-discord"></i></a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="footer-heading gothic-text" data-i18n="footer_nav_title">Навигация</h4>
+        <ul class="footer-links">
+          <li><a href="#brands" data-i18n="nav_brands">Бренды</a></li>
+          <li><a href="#catalog" data-i18n="nav_catalog">Каталог</a></li>
+          <li><a href="#reviews" data-i18n="nav_reviews">Отзывы</a></li>
+          <li><a href="#about" data-i18n="nav_about">О магазине</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="footer-heading gothic-text" data-i18n="footer_info_title">Информация</h4>
+        <ul class="footer-links">
+          <li><a href="#" data-i18n="footer_size_guide">Таблица размеров</a></li>
+          <li><a href="#" data-i18n="footer_shipping">Оплата и доставка</a></li>
+          <li><a href="#" data-i18n="footer_returns">Возврат и обмен</a></li>
+          <li><a href="#" data-i18n="footer_certs">Сертификаты подлинности</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="container bottom-container">
+        <p data-i18n="footer_copyright">&copy; 2026 R8ILT SHOP. Магазин оригинальной одежды.</p>
+        <p class="gothic-bottom" data-i18n="footer_tagline">AUTHENTIC STREETWEAR & COMBAT APPAREL</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Shopping Cart Drawer / Sidebar -->
+  <div class="cart-overlay" id="cartOverlay"></div>
+  <aside class="cart-drawer" id="cartDrawer">
+    <div class="cart-header">
+      <div class="cart-title">
+        <i class="fa-solid fa-bag-shopping"></i>
+        <span class="gothic-text" data-i18n="cart_title">Корзина</span>
+        <span class="cart-badge" id="cartDrawerCount">(0)</span>
+      </div>
+      <button class="cart-close" id="cartClose" aria-label="Close cart">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <div class="cart-items" id="cartItems">
+      <!-- Injected via JS -->
+    </div>
+
+    <div class="cart-footer">
+      <div class="cart-total-row">
+        <span data-i18n="cart_total">Итого:</span>
+        <span class="cart-total-price" id="cartTotalSum">0 €</span>
+      </div>
+      <button class="btn btn-primary btn-block" id="checkoutBtn" data-i18n="cart_checkout">Оформить заказ</button>
+    </div>
+  </aside>
+
+  <!-- Quick View Modal -->
+  <div class="modal-overlay" id="quickViewOverlay">
+    <div class="quickview-modal" id="quickViewModal">
+      <button class="modal-close" id="quickViewClose"><i class="fa-solid fa-xmark"></i></button>
+      <div class="quickview-body" id="quickViewBody">
+        <!-- Injected via JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Customer Photo Fullscreen Lightbox Modal -->
+  <div class="photo-lightbox" id="photoLightbox" role="dialog" aria-modal="true" aria-label="Просмотр фотографии">
+    <div class="lightbox-overlay" id="lightboxOverlay"></div>
+    <button class="lightbox-close" id="lightboxClose" aria-label="Закрыть">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+    <div class="lightbox-content">
+      <img src="" alt="Фото отзыва в полном размере" class="lightbox-img" id="lightboxImg">
+    </div>
+  </div>
+
+  <!-- Toast Notification for Actions -->
+  <div class="toast" id="toast">
+    <i class="fa-solid fa-circle-check toast-icon"></i>
+    <span class="toast-text" id="toastText">Товар добавлен в корзину</span>
+  </div>
+
+  <!-- Floating Bottom-Right Quick Cart Button -->
+  <button class="floating-cart-btn" id="floatingCartBtn" aria-label="Открыть корзину" title="Корзина">
+    <i class="fa-solid fa-bag-shopping"></i>
+    <span class="floating-cart-badge" id="floatingCartCount">0</span>
+  </button>
+
+  <script src="app.js?v=46"></script>
+</body>
+</html>
