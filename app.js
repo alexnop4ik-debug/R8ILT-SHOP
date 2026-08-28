@@ -11,6 +11,25 @@ const translations = {
     nav_brands: "Бренды",
     nav_drops: "Новые поставки",
     nav_about: "О магазине",
+    nav_login: "Войти",
+    nav_account: "Кабинет",
+    auth_modal_title: "R8ILT CLUB",
+    auth_tab_login: "Вход",
+    auth_tab_register: "Регистрация",
+    auth_label_email: "Email адрес *",
+    auth_label_password: "Пароль *",
+    auth_label_reg_password: "Придумайте пароль (от 6 символов) *",
+    auth_label_password_confirm: "Повторите пароль *",
+    auth_btn_login: "Войти в аккаунт",
+    auth_btn_register: "Создать аккаунт",
+    auth_btn_logout: "Выйти",
+    account_modal_title: "Личный кабинет",
+    account_orders_title: "История заказов",
+    account_orders_empty: "У вас пока нет оформленных заказов",
+    account_orders_loading: "Загрузка истории заказов...",
+    auth_error_pwd_match: "Пароли не совпадают!",
+    auth_success_reg: "Аккаунт успешно создан! Добро пожаловать.",
+    auth_success_login: "Вы успешно вошли в аккаунт!",
     hero_tag: "Pit Bull Germany • Svastone • Белояр • Thor Steinar",
     hero_title: "R8ILT SHOP",
     hero_subtitle: "Магазин оригинальной брендовой одежды. Здесь собраны вещи от известных брендов - Pit Bull Germany, Svastone, Белояр и Thor Steinar. Привозим оригинальную одежду напрямую и подбираем вещи.",
@@ -130,6 +149,25 @@ const translations = {
     nav_brands: "Brands",
     nav_reviews: "Reviews",
     nav_about: "About Store",
+    nav_login: "Login",
+    nav_account: "Account",
+    auth_modal_title: "R8ILT CLUB",
+    auth_tab_login: "Sign In",
+    auth_tab_register: "Sign Up",
+    auth_label_email: "Email address *",
+    auth_label_password: "Password *",
+    auth_label_reg_password: "Create password (6+ chars) *",
+    auth_label_password_confirm: "Confirm password *",
+    auth_btn_login: "Sign In to Account",
+    auth_btn_register: "Create Account",
+    auth_btn_logout: "Log Out",
+    account_modal_title: "Personal Account",
+    account_orders_title: "Order History",
+    account_orders_empty: "You have no placed orders yet",
+    account_orders_loading: "Loading order history...",
+    auth_error_pwd_match: "Passwords do not match!",
+    auth_success_reg: "Account created successfully! Welcome to R8ILT Club.",
+    auth_success_login: "Welcome back to R8ILT Club!",
     hero_tag: "Pit Bull Germany • Svastone • Beloyar • Thor Steinar",
     hero_title: "R8ILT SHOP",
     hero_subtitle: "Original branded apparel store. Featuring curated items from iconic labels - Pit Bull Germany, Svastone, Beloyar, and Thor Steinar. We bring authentic clothes directly and pick the best pieces.",
@@ -251,6 +289,25 @@ const translations = {
     nav_brands: "Marken",
     nav_reviews: "Bewertungen",
     nav_about: "Über Uns",
+    nav_login: "Anmelden",
+    nav_account: "Mein Konto",
+    auth_modal_title: "R8ILT CLUB",
+    auth_tab_login: "Anmelden",
+    auth_tab_register: "Registrieren",
+    auth_label_email: "E-Mail-Adresse *",
+    auth_label_password: "Passwort *",
+    auth_label_reg_password: "Passwort erstellen (mind. 6 Zeichen) *",
+    auth_label_password_confirm: "Passwort bestätigen *",
+    auth_btn_login: "Einloggen",
+    auth_btn_register: "Konto erstellen",
+    auth_btn_logout: "Abmelden",
+    account_modal_title: "Mein Konto",
+    account_orders_title: "Bestellhistorie",
+    account_orders_empty: "Sie haben noch keine Bestellungen",
+    account_orders_loading: "Bestellungen werden geladen...",
+    auth_error_pwd_match: "Passwörter stimmen nicht überein!",
+    auth_success_reg: "Konto erfolgreich erstellt! Willkommen im R8ILT Club.",
+    auth_success_login: "Willkommen zurück im R8ILT Club!",
     hero_tag: "Pit Bull Germany • Svastone • Beloyar • Thor Steinar",
     hero_title: "R8ILT SHOP",
     hero_subtitle: "Originaler Marken-Store. Hier gibt es Kleidung von bekannten Marken - Pit Bull Germany, Svastone, Beloyar und Thor Steinar. Wir importieren echte Originalware direkt und wählen die besten Stücke aus.",
@@ -1000,11 +1057,47 @@ const previewFileSize = document.getElementById('previewFileSize');
 const btnBrowseReceipt = document.getElementById('btnBrowseReceipt');
 const btnRemoveReceipt = document.getElementById('btnRemoveReceipt');
 
-let attachedReceiptFile = null;
+// ==============================================================================
+// Supabase Client Config & Initialization
+// ==============================================================================
+const SUPABASE_URL = window.SUPABASE_URL || 'https://YOUR_SUPABASE_PROJECT_URL.supabase.co';
+const SUPABASE_ANON_KEY = window.SUPABASE_ANON_KEY || 'YOUR_SUPABASE_ANON_KEY';
 
-const orderSuccessOverlay = document.getElementById('orderSuccessOverlay');
-const successOrderNumber = document.getElementById('successOrderNumber');
-const successCloseBtn = document.getElementById('successCloseBtn');
+let supabaseClient = null;
+if (typeof window.supabase !== 'undefined' && SUPABASE_URL && !SUPABASE_URL.includes('YOUR_SUPABASE_PROJECT_URL')) {
+  try {
+    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  } catch (e) {
+    console.warn('Supabase client initialization warning:', e);
+  }
+}
+
+let currentUser = null;
+
+// Auth & Account Modal Elements
+const headerAuthBtn = document.getElementById('headerAuthBtn');
+const headerAccountBtn = document.getElementById('headerAccountBtn');
+const headerUserLabel = document.getElementById('headerUserLabel');
+
+const authOverlay = document.getElementById('authOverlay');
+const authClose = document.getElementById('authClose');
+const tabLoginBtn = document.getElementById('tabLoginBtn');
+const tabRegisterBtn = document.getElementById('tabRegisterBtn');
+const authAlert = document.getElementById('authAlert');
+const loginForm = document.getElementById('loginForm');
+const registerForm = document.getElementById('registerForm');
+const loginEmail = document.getElementById('loginEmail');
+const loginPassword = document.getElementById('loginPassword');
+const regEmail = document.getElementById('regEmail');
+const regPassword = document.getElementById('regPassword');
+const regPasswordConfirm = document.getElementById('regPasswordConfirm');
+
+const accountOverlay = document.getElementById('accountOverlay');
+const accountClose = document.getElementById('accountClose');
+const accountUserEmail = document.getElementById('accountUserEmail');
+const accountOrdersCount = document.getElementById('accountOrdersCount');
+const accountOrdersList = document.getElementById('accountOrdersList');
+const logoutBtn = document.getElementById('logoutBtn');
 
 let pendingOrderData = null;
 
@@ -1048,6 +1141,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initQuickViewEvents();
   initScrollSpy();
   initSingleProductPage();
+  initAuthEvents();
 });
 
 // Dynamic Navigation ScrollSpy (Active Underline Highlight on Scroll - rAF Throttled)
@@ -1764,26 +1858,24 @@ async function sendOrderToTelegram(orderData, receiptFile) {
     formData.append('photo', receiptFile, receiptFile.name);
   }
 
-  // 1. Attempt Vercel Serverless Function /api/send-order
-  try {
-    const response = await fetch('/api/send-order', {
-      method: 'POST',
-      body: formData
-    });
+  // 1. Attempt Vercel Serverless Function /api/send-order or /api/order
+  for (const endpoint of ['/api/send-order', '/api/order']) {
+    try {
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        body: formData
+      });
 
-    const data = await response.json();
-    console.log('[Telegram API Response]:', data);
-
-    if (response.ok && data && (data.ok || data.success)) {
-      return { success: true, data };
-    } else {
-      console.error('[Telegram API Error]:', data);
-      if (data && data.description) {
-        console.warn(`Telegram API Description: ${data.description}`);
+      if (response.ok) {
+        const data = await response.json();
+        console.log(`[Telegram API Response (${endpoint})]:`, data);
+        if (data && (data.ok || data.success)) {
+          return { success: true, data };
+        }
       }
+    } catch (err) {
+      // Continue to next endpoint or fallback
     }
-  } catch (err) {
-    console.warn('Vercel API /api/send-order unreachable, checking direct fallback:', err);
   }
 
   // 2. Direct client fallback (if window.TELEGRAM_BOT_TOKEN / window.TELEGRAM_CHAT_ID are provided)
@@ -2089,7 +2181,40 @@ function initCheckoutEvents() {
         console.warn('Telegram send notice:', err);
       }
 
-      // Save order to LocalStorage
+      // Save order to Supabase DB (if available)
+      if (supabaseClient) {
+        try {
+          const authUser = currentUser || (await supabaseClient.auth.getUser())?.data?.user;
+          const { error: dbErr } = await supabaseClient.from('orders').insert({
+            id: pendingOrderData.orderId,
+            user_id: authUser ? authUser.id : null,
+            customer_name: pendingOrderData.shipping.name,
+            phone: pendingOrderData.shipping.phone,
+            email: pendingOrderData.shipping.email,
+            country: pendingOrderData.shipping.country,
+            region: pendingOrderData.shipping.region,
+            zip: pendingOrderData.shipping.zip,
+            city: pendingOrderData.shipping.city,
+            post_office: pendingOrderData.shipping.postOffice,
+            address: pendingOrderData.shipping.address,
+            items: pendingOrderData.items,
+            subtotal: pendingOrderData.subtotal,
+            shipping_cost: pendingOrderData.shippingCost,
+            total_amount: pendingOrderData.total,
+            status: 'created',
+            payment_method: 'Worldwide payment details'
+          });
+          if (dbErr) {
+            console.warn('Supabase DB Insert Notice:', dbErr.message);
+          } else {
+            console.log('Order successfully synced to Supabase DB!');
+          }
+        } catch (dbError) {
+          console.warn('Supabase DB Sync Exception:', dbError);
+        }
+      }
+
+      // Save order to LocalStorage backup
       const pastOrders = JSON.parse(localStorage.getItem('r8ilt_orders')) || [];
       pastOrders.unshift(pendingOrderData);
       localStorage.setItem('r8ilt_orders', JSON.stringify(pastOrders));
@@ -2118,6 +2243,378 @@ function initCheckoutEvents() {
 
       if (checkoutForm) checkoutForm.reset();
       pendingOrderData = null;
+    });
+  }
+}
+
+// ==============================================================================
+// Supabase Authentication & Personal Cabinet Logic
+// ==============================================================================
+
+function updateAuthUI(user) {
+  currentUser = user;
+  const t = translations[currentLang];
+
+  if (user) {
+    if (headerAuthBtn) headerAuthBtn.style.display = 'none';
+    if (headerAccountBtn) headerAccountBtn.style.display = 'flex';
+    if (headerUserLabel) {
+      const emailPrefix = user.email ? user.email.split('@')[0] : (t.nav_account || 'Кабинет');
+      headerUserLabel.textContent = emailPrefix;
+    }
+    if (accountUserEmail) {
+      accountUserEmail.textContent = user.email || '';
+    }
+  } else {
+    if (headerAuthBtn) headerAuthBtn.style.display = 'flex';
+    if (headerAccountBtn) headerAccountBtn.style.display = 'none';
+    if (accountUserEmail) {
+      accountUserEmail.textContent = '';
+    }
+  }
+}
+
+function openAuthModal(defaultTab = 'login') {
+  if (authOverlay) {
+    authOverlay.classList.add('active');
+    document.body.classList.add('modal-open');
+    switchAuthTab(defaultTab);
+    clearAuthAlert();
+  }
+}
+
+function closeAuthModal() {
+  if (authOverlay) authOverlay.classList.remove('active');
+  document.body.classList.remove('modal-open');
+  clearAuthAlert();
+}
+
+function openAccountModal() {
+  if (accountOverlay) {
+    accountOverlay.classList.add('active');
+    document.body.classList.add('modal-open');
+    loadUserOrders(currentUser);
+  }
+}
+
+function closeAccountModal() {
+  if (accountOverlay) accountOverlay.classList.remove('active');
+  document.body.classList.remove('modal-open');
+}
+
+function switchAuthTab(tab) {
+  if (tab === 'login') {
+    if (tabLoginBtn) tabLoginBtn.classList.add('active');
+    if (tabRegisterBtn) tabRegisterBtn.classList.remove('active');
+    if (loginForm) loginForm.style.display = 'block';
+    if (registerForm) registerForm.style.display = 'none';
+  } else {
+    if (tabRegisterBtn) tabRegisterBtn.classList.add('active');
+    if (tabLoginBtn) tabLoginBtn.classList.remove('active');
+    if (registerForm) registerForm.style.display = 'block';
+    if (loginForm) loginForm.style.display = 'none';
+  }
+  clearAuthAlert();
+}
+
+function showAuthAlert(msg, type = 'error') {
+  if (!authAlert) return;
+  authAlert.className = `auth-alert ${type}`;
+  authAlert.innerHTML = `<i class="fa-solid ${type === 'error' ? 'fa-triangle-exclamation' : 'fa-circle-check'}"></i> <span>${msg}</span>`;
+  authAlert.style.display = 'flex';
+}
+
+function clearAuthAlert() {
+  if (!authAlert) return;
+  authAlert.style.display = 'none';
+  authAlert.innerHTML = '';
+}
+
+window.togglePasswordVisibility = function(inputId) {
+  const input = document.getElementById(inputId);
+  if (!input) return;
+  const icon = input.parentElement.querySelector('.auth-toggle-pwd i');
+  if (input.type === 'password') {
+    input.type = 'text';
+    if (icon) icon.className = 'fa-regular fa-eye-slash';
+  } else {
+    input.type = 'password';
+    if (icon) icon.className = 'fa-regular fa-eye';
+  }
+};
+
+async function loadUserOrders(user) {
+  if (!accountOrdersList) return;
+  const t = translations[currentLang];
+
+  accountOrdersList.innerHTML = `
+    <div class="orders-loading">
+      <i class="fa-solid fa-spinner fa-spin"></i> <span>${t.account_orders_loading || 'Загрузка...'}</span>
+    </div>
+  `;
+
+  let orders = [];
+
+  // 1. Try fetching from Supabase DB first
+  if (supabaseClient && user) {
+    try {
+      const { data, error } = await supabaseClient
+        .from('orders')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false });
+
+      if (!error && Array.isArray(data)) {
+        orders = data;
+      }
+    } catch (e) {
+      console.warn('Supabase order fetch notice:', e);
+    }
+  }
+
+  // 2. Fallback to LocalStorage orders if no DB records found
+  if (orders.length === 0) {
+    const local = JSON.parse(localStorage.getItem('r8ilt_orders')) || [];
+    orders = local;
+  }
+
+  if (accountOrdersCount) {
+    accountOrdersCount.textContent = `${orders.length} ${orders.length === 1 ? 'заказ' : 'заказов'}`;
+  }
+
+  if (orders.length === 0) {
+    accountOrdersList.innerHTML = `
+      <div class="orders-empty">
+        <i class="fa-solid fa-box-open"></i>
+        <p>${t.account_orders_empty || 'У вас пока нет оформленных заказов'}</p>
+      </div>
+    `;
+    return;
+  }
+
+  accountOrdersList.innerHTML = orders.map(order => {
+    const orderId = order.id || order.orderId || 'N/A';
+    const dateStr = order.created_at ? new Date(order.created_at).toLocaleString('ru-RU') : (order.date ? new Date(order.date).toLocaleString('ru-RU') : '');
+    const total = order.total_amount || order.total || 0;
+    const status = order.status || 'created';
+    const items = Array.isArray(order.items) ? order.items : [];
+
+    const itemsSummary = items.map(item => {
+      const p = products.find(prod => prod.id === item.id);
+      const name = (p && p.names && (p.names[currentLang] || p.names['ru'])) || item.brandName || 'Товар';
+      const size = item.selectedSize || (p && p.size ? (Array.isArray(p.size) ? p.size.join('/') : p.size) : '');
+      return `
+        <div class="order-item-line">
+          <span class="order-item-name">• ${name} ${size ? `(${size})` : ''}</span>
+          <span class="order-item-qty">${item.qty} шт. × ${item.price} €</span>
+        </div>
+      `;
+    }).join('');
+
+    const statusLabel = status === 'paid' ? 'Оплачен' : (status === 'shipped' ? 'Отправлен' : 'Создан / В обработке');
+
+    return `
+      <div class="order-card">
+        <div class="order-card-header">
+          <span class="order-card-id">№ ${orderId}</span>
+          <span class="order-status-tag ${status}">${statusLabel}</span>
+        </div>
+        <div class="order-card-body">
+          ${itemsSummary || '<span style="color:var(--text-muted);">Товары в обработке</span>'}
+        </div>
+        <div class="order-card-footer">
+          <span>${dateStr}</span>
+          <span class="order-card-total">Итого: ${total} €</span>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+async function initAuthEvents() {
+  // Automatically fetch public keys from Vercel Environment Variables via /api/config
+  if (!supabaseClient && typeof window.supabase !== 'undefined') {
+    try {
+      const res = await fetch('/api/config');
+      if (res.ok) {
+        const conf = await res.json();
+        if (conf.supabaseUrl && conf.supabaseAnonKey) {
+          supabaseClient = window.supabase.createClient(conf.supabaseUrl, conf.supabaseAnonKey);
+          console.log('[Supabase]: Successfully initialized from Vercel Environment Variables (/api/config)');
+        }
+      }
+    } catch (err) {
+      console.warn('Could not auto-load Supabase config from /api/config:', err);
+    }
+  }
+
+  // Listen to Supabase auth changes
+  if (supabaseClient) {
+    supabaseClient.auth.getSession().then(({ data: { session } }) => {
+      updateAuthUI(session?.user || null);
+    });
+
+    supabaseClient.auth.onAuthStateChange((_event, session) => {
+      updateAuthUI(session?.user || null);
+    });
+  }
+
+  // Header Buttons
+  if (headerAuthBtn) {
+    headerAuthBtn.addEventListener('click', () => openAuthModal('login'));
+  }
+  if (headerAccountBtn) {
+    headerAccountBtn.addEventListener('click', openAccountModal);
+  }
+
+  // Modal Closers
+  if (authClose) authClose.addEventListener('click', closeAuthModal);
+  if (accountClose) accountClose.addEventListener('click', closeAccountModal);
+
+  if (authOverlay) {
+    authOverlay.addEventListener('click', (e) => {
+      if (e.target === authOverlay) closeAuthModal();
+    });
+  }
+  if (accountOverlay) {
+    accountOverlay.addEventListener('click', (e) => {
+      if (e.target === accountOverlay) closeAccountModal();
+    });
+  }
+
+  // Tabs
+  if (tabLoginBtn) tabLoginBtn.addEventListener('click', () => switchAuthTab('login'));
+  if (tabRegisterBtn) tabRegisterBtn.addEventListener('click', () => switchAuthTab('register'));
+
+  // Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      if (authOverlay && authOverlay.classList.contains('active')) closeAuthModal();
+      if (accountOverlay && accountOverlay.classList.contains('active')) closeAccountModal();
+    }
+  });
+
+  // Login Form Submit
+  if (loginForm) {
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const t = translations[currentLang];
+      const email = loginEmail?.value?.trim();
+      const password = loginPassword?.value?.trim();
+
+      if (!email || !password) {
+        showAuthAlert(t.validation_error_all_fields || 'Заполните все поля!', 'error');
+        return;
+      }
+
+      const loginBtn = document.getElementById('loginSubmitBtn');
+      const origText = loginBtn ? loginBtn.innerHTML : '';
+      if (loginBtn) {
+        loginBtn.disabled = true;
+        loginBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Вход...';
+      }
+
+      if (supabaseClient) {
+        const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+        if (loginBtn) {
+          loginBtn.disabled = false;
+          loginBtn.innerHTML = origText;
+        }
+
+        if (error) {
+          showAuthAlert(error.message, 'error');
+        } else {
+          showAuthAlert(t.auth_success_login || 'Успешный вход!', 'success');
+          updateAuthUI(data.user);
+          setTimeout(() => {
+            closeAuthModal();
+            showToast(t.auth_success_login || 'Добро пожаловать!');
+          }, 600);
+        }
+      } else {
+        // Fallback for demo without credentials
+        if (loginBtn) {
+          loginBtn.disabled = false;
+          loginBtn.innerHTML = origText;
+        }
+        const demoUser = { id: 'demo-' + Date.now(), email };
+        updateAuthUI(demoUser);
+        closeAuthModal();
+        showToast('Добро пожаловать, ' + email.split('@')[0] + '!');
+      }
+    });
+  }
+
+  // Register Form Submit
+  if (registerForm) {
+    registerForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const t = translations[currentLang];
+      const email = regEmail?.value?.trim();
+      const password = regPassword?.value?.trim();
+      const confirm = regPasswordConfirm?.value?.trim();
+
+      if (!email || !password || !confirm) {
+        showAuthAlert(t.validation_error_all_fields || 'Заполните все поля!', 'error');
+        return;
+      }
+
+      if (password !== confirm) {
+        showAuthAlert(t.auth_error_pwd_match || 'Пароли не совпадают!', 'error');
+        return;
+      }
+
+      if (password.length < 6) {
+        showAuthAlert('Пароль должен содержать не менее 6 символов!', 'error');
+        return;
+      }
+
+      const regBtn = document.getElementById('registerSubmitBtn');
+      const origText = regBtn ? regBtn.innerHTML : '';
+      if (regBtn) {
+        regBtn.disabled = true;
+        regBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Создание...';
+      }
+
+      if (supabaseClient) {
+        const { data, error } = await supabaseClient.auth.signUp({ email, password });
+        if (regBtn) {
+          regBtn.disabled = false;
+          regBtn.innerHTML = origText;
+        }
+
+        if (error) {
+          showAuthAlert(error.message, 'error');
+        } else {
+          showAuthAlert(t.auth_success_reg || 'Аккаунт успешно создан!', 'success');
+          if (data.user) updateAuthUI(data.user);
+          setTimeout(() => {
+            closeAuthModal();
+            showToast(t.auth_success_reg || 'Аккаунт успешно создан!');
+          }, 800);
+        }
+      } else {
+        if (regBtn) {
+          regBtn.disabled = false;
+          regBtn.innerHTML = origText;
+        }
+        const demoUser = { id: 'demo-' + Date.now(), email };
+        updateAuthUI(demoUser);
+        closeAuthModal();
+        showToast('Аккаунт создан! Добро пожаловать.');
+      }
+    });
+  }
+
+  // Logout Button
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', async () => {
+      if (supabaseClient) {
+        await supabaseClient.auth.signOut();
+      }
+      updateAuthUI(null);
+      closeAccountModal();
+      showToast('Вы вышли из личного кабинета');
     });
   }
 }
