@@ -90,17 +90,36 @@ const translations = {
     checkout_label_country: "Страна назначения *",
     checkout_label_region: "Штат / Регион / Область *",
     checkout_label_zip: "Почтовый индекс *",
-    checkout_label_city: "Населенный пункт (Город / Поселок) *",
-    checkout_label_phone: "Мобильный номер местного оператора *",
+    checkout_label_city: "Город / Населенный пункт *",
+    checkout_label_phone: "Мобильный номер телефона *",
     checkout_label_name: "ФИО получателя (латиницей) *",
     checkout_label_email: "Email (на Gmail) *",
     checkout_label_post_office: "Адрес и номер отделения почты *",
     checkout_label_address: "Адрес фактического проживания *",
     checkout_security_note: "Гарантия подлинности и быстрая отправка в день заказа.",
-    checkout_btn_submit: "Подтвердить и отправить заказ",
+    checkout_btn_submit: "Перейти к оплате",
+    checkout_summary_items: "Стоимость товаров:",
+    checkout_summary_shipping: "Доставка в выбранную страну:",
+    checkout_summary_total_to_pay: "Итого к оплате:",
+    payment_mono_title: "Монобанк (UAH / EUR)",
+    payment_mono_recipient: "Пацула Вадим Анатолиевич / Patsula Vadim",
+    payment_revolut_title: "Revolut (IBAN / SEPA / EUR)",
+    payment_revolut_recipient: "Savelii Shkurko",
+    payment_copy_btn: "Копировать",
+    payment_copied_toast: "Реквизиты скопированы в буфер обмена!",
+    receipt_upload_title: "Квитанция / скриншот оплаты *",
+    receipt_drop_text: "Нажмите или перетащите скриншот оплаты сюда",
+    receipt_drop_hint: "JPG, PNG, WEBP или PDF (макс. 15 МБ)",
+    receipt_btn_browse: "Прикрепить скриншот",
+    receipt_attached: "Скриншот прикреплен",
+    receipt_error_required: "Пожалуйста, прикрепите скриншот или квитанцию об оплате!",
+    receipt_sending: "Отправка заказа и чека...",
+    btn_i_paid_confirm: "Оформить заказ и отправить чек",
     order_success_title: "Заказ успешно оформлен!",
-    order_success_desc: "Данные для отправки приняты. Мы забронировали товар за вами. Для моментального подтверждения и получения трек-номера напишите в Telegram.",
-    order_success_tg: "Связаться в Telegram для подтверждения",
+    order_success_desc_payment: "Пожалуйста, переведите сумму заказа по указанным реквизитам и отправьте чек в Telegram для моментальной отправки посылки:",
+    order_success_final_desc: "Данные для отправки и оплата приняты! Мы забронировали товар за вами. В ближайшее время менеджер свяжется с вами и предоставит трек-номер посылки.",
+    order_success_tg: "Связаться в Telegram",
+    order_success_tg_receipt: "Связаться с менеджером в Telegram",
     order_success_close: "Вернуться в магазин",
     validation_error_all_fields: "Пожалуйста, заполните все обязательные поля!",
     validation_error_gmail: "Пожалуйста, укажите корректный адрес Gmail (например, yourname@gmail.com)!",
@@ -196,10 +215,32 @@ const translations = {
     checkout_label_post_office: "Post Office Address & Branch Number *",
     checkout_label_address: "Residential Address *",
     checkout_security_note: "Authenticity guaranteed. Dispatch on order day.",
-    checkout_btn_submit: "Confirm and Place Order",
+    checkout_btn_submit: "Proceed to Payment",
+    checkout_summary_items: "Items Subtotal:",
+    checkout_summary_shipping: "Shipping to destination:",
+    checkout_summary_total_to_pay: "Total to Pay:",
+    payment_modal_title: "Order Payment",
+    payment_step_label: "Step 2 of 2: Payment",
+    payment_instruction: "Please transfer the exact order amount to any of the payment details below:",
+    payment_mono_title: "Monobank (UAH / EUR)",
+    payment_mono_recipient: "Patsula Vadim / Пацула Вадим Анатолиевич",
+    payment_revolut_title: "Revolut (IBAN / SEPA / EUR)",
+    payment_revolut_recipient: "Savelii Shkurko",
+    payment_copy_btn: "Copy",
+    payment_copied_toast: "Payment details copied to clipboard!",
+    receipt_upload_title: "Payment Receipt / Screenshot *",
+    receipt_drop_text: "Click or drag & drop payment screenshot here",
+    receipt_drop_hint: "JPG, PNG, WEBP or PDF (max 15 MB)",
+    receipt_btn_browse: "Attach Screenshot",
+    receipt_attached: "Screenshot attached",
+    receipt_error_required: "Please attach your payment screenshot or receipt!",
+    receipt_sending: "Submitting order and receipt...",
+    btn_i_paid_confirm: "Place Order & Submit Receipt",
     order_success_title: "Order Placed Successfully!",
-    order_success_desc: "Your shipping details have been received. We reserved the item for you. Message us on Telegram for instant tracking confirmation.",
-    order_success_tg: "Contact via Telegram to Confirm",
+    order_success_desc_payment: "Please transfer the order total using the details below and send your payment confirmation receipt to our Telegram manager:",
+    order_success_final_desc: "Shipping details and order have been received! We reserved the item for you. Our manager will provide your parcel tracking number shortly.",
+    order_success_tg: "Contact on Telegram",
+    order_success_tg_receipt: "Contact Manager on Telegram",
     order_success_close: "Back to Store",
     validation_error_all_fields: "Please fill in all required fields!",
     validation_error_gmail: "Please enter a valid Gmail address (e.g. yourname@gmail.com)!",
@@ -295,10 +336,32 @@ const translations = {
     checkout_label_post_office: "Adresse und Nummer der Postfiliale / Packstation *",
     checkout_label_address: "Tatsächliche Wohnadresse *",
     checkout_security_note: "Echtheitsgarantie und schneller Versand am Bestelltag.",
-    checkout_btn_submit: "Bestellung bestätigen und absenden",
+    checkout_btn_submit: "Weiter zur Bezahlung",
+    checkout_summary_items: "Warenwert:",
+    checkout_summary_shipping: "Versand in das Zielland:",
+    checkout_summary_total_to_pay: "Gesamtsumme zur Zahlung:",
+    payment_modal_title: "Bestellung bezahlen",
+    payment_step_label: "Schritt 2 von 2: Bezahlung",
+    payment_instruction: "Bitte überweisen Sie den genauen Rechnungsbetrag an eine der folgenden Bankverbindungen:",
+    payment_mono_title: "Monobank (UAH / EUR)",
+    payment_mono_recipient: "Patsula Vadim",
+    payment_revolut_title: "Revolut (IBAN / SEPA / EUR)",
+    payment_revolut_recipient: "Savelii Shkurko",
+    payment_copy_btn: "Kopieren",
+    payment_copied_toast: "Zahlungsdaten in die Zwischenablage kopiert!",
+    receipt_upload_title: "Zahlungsbeleg / Screenshot *",
+    receipt_drop_text: "Klicken oder Zahlungsbeleg hierher ziehen",
+    receipt_drop_hint: "JPG, PNG, WEBP oder PDF (max. 15 MB)",
+    receipt_btn_browse: "Screenshot anhängen",
+    receipt_attached: "Screenshot angehängt",
+    receipt_error_required: "Bitte laden Sie Ihren Zahlungsbeleg oder Screenshot hoch!",
+    receipt_sending: "Bestellung und Beleg werden gesendet...",
+    btn_i_paid_confirm: "Bestellung aufgeben & Beleg senden",
     order_success_title: "Bestellung erfolgreich aufgegeben!",
-    order_success_desc: "Ihre Versanddaten wurden erfasst. Der Artikel ist für Sie reserviert. Schreiben Sie uns auf Telegram für eine sofortige Bestätigung.",
-    order_success_tg: "Über Telegram zur Bestätigung kontaktieren",
+    order_success_desc_payment: "Bitte überweisen Sie den Gesamtbetrag an die unten angegebenen Daten und senden Sie den Beleg an unseren Telegram-Manager:",
+    order_success_final_desc: "Ihre Versanddaten und die Bestellung wurden erfasst! Der Artikel ist für Sie reserviert. Unser Manager wird Ihnen in Kürze die Sendungsnummer mitteilen.",
+    order_success_tg: "Auf Telegram kontaktieren",
+    order_success_tg_receipt: "Manager auf Telegram kontaktieren",
     order_success_close: "Zurück zum Store",
     validation_error_all_fields: "Bitte füllen Sie alle Pflichtfelder aus!",
     validation_error_gmail: "Bitte geben Sie eine gültige Gmail-Adresse an (z. B. yourname@gmail.com)!",
@@ -906,17 +969,44 @@ const checkoutCountries = [
   { code: "LU", ru: "Люксембург (Luxembourg)", en: "Luxembourg", de: "Luxemburg" }
 ];
 
-// Checkout Modal Elements
+// Checkout & Payment Modal Elements
 const checkoutOverlay = document.getElementById('checkoutOverlay');
 const checkoutClose = document.getElementById('checkoutClose');
 const checkoutForm = document.getElementById('checkoutForm');
 const checkoutCountry = document.getElementById('checkoutCountry');
+const checkoutItemsCount = document.getElementById('checkoutItemsCount');
+const checkoutItemsSubtotal = document.getElementById('checkoutItemsSubtotal');
+const checkoutShippingCost = document.getElementById('checkoutShippingCost');
 const checkoutSummaryTotal = document.getElementById('checkoutSummaryTotal');
 const checkoutItemsPreview = document.getElementById('checkoutItemsPreview');
+
+const paymentOverlay = document.getElementById('paymentOverlay');
+const paymentClose = document.getElementById('paymentClose');
+const paymentOrderNumber = document.getElementById('paymentOrderNumber');
+const paymentItemsTotal = document.getElementById('paymentItemsTotal');
+const paymentShippingCost = document.getElementById('paymentShippingCost');
+const paymentTotalToPay = document.getElementById('paymentTotalToPay');
+const paymentConfirmPaidBtn = document.getElementById('paymentConfirmPaidBtn');
+
+// Receipt Upload Elements
+const receiptDropzone = document.getElementById('receiptDropzone');
+const receiptFileInput = document.getElementById('receiptFileInput');
+const dropzoneEmpty = document.getElementById('dropzoneEmpty');
+const dropzonePreview = document.getElementById('dropzonePreview');
+const receiptImageThumb = document.getElementById('receiptImageThumb');
+const receiptPdfIcon = document.getElementById('receiptPdfIcon');
+const previewFileName = document.getElementById('previewFileName');
+const previewFileSize = document.getElementById('previewFileSize');
+const btnBrowseReceipt = document.getElementById('btnBrowseReceipt');
+const btnRemoveReceipt = document.getElementById('btnRemoveReceipt');
+
+let attachedReceiptFile = null;
 
 const orderSuccessOverlay = document.getElementById('orderSuccessOverlay');
 const successOrderNumber = document.getElementById('successOrderNumber');
 const successCloseBtn = document.getElementById('successCloseBtn');
+
+let pendingOrderData = null;
 
 // Language Selector Elements
 const langSelector = document.getElementById('langSelector');
@@ -1445,6 +1535,92 @@ function initCartEvents() {
   }
 }
 
+// Calculate Shipping Cost: 1-2 items = 30€, +5€ every 3 items (3-5: 35€, 6-8: 40€, 9-11: 45€...)
+function getShippingCost(itemCount) {
+  if (itemCount <= 0) return 0;
+  if (itemCount <= 2) return 30;
+  const additionalTiers = Math.floor((itemCount - 3) / 3) + 1;
+  return 30 + (additionalTiers * 5);
+}
+
+// Copy payment requisites to clipboard
+function copyRequisite(text) {
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(text).then(() => {
+      const msg = (translations[currentLang] && translations[currentLang].payment_copied_toast) || "Реквизиты скопированы в буфер обмена!";
+      showToast(msg);
+    }).catch(() => fallbackCopy(text));
+  } else {
+    fallbackCopy(text);
+  }
+}
+
+function fallbackCopy(text) {
+  const textArea = document.createElement("textarea");
+  textArea.value = text;
+  textArea.style.position = "fixed";
+  textArea.style.opacity = "0";
+  document.body.appendChild(textArea);
+  textArea.focus();
+  textArea.select();
+  try {
+    document.execCommand('copy');
+    const msg = (translations[currentLang] && translations[currentLang].payment_copied_toast) || "Реквизиты скопированы в буфер обмена!";
+    showToast(msg);
+  } catch (err) {
+    showToast(text);
+  }
+  document.body.removeChild(textArea);
+}
+
+// Save shipping form inputs to localStorage
+function saveCheckoutFormData() {
+  const formData = {
+    country: document.getElementById('checkoutCountry')?.value || '',
+    region: document.getElementById('checkoutRegion')?.value || '',
+    zip: document.getElementById('checkoutZip')?.value || '',
+    city: document.getElementById('checkoutCity')?.value || '',
+    phone: document.getElementById('checkoutPhone')?.value || '',
+    name: document.getElementById('checkoutName')?.value || '',
+    email: document.getElementById('checkoutEmail')?.value || '',
+    postOffice: document.getElementById('checkoutPostOffice')?.value || '',
+    address: document.getElementById('checkoutAddress')?.value || ''
+  };
+  localStorage.setItem('r8ilt_checkout_data', JSON.stringify(formData));
+}
+
+// Restore shipping form inputs from localStorage
+function restoreCheckoutFormData() {
+  const raw = localStorage.getItem('r8ilt_checkout_data');
+  if (!raw) return;
+  try {
+    const data = JSON.parse(raw);
+    if (!data) return;
+
+    const countryEl = document.getElementById('checkoutCountry');
+    const regionEl = document.getElementById('checkoutRegion');
+    const zipEl = document.getElementById('checkoutZip');
+    const cityEl = document.getElementById('checkoutCity');
+    const phoneEl = document.getElementById('checkoutPhone');
+    const nameEl = document.getElementById('checkoutName');
+    const emailEl = document.getElementById('checkoutEmail');
+    const postOfficeEl = document.getElementById('checkoutPostOffice');
+    const addressEl = document.getElementById('checkoutAddress');
+
+    if (countryEl && data.country) countryEl.value = data.country;
+    if (regionEl && data.region) regionEl.value = data.region;
+    if (zipEl && data.zip) zipEl.value = data.zip;
+    if (cityEl && data.city) cityEl.value = data.city;
+    if (phoneEl && data.phone) phoneEl.value = data.phone;
+    if (nameEl && data.name) nameEl.value = data.name;
+    if (emailEl && data.email) emailEl.value = data.email;
+    if (postOfficeEl && data.postOffice) postOfficeEl.value = data.postOffice;
+    if (addressEl && data.address) addressEl.value = data.address;
+  } catch (e) {
+    console.error("Could not restore checkout profile from localStorage", e);
+  }
+}
+
 // Populate Country Options in Select Dropdown
 function populateCheckoutCountries() {
   if (!checkoutCountry) return;
@@ -1466,10 +1642,26 @@ function openCheckoutModal() {
 
   closeCart();
   populateCheckoutCountries();
+  restoreCheckoutFormData();
 
-  // Render items preview
-  const totalPrice = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
-  if (checkoutSummaryTotal) checkoutSummaryTotal.textContent = `${totalPrice.toLocaleString()} €`;
+  // Count items and calculate shipping + total
+  const totalItemCount = cart.reduce((acc, item) => acc + item.qty, 0);
+  const itemsSubtotal = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
+  const shippingCost = getShippingCost(totalItemCount);
+  const finalTotal = itemsSubtotal + shippingCost;
+
+  if (checkoutItemsCount) {
+    checkoutItemsCount.textContent = `${totalItemCount} ${currentLang === 'ru' ? 'шт.' : currentLang === 'de' ? 'Stk.' : 'pcs'}`;
+  }
+  if (checkoutItemsSubtotal) {
+    checkoutItemsSubtotal.textContent = `${itemsSubtotal.toLocaleString()} €`;
+  }
+  if (checkoutShippingCost) {
+    checkoutShippingCost.textContent = `${shippingCost.toLocaleString()} €`;
+  }
+  if (checkoutSummaryTotal) {
+    checkoutSummaryTotal.textContent = `${finalTotal.toLocaleString()} €`;
+  }
 
   if (checkoutItemsPreview) {
     checkoutItemsPreview.innerHTML = cart.map(item => {
@@ -1500,8 +1692,212 @@ function closeCheckoutModal() {
   document.body.classList.remove('modal-open');
 }
 
-// Initialize Checkout Form Events
+// Generate Order Number: 3 digits and 3 letters (e.g. "742-XAB")
+function generateOrderNumber() {
+  const digits = Math.floor(100 + Math.random() * 900); // 3 digits: 100-999
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
+  let letters = '';
+  for (let i = 0; i < 3; i++) {
+    letters += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return `${digits}-${letters}`;
+}
+
+// Build formatted message for Telegram Bot
+function buildTelegramOrderCaption(order) {
+  const itemsList = order.items.map(item => {
+    const p = products.find(prod => prod.id === item.id);
+    const name = (p && p.names && (p.names['ru'] || p.names['en'])) || item.brandName;
+    const size = item.selectedSize || (p && p.size ? (Array.isArray(p.size) ? p.size.join('/') : p.size) : '');
+    return `• <b>${name}</b> ${size ? `(${size})` : ''} — ${item.qty} шт. × ${item.price} €`;
+  }).join('\n');
+
+  return `⚔️ <b>НОВЫЙ ЗАКАЗ: № ${order.orderId}</b>\n` +
+         `━━━━━━━━━━━━━━━━━━━━━\n` +
+         `📦 <b>СОСТАВ ЗАКАЗА:</b>\n` +
+         `${itemsList}\n\n` +
+         `💰 <b>ФИНАНСЫ:</b>\n` +
+         `• Товары: <b>${order.subtotal} €</b>\n` +
+         `• Доставка: <b>${order.shippingCost} €</b>\n` +
+         `• <b>ИТОГО К ОПЛАТЕ: ${order.total} €</b>\n\n` +
+         `📍 <b>ДАННЫЕ ДЛЯ ДОСТАВКИ:</b>\n` +
+         `• Страна: <b>${order.shipping.country}</b>\n` +
+         `• Регион/Штат: <b>${order.shipping.region}</b>\n` +
+         `• Индекс: <b>${order.shipping.zip}</b>\n` +
+         `• Город: <b>${order.shipping.city}</b>\n` +
+         `• Отделение почты: <b>${order.shipping.postOffice}</b>\n` +
+         `• Адрес проживания: <b>${order.shipping.address}</b>\n` +
+         `• Получатель (ФИО): <b>${order.shipping.name}</b>\n` +
+         `• Телефон: <b>${order.shipping.phone}</b>\n` +
+         `• Email: <b>${order.shipping.email}</b>\n\n` +
+         `🕒 <i>${new Date().toLocaleString('ru-RU', { timeZone: 'Europe/Kyiv' })}</i>\n` +
+         `📎 <i>Квитанция об оплате прикреплена к сообщению.</i>`;
+}
+
+// Send Order + Receipt Photo to Telegram
+async function sendOrderToTelegram(orderData, receiptFile) {
+  const caption = buildTelegramOrderCaption(orderData);
+  const formData = new FormData();
+  formData.append('caption', caption);
+  formData.append('parse_mode', 'HTML');
+
+  if (receiptFile) {
+    formData.append('photo', receiptFile, receiptFile.name);
+  }
+
+  // 1. Attempt Vercel Serverless Function /api/send-order
+  try {
+    const response = await fetch('/api/send-order', {
+      method: 'POST',
+      body: formData
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      if (data && (data.ok || data.success)) {
+        return { success: true };
+      }
+    }
+  } catch (err) {
+    console.warn('Vercel API /api/send-order unreachable, checking direct fallback:', err);
+  }
+
+  // 2. Direct client fallback (if window.TELEGRAM_BOT_TOKEN / window.TELEGRAM_CHAT_ID are provided)
+  const clientToken = window.TELEGRAM_BOT_TOKEN || '';
+  const clientChatId = window.TELEGRAM_CHAT_ID || '';
+
+  if (clientToken && clientChatId) {
+    try {
+      const directFormData = new FormData();
+      directFormData.append('chat_id', clientChatId);
+      directFormData.append('caption', caption);
+      directFormData.append('parse_mode', 'HTML');
+      if (receiptFile) {
+        directFormData.append('photo', receiptFile, receiptFile.name);
+      }
+
+      const directRes = await fetch(`https://api.telegram.org/bot${clientToken}/sendPhoto`, {
+        method: 'POST',
+        body: directFormData
+      });
+      const directData = await directRes.json();
+      if (directData && directData.ok) {
+        return { success: true };
+      }
+    } catch (e) {
+      console.error('Direct Telegram API error:', e);
+    }
+  }
+
+  return { success: true, localOnly: true };
+}
+
+// Receipt Upload Drag & Drop and Preview Handlers
+function initReceiptUploadEvents() {
+  if (!receiptDropzone || !receiptFileInput) return;
+
+  receiptDropzone.addEventListener('click', (e) => {
+    if (e.target.closest('#btnRemoveReceipt')) return;
+    receiptFileInput.click();
+  });
+
+  if (btnBrowseReceipt) {
+    btnBrowseReceipt.addEventListener('click', (e) => {
+      e.stopPropagation();
+      receiptFileInput.click();
+    });
+  }
+
+  ['dragenter', 'dragover'].forEach(eventName => {
+    receiptDropzone.addEventListener(eventName, (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      receiptDropzone.classList.add('dragover');
+    });
+  });
+
+  ['dragleave', 'drop'].forEach(eventName => {
+    receiptDropzone.addEventListener(eventName, (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      receiptDropzone.classList.remove('dragover');
+    });
+  });
+
+  receiptDropzone.addEventListener('drop', (e) => {
+    const files = e.dataTransfer.files;
+    if (files && files.length > 0) {
+      handleReceiptFile(files[0]);
+    }
+  });
+
+  receiptFileInput.addEventListener('change', (e) => {
+    if (e.target.files && e.target.files.length > 0) {
+      handleReceiptFile(e.target.files[0]);
+    }
+  });
+
+  if (btnRemoveReceipt) {
+    btnRemoveReceipt.addEventListener('click', (e) => {
+      e.stopPropagation();
+      resetReceiptUpload();
+    });
+  }
+}
+
+function handleReceiptFile(file) {
+  if (!file) return;
+  attachedReceiptFile = file;
+
+  if (receiptDropzone) {
+    receiptDropzone.classList.remove('error-highlight');
+    receiptDropzone.classList.add('has-file');
+  }
+
+  if (dropzoneEmpty) dropzoneEmpty.style.display = 'none';
+  if (dropzonePreview) dropzonePreview.style.display = 'flex';
+
+  if (previewFileName) previewFileName.textContent = file.name;
+  if (previewFileSize) {
+    const sizeMb = (file.size / (1024 * 1024)).toFixed(2);
+    previewFileSize.textContent = `${sizeMb} MB`;
+  }
+
+  if (file.type.startsWith('image/')) {
+    if (receiptImageThumb) {
+      receiptImageThumb.src = URL.createObjectURL(file);
+      receiptImageThumb.style.display = 'block';
+    }
+    if (receiptPdfIcon) receiptPdfIcon.style.display = 'none';
+  } else {
+    if (receiptImageThumb) receiptImageThumb.style.display = 'none';
+    if (receiptPdfIcon) receiptPdfIcon.style.display = 'block';
+  }
+}
+
+function resetReceiptUpload() {
+  attachedReceiptFile = null;
+  if (receiptFileInput) receiptFileInput.value = '';
+  if (receiptDropzone) {
+    receiptDropzone.classList.remove('has-file');
+    receiptDropzone.classList.remove('error-highlight');
+  }
+  if (dropzoneEmpty) dropzoneEmpty.style.display = 'flex';
+  if (dropzonePreview) dropzonePreview.style.display = 'none';
+  if (receiptImageThumb) receiptImageThumb.src = '';
+}
+
+// Initialize Checkout & Payment Form Events
 function initCheckoutEvents() {
+  restoreCheckoutFormData();
+  initReceiptUploadEvents();
+
+  if (checkoutForm) {
+    checkoutForm.querySelectorAll('input, select').forEach(field => {
+      field.addEventListener('input', saveCheckoutFormData);
+      field.addEventListener('change', saveCheckoutFormData);
+    });
+  }
   if (checkoutClose) {
     checkoutClose.addEventListener('click', closeCheckoutModal);
   }
@@ -1514,6 +1910,24 @@ function initCheckoutEvents() {
     });
   }
 
+  // Payment Modal Close Handlers
+  if (paymentClose) {
+    paymentClose.addEventListener('click', () => {
+      if (paymentOverlay) paymentOverlay.classList.remove('active');
+      document.body.classList.remove('modal-open');
+    });
+  }
+
+  if (paymentOverlay) {
+    paymentOverlay.addEventListener('click', (e) => {
+      if (e.target === paymentOverlay) {
+        paymentOverlay.classList.remove('active');
+        document.body.classList.remove('modal-open');
+      }
+    });
+  }
+
+  // Success Modal Close Handlers
   if (successCloseBtn) {
     successCloseBtn.addEventListener('click', () => {
       if (orderSuccessOverlay) orderSuccessOverlay.classList.remove('active');
@@ -1535,6 +1949,10 @@ function initCheckoutEvents() {
       if (checkoutOverlay && checkoutOverlay.classList.contains('active')) {
         closeCheckoutModal();
       }
+      if (paymentOverlay && paymentOverlay.classList.contains('active')) {
+        paymentOverlay.classList.remove('active');
+        document.body.classList.remove('modal-open');
+      }
       if (orderSuccessOverlay && orderSuccessOverlay.classList.contains('active')) {
         orderSuccessOverlay.classList.remove('active');
         document.body.classList.remove('modal-open');
@@ -1542,6 +1960,7 @@ function initCheckoutEvents() {
     }
   });
 
+  // Step 1: Submit Details -> Open Step 2: Payment Requisites Screen
   if (checkoutForm) {
     checkoutForm.addEventListener('submit', (e) => {
       e.preventDefault();
@@ -1568,14 +1987,22 @@ function initCheckoutEvents() {
         return;
       }
 
-      // Generate Order ID
-      const orderId = `R8-${Math.floor(10000 + Math.random() * 90000)}`;
+      // Generate Order ID (3 digits + 3 letters: e.g. "742-XAB")
+      const orderId = generateOrderNumber();
 
-      const orderData = {
+      const totalItemCount = cart.reduce((acc, item) => acc + item.qty, 0);
+      const itemsSubtotal = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
+      const shippingCost = getShippingCost(totalItemCount);
+      const finalTotal = itemsSubtotal + shippingCost;
+
+      pendingOrderData = {
         orderId,
         date: new Date().toISOString(),
         items: [...cart],
-        total: cart.reduce((acc, item) => acc + (item.price * item.qty), 0),
+        itemsCount: totalItemCount,
+        subtotal: itemsSubtotal,
+        shippingCost: shippingCost,
+        total: finalTotal,
         shipping: {
           country,
           region,
@@ -1589,26 +2016,81 @@ function initCheckoutEvents() {
         }
       };
 
+      // Reset receipt upload state
+      resetReceiptUpload();
+
+      // Populate Payment Modal with exact sums & order ID
+      if (paymentOrderNumber) paymentOrderNumber.textContent = `№ ${orderId}`;
+      if (paymentItemsTotal) paymentItemsTotal.textContent = `${itemsSubtotal.toLocaleString()} €`;
+      if (paymentShippingCost) paymentShippingCost.textContent = `${shippingCost.toLocaleString()} €`;
+      if (paymentTotalToPay) paymentTotalToPay.textContent = `${finalTotal.toLocaleString()} €`;
+
+      // Close checkout form and transition smoothly to payment requisites screen
+      closeCheckoutModal();
+
+      if (paymentOverlay) {
+        paymentOverlay.classList.add('active');
+        document.body.classList.add('modal-open');
+      }
+    });
+  }
+
+  // Step 2: Confirm Payment -> Send to Telegram -> Record Order & Open Step 3: Success Screen
+  if (paymentConfirmPaidBtn) {
+    paymentConfirmPaidBtn.addEventListener('click', async () => {
+      const t = translations[currentLang];
+
+      if (!attachedReceiptFile) {
+        if (receiptDropzone) {
+          receiptDropzone.classList.add('error-highlight');
+          receiptDropzone.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        showToast(t.receipt_error_required || "Пожалуйста, прикрепите скриншот или квитанцию об оплате!");
+        return;
+      }
+
+      if (!pendingOrderData) return;
+
+      // Button loading indicator
+      const origBtnHtml = paymentConfirmPaidBtn.innerHTML;
+      paymentConfirmPaidBtn.disabled = true;
+      paymentConfirmPaidBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> <span>${t.receipt_sending || "Отправка заказа..."}</span>`;
+
+      try {
+        await sendOrderToTelegram(pendingOrderData, attachedReceiptFile);
+      } catch (err) {
+        console.warn('Telegram send notice:', err);
+      }
+
       // Save order to LocalStorage
       const pastOrders = JSON.parse(localStorage.getItem('r8ilt_orders')) || [];
-      pastOrders.unshift(orderData);
+      pastOrders.unshift(pendingOrderData);
       localStorage.setItem('r8ilt_orders', JSON.stringify(pastOrders));
+
+      if (successOrderNumber) {
+        successOrderNumber.textContent = `№ ${pendingOrderData.orderId}`;
+      }
 
       // Clear cart
       cart = [];
       saveCart();
       updateCartUI();
 
-      // Close checkout modal & open success modal
-      closeCheckoutModal();
+      // Reset button state & receipt
+      paymentConfirmPaidBtn.disabled = false;
+      paymentConfirmPaidBtn.innerHTML = origBtnHtml;
+      resetReceiptUpload();
 
-      if (successOrderNumber) successOrderNumber.textContent = `№ ${orderId}`;
+      // Close payment modal & open final success screen
+      if (paymentOverlay) paymentOverlay.classList.remove('active');
+
       if (orderSuccessOverlay) {
         orderSuccessOverlay.classList.add('active');
         document.body.classList.add('modal-open');
       }
 
-      checkoutForm.reset();
+      if (checkoutForm) checkoutForm.reset();
+      pendingOrderData = null;
     });
   }
 }
