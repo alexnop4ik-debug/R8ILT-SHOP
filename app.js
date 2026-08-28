@@ -1085,6 +1085,7 @@ const checkoutCountries = [
   { code: "CH", ru: "Швейцария (Schweiz)", en: "Switzerland", de: "Schweiz" },
   { code: "PL", ru: "Польша (Polska)", en: "Poland", de: "Polen" },
   { code: "UA", ru: "Украина (Україна)", en: "Ukraine", de: "Ukraine" },
+  { code: "GB", ru: "Великобритания (Great Britain / UK)", en: "United Kingdom (UK)", de: "Großbritannien (UK)" },
   { code: "US", ru: "США (USA)", en: "United States (USA)", de: "Vereinigte Staaten (USA)" },
   { code: "CA", ru: "Канада (Canada)", en: "Canada", de: "Kanada" },
   { code: "FR", ru: "Франция (France)", en: "France", de: "Frankreich" },
@@ -1717,12 +1718,46 @@ function initCartEvents() {
   }
 }
 
-// Calculate Shipping Cost: 1-2 items = 30€, +5€ every 3 items (3-5: 35€, 6-8: 40€, 9-11: 45€...)
-function getShippingCost(itemCount) {
+// Country-specific base delivery rates (1-2 items)
+const countryShippingRates = {
+  'DE': 6.19,  // Германия - 6.19€
+  'FR': 14.49, // Франция - 14.49€
+  'IT': 14.49, // Италия - 14.49€
+  'PL': 14.49, // Польша - 14.49€
+  'GB': 25,    // Британия - 25€
+  'UK': 25,    // Британия alias
+  'US': 30,    // Америка - 30€
+  'UA': 15,    // Украина - 15€
+  'EE': 15,    // Эстония - 15€
+  'CH': 20,    // Швейцария - 20€
+  'CY': 24,    // Кипр - 24€
+  'NL': 15,    // Нидерланды - 15€
+  'ES': 15,    // Испания - 15€
+  'CZ': 15     // Чехия - 15€
+};
+const DEFAULT_SHIPPING_RATE = 19; // Остальные страны - 19€
+
+function getShippingBaseRate(countryCode) {
+  if (!countryCode) return DEFAULT_SHIPPING_RATE;
+  const code = String(countryCode).toUpperCase().trim();
+  return countryShippingRates[code] !== undefined ? countryShippingRates[code] : DEFAULT_SHIPPING_RATE;
+}
+
+// Calculate Shipping Cost based on Country and Item Count (+5€ every 3 items after the first 2)
+function getShippingCost(itemCount, countryCode = 'DE') {
   if (itemCount <= 0) return 0;
-  if (itemCount <= 2) return 30;
+  const baseRate = getShippingBaseRate(countryCode);
+  if (itemCount <= 2) return baseRate;
   const additionalTiers = Math.floor((itemCount - 3) / 3) + 1;
-  return 30 + (additionalTiers * 5);
+  const totalCost = baseRate + (additionalTiers * 5);
+  return Math.round(totalCost * 100) / 100;
+}
+
+function formatPrice(amount) {
+  if (amount === undefined || amount === null) return '0';
+  const num = Number(amount);
+  if (isNaN(num)) return '0';
+  return (num % 1 === 0) ? num.toString() : num.toFixed(2);
 }
 
 // Copy payment requisites to clipboard
@@ -1826,23 +1861,24 @@ function openCheckoutModal() {
   populateCheckoutCountries();
   restoreCheckoutFormData();
 
-  // Count items and calculate shipping + total
+  // Count items and calculate shipping + total based on selected country
   const totalItemCount = cart.reduce((acc, item) => acc + item.qty, 0);
   const itemsSubtotal = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
-  const shippingCost = getShippingCost(totalItemCount);
-  const finalTotal = itemsSubtotal + shippingCost;
+  const selectedCountry = document.getElementById('checkoutCountry')?.value || 'DE';
+  const shippingCost = getShippingCost(totalItemCount, selectedCountry);
+  const finalTotal = Math.round((itemsSubtotal + shippingCost) * 100) / 100;
 
   if (checkoutItemsCount) {
     checkoutItemsCount.textContent = `${totalItemCount} ${currentLang === 'ru' ? 'шт.' : currentLang === 'de' ? 'Stk.' : 'pcs'}`;
   }
   if (checkoutItemsSubtotal) {
-    checkoutItemsSubtotal.textContent = `${itemsSubtotal.toLocaleString()} €`;
+    checkoutItemsSubtotal.textContent = `${formatPrice(itemsSubtotal)} €`;
   }
   if (checkoutShippingCost) {
-    checkoutShippingCost.textContent = `${shippingCost.toLocaleString()} €`;
+    checkoutShippingCost.textContent = `${formatPrice(shippingCost)} €`;
   }
   if (checkoutSummaryTotal) {
-    checkoutSummaryTotal.textContent = `${finalTotal.toLocaleString()} €`;
+    checkoutSummaryTotal.textContent = `${formatPrice(finalTotal)} €`;
   }
 
   if (checkoutItemsPreview) {
@@ -1956,10 +1992,10 @@ function buildTelegramOrderCaption(order) {
          `🛒 <b>Items:</b>\n` +
          `${itemsList}\n\n` +
          `💳 <b>Payment:</b> ${paymentText}\n` +
-         `🧾 <b>Goods Total:</b> ${order.subtotal}€\n` +
-         `🚚 <b>Shipping:</b> ${order.shippingCost}€\n` +
+         `🧾 <b>Goods Total:</b> ${formatPrice(order.subtotal)}€\n` +
+         `🚚 <b>Shipping:</b> ${formatPrice(order.shippingCost)}€\n` +
          `📌 <b>Status:</b> ${statusText}\n` +
-         `💰 <b>TOTAL:</b> ${order.total}€`;
+         `💰 <b>TOTAL:</b> ${formatPrice(order.total)}€`;
 }
 
 // Build separate alert message for Vinted Request
@@ -1985,7 +2021,7 @@ function buildTelegramVintedAlert(order) {
          `📧 <b>Email:</b> ${email}\n` +
          `🌍 <b>Страна доставки:</b> ${country}, ${city}\n\n` +
          `📦 <b>Товары к покупке:</b>\n${itemsList}\n\n` +
-         `💰 <b>Сумма к оплате:</b> ${order.total} €\n\n` +
+         `💰 <b>Сумма к оплате:</b> ${formatPrice(order.total)} €\n\n` +
          `👉 <b>Действие:</b> Пользователь запросил покупку товара через Vinted. Свяжитесь с клиентом для создания листинга и отправки ссылки на Vinted!`;
 }
 
@@ -2185,6 +2221,25 @@ function initCheckoutEvents() {
       field.addEventListener('change', saveCheckoutFormData);
     });
   }
+
+  // Real-time shipping cost recalculation when country changes
+  if (checkoutCountry) {
+    checkoutCountry.addEventListener('change', () => {
+      const totalItemCount = cart.reduce((acc, item) => acc + item.qty, 0);
+      const itemsSubtotal = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
+      const currentCountry = checkoutCountry.value || 'DE';
+      const shippingCost = getShippingCost(totalItemCount, currentCountry);
+      const finalTotal = Math.round((itemsSubtotal + shippingCost) * 100) / 100;
+
+      if (checkoutShippingCost) {
+        checkoutShippingCost.textContent = `${formatPrice(shippingCost)} €`;
+      }
+      if (checkoutSummaryTotal) {
+        checkoutSummaryTotal.textContent = `${formatPrice(finalTotal)} €`;
+      }
+    });
+  }
+
   if (checkoutClose) {
     checkoutClose.addEventListener('click', closeCheckoutModal);
   }
@@ -2279,8 +2334,8 @@ function initCheckoutEvents() {
 
       const totalItemCount = cart.reduce((acc, item) => acc + item.qty, 0);
       const itemsSubtotal = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
-      const shippingCost = getShippingCost(totalItemCount);
-      const finalTotal = itemsSubtotal + shippingCost;
+      const shippingCost = getShippingCost(totalItemCount, country);
+      const finalTotal = Math.round((itemsSubtotal + shippingCost) * 100) / 100;
 
       pendingOrderData = {
         orderId,
@@ -2311,9 +2366,9 @@ function initCheckoutEvents() {
 
       // Populate Payment Modal with exact sums & order ID
       if (paymentOrderNumber) paymentOrderNumber.textContent = `№ ${orderId}`;
-      if (paymentItemsTotal) paymentItemsTotal.textContent = `${itemsSubtotal.toLocaleString()} €`;
-      if (paymentShippingCost) paymentShippingCost.textContent = `${shippingCost.toLocaleString()} €`;
-      if (paymentTotalToPay) paymentTotalToPay.textContent = `${finalTotal.toLocaleString()} €`;
+      if (paymentItemsTotal) paymentItemsTotal.textContent = `${formatPrice(itemsSubtotal)} €`;
+      if (paymentShippingCost) paymentShippingCost.textContent = `${formatPrice(shippingCost)} €`;
+      if (paymentTotalToPay) paymentTotalToPay.textContent = `${formatPrice(finalTotal)} €`;
 
       // Close checkout form and transition smoothly to payment requisites screen
       closeCheckoutModal();
