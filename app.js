@@ -2451,29 +2451,51 @@ async function getSupabase() {
   return null;
 }
 
-function formatSupabaseErrorMessage(error) {
+function formatSupabaseErrorMessage(error, mode = 'login') {
   if (!error) return 'Произошла непредвиденная ошибка';
-  const msg = (error.message || error.msg || String(error)).toLowerCase();
+  const msg = (error.message || error.msg || error.error_description || String(error)).toLowerCase();
   const code = (error.code || '').toLowerCase();
 
-  if (msg.includes('already registered') || msg.includes('already exists') || code === 'user_already_exists' || error.status === 422) {
+  // 1. Invalid credentials / Wrong Password (Login)
+  if (
+    msg.includes('invalid login credentials') ||
+    msg.includes('invalid credentials') ||
+    msg.includes('invalid_grant') ||
+    code === 'invalid_grant' ||
+    msg.includes('wrong password')
+  ) {
+    return 'Неверный email или пароль! Пожалуйста, проверьте правильность введенных данных.';
+  }
+
+  // 2. User Already Exists (Registration)
+  if (
+    msg.includes('already registered') ||
+    msg.includes('already exists') ||
+    code === 'user_already_exists'
+  ) {
     return 'Пользователь с таким email уже зарегистрирован! Пожалуйста, перейдите на вкладку «Вход».';
   }
-  if (msg.includes('invalid login credentials') || msg.includes('invalid credentials')) {
-    return 'Неверный email или пароль! Проверьте правильность введенных данных.';
+
+  // 3. Email Not Confirmed
+  if (msg.includes('email not confirmed') || msg.includes('not confirmed')) {
+    return 'Email не подтвержден. Запустите команду подтверждения в SQL Editor или выключите «Confirm email» в Supabase.';
   }
+
+  // 4. Password validation
   if (msg.includes('password should be at least') || msg.includes('weak password') || msg.includes('at least 6 characters')) {
     return 'Пароль должен содержать не менее 6 символов.';
   }
+
+  // 5. Rate limit
   if (msg.includes('rate limit') || code.includes('rate_limit') || msg.includes('too many requests')) {
     return 'Слишком много попыток. Пожалуйста, подождите 1 минуту.';
   }
-  if (msg.includes('invalid email') || msg.includes('valid email')) {
+
+  // 6. Invalid email format
+  if (msg.includes('invalid email') || msg.includes('valid email') || msg.includes('unable to validate email')) {
     return 'Пожалуйста, укажите корректный адрес электронной почты.';
   }
-  if (msg.includes('email not confirmed')) {
-    return 'Подтверждение почты отключено. Пожалуйста, войдите с вашим паролем.';
-  }
+
   return error.message || 'Ошибка соединения с сервером.';
 }
 
@@ -2562,7 +2584,7 @@ async function initAuthEvents() {
 
           if (error) {
             console.error('Supabase Login Error:', error);
-            showAuthAlert(formatSupabaseErrorMessage(error), 'error');
+            showAuthAlert(formatSupabaseErrorMessage(error, 'login'), 'error');
           } else if (data && data.user) {
             showAuthAlert(t.auth_success_login || 'Успешный вход!', 'success');
             updateAuthUI(data.user);
@@ -2634,7 +2656,7 @@ async function initAuthEvents() {
 
           if (error) {
             console.error('Supabase SignUp Error:', error);
-            showAuthAlert(formatSupabaseErrorMessage(error), 'error');
+            showAuthAlert(formatSupabaseErrorMessage(error, 'register'), 'error');
           } else if (data && data.user) {
             // Check if user already exists (identities array empty in Supabase)
             if (Array.isArray(data.user.identities) && data.user.identities.length === 0) {
