@@ -1715,11 +1715,12 @@ function generateOrderNumber() {
 
 // Build formatted message for Telegram Bot
 function buildTelegramOrderCaption(order) {
-  const itemsList = order.items.map(item => {
+  const itemsList = order.items.map((item, index) => {
     const p = products.find(prod => prod.id === item.id);
     const name = escapeHtml((p && p.names && (p.names['ru'] || p.names['en'])) || item.brandName);
     const size = escapeHtml(item.selectedSize || (p && p.size ? (Array.isArray(p.size) ? p.size.join('/') : p.size) : ''));
-    return `• <b>${name}</b> ${size ? `(${size})` : ''} — ${item.qty} шт. × ${item.price} €`;
+    const qtyStr = item.qty > 1 ? ` (${item.qty}x)` : '';
+    return `${index + 1}. ${name} ${size ? `(${size})` : ''}${qtyStr} — ${item.price * item.qty}€`;
   }).join('\n');
 
   const country = escapeHtml(order.shipping.country);
@@ -1732,26 +1733,24 @@ function buildTelegramOrderCaption(order) {
   const phone = escapeHtml(order.shipping.phone);
   const email = escapeHtml(order.shipping.email);
 
-  return `⚔️ <b>НОВЫЙ ЗАКАЗ: № ${order.orderId}</b>\n` +
-         `━━━━━━━━━━━━━━━━━━━━━\n` +
-         `📦 <b>СОСТАВ ЗАКАЗА:</b>\n` +
+  return `🌎 <b>NEW WORLDWIDE ORDER</b> 🌎\n\n` +
+         `🆔 <b>Order:</b> ${order.orderId}\n` +
+         `👤 <b>Full Name:</b> ${name}\n` +
+         `📞 <b>Phone:</b> ${phone}\n` +
+         `📧 <b>Email:</b> ${email}\n` +
+         `🌍 <b>Country:</b> ${country}\n` +
+         `🗺 <b>State / Region:</b> ${region}\n` +
+         `📮 <b>Postal Code:</b> ${zip}\n` +
+         `🏙 <b>City:</b> ${city}\n` +
+         `📦 <b>Post Office:</b> ${postOffice}\n` +
+         `🏠 <b>Residence Address:</b> ${address}\n\n` +
+         `🛒 <b>Items:</b>\n` +
          `${itemsList}\n\n` +
-         `💰 <b>ФИНАНСЫ:</b>\n` +
-         `• Товары: <b>${order.subtotal} €</b>\n` +
-         `• Доставка: <b>${order.shippingCost} €</b>\n` +
-         `• <b>ИТОГО К ОПЛАТЕ: ${order.total} €</b>\n\n` +
-         `📍 <b>ДАННЫЕ ДЛЯ ДОСТАВКИ:</b>\n` +
-         `• Страна: <b>${country}</b>\n` +
-         `• Регион/Штат: <b>${region}</b>\n` +
-         `• Индекс: <b>${zip}</b>\n` +
-         `• Город: <b>${city}</b>\n` +
-         `• Отделение почты: <b>${postOffice}</b>\n` +
-         `• Адрес: <b>${address}</b>\n` +
-         `• Получатель: <b>${name}</b>\n` +
-         `• Телефон: <b>${phone}</b>\n` +
-         `• Email: <b>${email}</b>\n\n` +
-         `🕒 <i>${new Date().toLocaleString('ru-RU', { timeZone: 'Europe/Kyiv' })}</i>\n` +
-         `📎 <i>Квитанция об оплате прикреплена к сообщению.</i>`;
+         `💳 <b>Payment:</b> Worldwide payment details\n` +
+         `🧾 <b>Goods Total:</b> ${order.subtotal}€\n` +
+         `🚚 <b>Shipping:</b> ${order.shippingCost}€\n` +
+         `📌 <b>Status:</b> created\n` +
+         `💰 <b>TOTAL:</b> ${order.total}€`;
 }
 
 // Send Order + Receipt Photo to Telegram
