@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Товар | R8ILT SHOP</title>
+  
+  <!-- Complete Favicon Package -->
+  <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+  <link rel="icon" type="image/x-icon" href="favicon/favicon.ico">
+  <link rel="manifest" href="favicon/site.webmanifest">
+  <!-- Google Fonts: Strict Luxury & Modern Darkwear Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&family=Syncopate:wght@400;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <link rel="stylesheet" href="styles.css?v=47">
+</head>
+<body class="product-page-body">
+
+  <!-- Ambient Background Glows -->
+  <div class="bg-glow bg-glow-1"></div>
+  <div class="bg-glow bg-glow-2"></div>
+  <div class="bg-glow bg-glow-3"></div>
+
+  <!-- Navigation Header -->
+  <header class="header" id="header">
+    <div class="container header-container">
+      <div class="header-brand-wrap">
+        <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <a href="index.html" class="logo">
+          <span class="gothic-text">R8ILT</span>
+        </a>
+      </div>
+
+      <nav class="nav" id="nav">
+        <ul class="nav-list">
+          <li class="nav-item"><a href="index.html#brands" class="nav-link" data-i18n="nav_brands">Бренды</a></li>
+          <li class="nav-item"><a href="index.html#catalog" class="nav-link" data-i18n="nav_catalog">Каталог</a></li>
+          <li class="nav-item"><a href="index.html#reviews" class="nav-link" data-i18n="nav_reviews">Отзывы</a></li>
+          <li class="nav-item"><a href="index.html#about" class="nav-link" data-i18n="nav_about">О магазине</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <!-- Language Selector Dropdown with CSS Vector Flags -->
+        <div class="lang-selector" id="langSelector">
+          <button class="lang-btn" id="langCurrentBtn" aria-label="Change language">
+            <span class="flag-icon flag-ru" id="currentFlagIcon"></span>
+            <span class="lang-code" id="currentLangCode">RU</span>
+            <i class="fa-solid fa-chevron-down lang-chevron"></i>
+          </button>
+          <div class="lang-dropdown" id="langDropdown">
+            <button class="lang-option active" data-lang="ru">
+              <span class="flag-icon flag-ru"></span>
+              <span class="lang-title">Русский</span>
+              <span class="lang-pill pill-ru">RU</span>
+            </button>
+            <button class="lang-option" data-lang="en">
+              <span class="flag-icon flag-en"></span>
+              <span class="lang-title">English</span>
+              <span class="lang-pill pill-en">EN</span>
+            </button>
+            <button class="lang-option" data-lang="de">
+              <span class="flag-icon flag-de"></span>
+              <span class="lang-title">Deutsch</span>
+              <span class="lang-pill pill-de">DE</span>
+            </button>
+          </div>
+        </div>
+
+        <button class="action-btn cart-btn" id="cartToggle" title="Cart">
+          <i class="fa-solid fa-bag-shopping"></i>
+          <span class="badge" id="cartCount">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Single Product Content Area -->
+  <main class="single-product-main" id="singleProductPage">
+    <div class="container">
+      
+      <!-- Breadcrumbs -->
+      <nav class="breadcrumbs" aria-label="Хлебные крошки">
+        <a href="index.html" data-i18n="breadcrumb_home">Главная</a>
+        <span class="breadcrumb-sep">/</span>
+        <a href="index.html#catalog" data-i18n="nav_catalog">Каталог</a>
+        <span class="breadcrumb-sep">/</span>
+        <span class="breadcrumb-current" id="breadcrumbTitle">Загрузка...</span>
+      </nav>
+
+      <!-- Product Details Container -->
+      <div class="single-product-card" id="singleProductContainer">
+        <!-- Injected via JavaScript -->
+        <div class="product-loading">
+          <i class="fa-solid fa-circle-notch fa-spin"></i>
+          <span>Загрузка товара...</span>
+        </div>
+      </div>
+
+      <!-- Back to Catalog Button -->
+      <div class="back-catalog-wrap">
+        <a href="index.html#catalog" class="btn btn-secondary">
+          <i class="fa-solid fa-arrow-left"></i> <span data-i18n="back_to_catalog">Вернуться в каталог</span>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer" id="about">
+    <div class="container footer-container">
+      <div class="footer-col brand-col">
+        <a href="index.html" class="logo footer-logo">
+          <span class="gothic-text">R8ILT</span>
+        </a>
+        <p class="footer-desc" data-i18n="footer_desc">
+          R8ILT SHOP — магазин оригинальной уличной, околофутбольной и субкультурной одежды. Бренды Pit Bull Germany, Svastone, Белояр, Thor Steinar с гарантией подлинности.
+        </p>
+        <div class="social-links">
+          <a href="#" class="social-link" title="Telegram"><i class="fa-brands fa-telegram"></i></a>
+          <a href="#" class="social-link" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" class="social-link" title="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+          <a href="#" class="social-link" title="Discord"><i class="fa-brands fa-discord"></i></a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="footer-heading gothic-text" data-i18n="footer_nav_title">Навигация</h4>
+        <ul class="footer-links">
+          <li><a href="index.html#brands" data-i18n="nav_brands">Бренды</a></li>
+          <li><a href="index.html#catalog" data-i18n="nav_catalog">Каталог</a></li>
+          <li><a href="index.html#reviews" data-i18n="nav_reviews">Отзывы</a></li>
+          <li><a href="index.html#about" data-i18n="nav_about">О магазине</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="footer-heading gothic-text" data-i18n="footer_info_title">Информация</h4>
+        <ul class="footer-links">
+          <li><a href="#" data-i18n="footer_size_guide">Таблица размеров</a></li>
+          <li><a href="#" data-i18n="footer_shipping">Оплата и доставка</a></li>
+          <li><a href="#" data-i18n="footer_returns">Возврат и обмен</a></li>
+          <li><a href="#" data-i18n="footer_certs">Сертификаты подлинности</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="container footer-bottom-inner">
+        <p class="copyright">&copy; 2026 R8ILT SHOP. Магазин оригинальной одежды.</p>
+        <div class="payment-methods">
+          <span><i class="fa-brands fa-cc-visa"></i></span>
+          <span><i class="fa-brands fa-cc-mastercard"></i></span>
+          <span><i class="fa-brands fa-apple-pay"></i></span>
+          <span><i class="fa-brands fa-google-pay"></i></span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Cart Drawer -->
+  <div class="cart-overlay" id="cartOverlay"></div>
+  <aside class="cart-drawer" id="cartDrawer">
+    <div class="cart-header">
+      <div class="cart-title">
+        <i class="fa-solid fa-bag-shopping"></i>
+        <span class="gothic-text" data-i18n="cart_title">Корзина</span>
+        <span class="cart-badge" id="cartDrawerCount">(0)</span>
+      </div>
+      <button class="cart-close" id="cartClose" aria-label="Close cart">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <div class="cart-items" id="cartItems">
+      <!-- Injected via JS -->
+    </div>
+
+    <div class="cart-footer">
+      <div class="cart-total-row">
+        <span data-i18n="cart_total">Итого:</span>
+        <span class="cart-total-price" id="cartTotalSum">0 €</span>
+      </div>
+      <button class="btn btn-primary btn-block" id="checkoutBtn" data-i18n="cart_checkout">Оформить заказ</button>
+    </div>
+  </aside>
+
+  <!-- Toast Notification for Actions -->
+  <div class="toast" id="toast">
+    <i class="fa-solid fa-circle-check toast-icon"></i>
+    <span class="toast-text" id="toastText">Товар добавлен в корзину</span>
+  </div>
+
+  <!-- Customer Photo Fullscreen Lightbox Modal -->
+  <div class="photo-lightbox" id="photoLightbox" role="dialog" aria-modal="true" aria-label="Просмотр фотографии">
+    <div class="lightbox-overlay" id="lightboxOverlay"></div>
+    <button class="lightbox-close" id="lightboxClose" aria-label="Закрыть">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+    <div class="lightbox-content">
+      <img src="" alt="Фото товара в полном размере" class="lightbox-img" id="lightboxImg">
+    </div>
+  </div>
+
+  <!-- Floating Bottom-Right Quick Cart Button -->
+  <button class="floating-cart-btn" id="floatingCartBtn" aria-label="Открыть корзину" title="Корзина">
+    <i class="fa-solid fa-bag-shopping"></i>
+    <span class="floating-cart-badge" id="floatingCartCount">0</span>
+  </button>
+
+  <script src="app.js?v=47"></script>
+</body>
+</html>
