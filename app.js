@@ -2451,6 +2451,32 @@ async function getSupabase() {
   return null;
 }
 
+function formatSupabaseErrorMessage(error) {
+  if (!error) return 'Произошла непредвиденная ошибка';
+  const msg = (error.message || error.msg || String(error)).toLowerCase();
+  const code = (error.code || '').toLowerCase();
+
+  if (msg.includes('already registered') || msg.includes('already exists') || code === 'user_already_exists' || error.status === 422) {
+    return 'Пользователь с таким email уже зарегистрирован! Пожалуйста, перейдите на вкладку «Вход».';
+  }
+  if (msg.includes('invalid login credentials') || msg.includes('invalid credentials')) {
+    return 'Неверный email или пароль! Проверьте правильность введенных данных.';
+  }
+  if (msg.includes('password should be at least') || msg.includes('weak password') || msg.includes('at least 6 characters')) {
+    return 'Пароль должен содержать не менее 6 символов.';
+  }
+  if (msg.includes('rate limit') || code.includes('rate_limit') || msg.includes('too many requests')) {
+    return 'Слишком много попыток. Пожалуйста, подождите 1 минуту.';
+  }
+  if (msg.includes('invalid email') || msg.includes('valid email')) {
+    return 'Пожалуйста, укажите корректный адрес электронной почты.';
+  }
+  if (msg.includes('email not confirmed')) {
+    return 'Пожалуйста, подтвердите ваш email через письмо на почте.';
+  }
+  return error.message || 'Ошибка соединения с сервером.';
+}
+
 async function initAuthEvents() {
   const sb = await getSupabase();
 
@@ -2536,7 +2562,7 @@ async function initAuthEvents() {
 
           if (error) {
             console.error('Supabase Login Error:', error);
-            showAuthAlert(error.message || 'Неверный email или пароль', 'error');
+            showAuthAlert(formatSupabaseErrorMessage(error), 'error');
           } else if (data && data.user) {
             showAuthAlert(t.auth_success_login || 'Успешный вход!', 'success');
             updateAuthUI(data.user);
@@ -2608,24 +2634,34 @@ async function initAuthEvents() {
 
           if (error) {
             console.error('Supabase SignUp Error:', error);
-            showAuthAlert(error.message || 'Ошибка при создании аккаунта', 'error');
+            showAuthAlert(formatSupabaseErrorMessage(error), 'error');
           } else if (data && data.user) {
-            if (data.session) {
-              // Automatically logged in (Confirm Email turned off)
-              showAuthAlert(t.auth_success_reg || 'Аккаунт успешно создан!', 'success');
-              updateAuthUI(data.user);
-              setTimeout(() => {
-                closeAuthModal();
-                showToast(t.auth_success_reg || 'Аккаунт успешно создан!');
-              }, 800);
-            } else {
-              // Email confirmation link was sent
-              showAuthAlert('Аккаунт создан! Пожалуйста, проверьте почту для подтверждения.', 'success');
-              setTimeout(() => {
-                closeAuthModal();
-                showToast('Письмо с подтверждением отправлено на ' + email);
-              }, 1800);
+            // Check if user already exists (identities array empty in Supabase)
+            if (Array.isArray(data.user.identities) && data.user.identities.length === 0) {
+              showAuthAlert('Пользователь с таким email уже зарегистрирован! Пожалуйста, перейдите на вкладку «Вход».', 'error');
+              return;
             }
+
+            let activeUser = data.user;
+
+            // If session not established automatically, attempt immediate sign in
+            if (!data.session) {
+              try {
+                const { data: loginData } = await client.auth.signInWithPassword({ email, password });
+                if (loginData && loginData.user) {
+                  activeUser = loginData.user;
+                }
+              } catch (e) {
+                // Ignore login fallback error
+              }
+            }
+
+            showAuthAlert(t.auth_success_reg || 'Аккаунт успешно создан!', 'success');
+            updateAuthUI(activeUser);
+            setTimeout(() => {
+              closeAuthModal();
+              showToast('Добро пожаловать в R8ILT Club!');
+            }, 500);
           } else {
             showAuthAlert('Не удалось создать аккаунт. Попробуйте еще раз.', 'error');
           }
