@@ -22,7 +22,7 @@
   <!-- Supabase JS Client -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <link rel="stylesheet" href="styles.css?v=78">
+  <link rel="stylesheet" href="styles.css?v=79">
 </head>
 <body class="product-page-body">
 
@@ -158,8 +158,9 @@
       <div class="footer-col">
         <h4 class="footer-heading gothic-text" data-i18n="footer_info_title">Информация</h4>
         <ul class="footer-links">
-          <li><a href="#" data-i18n="footer_shipping">Оплата и доставка</a></li>
-          <li><a href="#" data-i18n="footer_returns">Возврат и обмен</a></li>
+          <li><a href="#" class="info-modal-trigger" data-info="shipping" data-i18n="footer_shipping">Оплата и доставка</a></li>
+          <li><a href="#" class="info-modal-trigger" data-info="returns" data-i18n="footer_returns">Возврат и обмен</a></li>
+          <li><a href="#" class="info-modal-trigger" data-info="privacy" data-i18n="footer_privacy">Политика конфиденциальности</a></li>
         </ul>
       </div>
     </div>
@@ -697,12 +698,38 @@
     </div>
   </div>
 
+  <!-- Information Policy & Shipping Modal -->
+  <div class="checkout-modal-overlay" id="infoModalOverlay" role="dialog" aria-modal="true" aria-labelledby="infoModalTitle">
+    <div class="checkout-modal info-modal">
+      <div class="checkout-header info-modal-header">
+        <div class="checkout-title-wrap">
+          <i class="fa-solid fa-circle-info checkout-icon" id="infoModalIcon"></i>
+          <h2 class="checkout-title gothic-text" id="infoModalTitle">Информация</h2>
+        </div>
+        <button class="checkout-close" id="infoModalClose" aria-label="Закрыть">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="info-modal-body" id="infoModalBody">
+        <!-- Injected dynamically via JS -->
+      </div>
+
+      <div class="info-modal-footer">
+        <a href="https://t.me/r8iltmanager" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-block" style="gap:10px;">
+          <i class="fa-brands fa-telegram"></i> <span data-i18n="info_modal_support_btn">Связаться с поддержкой</span>
+        </a>
+        <button type="button" class="btn btn-primary btn-block" id="infoModalOkBtn" data-i18n="info_modal_close_btn">Понятно</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Floating Bottom-Right Quick Cart Button -->
   <button class="floating-cart-btn" id="floatingCartBtn" aria-label="Открыть корзину" title="Корзина">
     <i class="fa-solid fa-bag-shopping"></i>
     <span class="floating-cart-badge" id="floatingCartCount">0</span>
   </button>
 
-  <script src="app.js?v=78"></script>
+  <script src="app.js?v=79"></script>
 </body>
 </html>
