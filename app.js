@@ -84,7 +84,27 @@ const translations = {
     feature_returns: "Обмен и возврат",
     toast_unique_item: "Товар в единственном экземпляре и уже добавлен в корзину!",
     unique_badge: "1 шт. (Эксклюзив)",
-    unique_in_stock: "В единственном экземпляре"
+    unique_in_stock: "В единственном экземпляре",
+    checkout_modal_title: "Оформление заказа",
+    checkout_order_items: "Товары в заказе:",
+    checkout_label_country: "Страна назначения *",
+    checkout_label_region: "Штат / Регион / Область *",
+    checkout_label_zip: "Почтовый индекс *",
+    checkout_label_city: "Населенный пункт (Город / Поселок) *",
+    checkout_label_phone: "Мобильный номер местного оператора *",
+    checkout_label_name: "ФИО получателя (латиницей) *",
+    checkout_label_email: "Email (на Gmail) *",
+    checkout_label_post_office: "Адрес и номер отделения почты *",
+    checkout_label_address: "Адрес фактического проживания *",
+    checkout_security_note: "Гарантия подлинности и быстрая отправка в день заказа.",
+    checkout_btn_submit: "Подтвердить и отправить заказ",
+    order_success_title: "Заказ успешно оформлен!",
+    order_success_desc: "Данные для отправки приняты. Мы забронировали товар за вами. Для моментального подтверждения и получения трек-номера напишите в Telegram.",
+    order_success_tg: "Связаться в Telegram для подтверждения",
+    order_success_close: "Вернуться в магазин",
+    validation_error_all_fields: "Пожалуйста, заполните все обязательные поля!",
+    validation_error_gmail: "Пожалуйста, укажите корректный адрес Gmail (например, yourname@gmail.com)!",
+    validation_error_phone: "Пожалуйста, укажите корректный номер телефона!"
   },
   en: {
     nav_catalog: "Catalog",
@@ -163,7 +183,27 @@ const translations = {
     feature_returns: "Exchange & Return",
     toast_unique_item: "This item is unique (only 1 in stock) and already in your cart!",
     unique_badge: "1 pc. (Unique)",
-    unique_in_stock: "Unique Piece (1 in stock)"
+    unique_in_stock: "Unique Piece (1 in stock)",
+    checkout_modal_title: "Checkout Order",
+    checkout_order_items: "Order items:",
+    checkout_label_country: "Destination Country *",
+    checkout_label_region: "State / Region / Province *",
+    checkout_label_zip: "Postal / ZIP Code *",
+    checkout_label_city: "City / Town / Settlement *",
+    checkout_label_phone: "Local Mobile Phone Number *",
+    checkout_label_name: "Full Name (Latin characters) *",
+    checkout_label_email: "Email (Gmail) *",
+    checkout_label_post_office: "Post Office Address & Branch Number *",
+    checkout_label_address: "Residential Address *",
+    checkout_security_note: "Authenticity guaranteed. Dispatch on order day.",
+    checkout_btn_submit: "Confirm and Place Order",
+    order_success_title: "Order Placed Successfully!",
+    order_success_desc: "Your shipping details have been received. We reserved the item for you. Message us on Telegram for instant tracking confirmation.",
+    order_success_tg: "Contact via Telegram to Confirm",
+    order_success_close: "Back to Store",
+    validation_error_all_fields: "Please fill in all required fields!",
+    validation_error_gmail: "Please enter a valid Gmail address (e.g. yourname@gmail.com)!",
+    validation_error_phone: "Please enter a valid phone number!"
   },
   de: {
     nav_catalog: "Katalog",
@@ -242,7 +282,27 @@ const translations = {
     feature_returns: "Umtausch & Rückgabe",
     toast_unique_item: "Dieser Artikel ist ein Einzelstück und bereits im Warenkorb!",
     unique_badge: "1 Stk. (Einzelstück)",
-    unique_in_stock: "Einzelstück (1 Stk. auf Lager)"
+    unique_in_stock: "Einzelstück (1 Stk. auf Lager)",
+    checkout_modal_title: "Bestellung aufgeben",
+    checkout_order_items: "Artikel in der Bestellung:",
+    checkout_label_country: "Zielland *",
+    checkout_label_region: "Bundesland / Region / Kanton *",
+    checkout_label_zip: "Postleitzahl (PLZ) *",
+    checkout_label_city: "Ort / Stadt *",
+    checkout_label_phone: "Mobilfunknummer (lokaler Anbieter) *",
+    checkout_label_name: "Vollständiger Name (lateinische Schrift) *",
+    checkout_label_email: "E-Mail (Gmail) *",
+    checkout_label_post_office: "Adresse und Nummer der Postfiliale / Packstation *",
+    checkout_label_address: "Tatsächliche Wohnadresse *",
+    checkout_security_note: "Echtheitsgarantie und schneller Versand am Bestelltag.",
+    checkout_btn_submit: "Bestellung bestätigen und absenden",
+    order_success_title: "Bestellung erfolgreich aufgegeben!",
+    order_success_desc: "Ihre Versanddaten wurden erfasst. Der Artikel ist für Sie reserviert. Schreiben Sie uns auf Telegram für eine sofortige Bestätigung.",
+    order_success_tg: "Über Telegram zur Bestätigung kontaktieren",
+    order_success_close: "Zurück zum Store",
+    validation_error_all_fields: "Bitte füllen Sie alle Pflichtfelder aus!",
+    validation_error_gmail: "Bitte geben Sie eine gültige Gmail-Adresse an (z. B. yourname@gmail.com)!",
+    validation_error_phone: "Bitte geben Sie eine gültige Telefonnummer ein!"
   }
 };
 
@@ -811,6 +871,53 @@ const toastText = document.getElementById('toastText');
 const checkoutBtn = document.getElementById('checkoutBtn');
 const dropNotifyBtn = document.getElementById('dropNotifyBtn');
 
+// Checkout Countries List (EU + USA + Canada)
+const checkoutCountries = [
+  { code: "DE", ru: "Германия (Deutschland)", en: "Germany", de: "Deutschland" },
+  { code: "AT", ru: "Австрия (Österreich)", en: "Austria", de: "Österreich" },
+  { code: "CH", ru: "Швейцария (Schweiz)", en: "Switzerland", de: "Schweiz" },
+  { code: "PL", ru: "Польша (Polska)", en: "Poland", de: "Polen" },
+  { code: "UA", ru: "Украина (Україна)", en: "Ukraine", de: "Ukraine" },
+  { code: "US", ru: "США (USA)", en: "United States (USA)", de: "Vereinigte Staaten (USA)" },
+  { code: "CA", ru: "Канада (Canada)", en: "Canada", de: "Kanada" },
+  { code: "FR", ru: "Франция (France)", en: "France", de: "Frankreich" },
+  { code: "IT", ru: "Италия (Italia)", en: "Italy", de: "Italien" },
+  { code: "ES", ru: "Испания (España)", en: "Spain", de: "Spanien" },
+  { code: "NL", ru: "Нидерланды (Nederland)", en: "Netherlands", de: "Niederlande" },
+  { code: "BE", ru: "Бельгия (België)", en: "Belgium", de: "Belgien" },
+  { code: "CZ", ru: "Чехия (Česko)", en: "Czech Republic", de: "Tschechien" },
+  { code: "SK", ru: "Словакия (Slovensko)", en: "Slovakia", de: "Slowakei" },
+  { code: "PT", ru: "Португалия (Portugal)", en: "Portugal", de: "Portugal" },
+  { code: "SE", ru: "Швеция (Sverige)", en: "Sweden", de: "Schweden" },
+  { code: "NO", ru: "Норвегия (Norge)", en: "Norway", de: "Norwegen" },
+  { code: "DK", ru: "Дания (Danmark)", en: "Denmark", de: "Dänemark" },
+  { code: "FI", ru: "Финляндия (Suomi)", en: "Finland", de: "Finnland" },
+  { code: "GR", ru: "Греция (Ελλάδα)", en: "Greece", de: "Griechenland" },
+  { code: "IE", ru: "Ирландия (Ireland)", en: "Ireland", de: "Irland" },
+  { code: "HU", ru: "Венгрия (Magyarország)", en: "Hungary", de: "Ungarn" },
+  { code: "RO", ru: "Румыния (România)", en: "Romania", de: "Rumänien" },
+  { code: "BG", ru: "Болгария (България)", en: "Bulgaria", de: "Bulgarien" },
+  { code: "HR", ru: "Хорватия (Hrvatska)", en: "Croatia", de: "Kroatien" },
+  { code: "LT", ru: "Литва (Lietuva)", en: "Lithuania", de: "Litauen" },
+  { code: "LV", ru: "Латвия (Latvija)", en: "Latvia", de: "Lettland" },
+  { code: "EE", ru: "Эстония (Eesti)", en: "Estonia", de: "Estland" },
+  { code: "SI", ru: "Словения (Slovenija)", en: "Slovenia", de: "Slowenien" },
+  { code: "CY", ru: "Кипр (Cyprus)", en: "Cyprus", de: "Zypern" },
+  { code: "LU", ru: "Люксембург (Luxembourg)", en: "Luxembourg", de: "Luxemburg" }
+];
+
+// Checkout Modal Elements
+const checkoutOverlay = document.getElementById('checkoutOverlay');
+const checkoutClose = document.getElementById('checkoutClose');
+const checkoutForm = document.getElementById('checkoutForm');
+const checkoutCountry = document.getElementById('checkoutCountry');
+const checkoutSummaryTotal = document.getElementById('checkoutSummaryTotal');
+const checkoutItemsPreview = document.getElementById('checkoutItemsPreview');
+
+const orderSuccessOverlay = document.getElementById('orderSuccessOverlay');
+const successOrderNumber = document.getElementById('successOrderNumber');
+const successCloseBtn = document.getElementById('successCloseBtn');
+
 // Language Selector Elements
 const langSelector = document.getElementById('langSelector');
 const langCurrentBtn = document.getElementById('langCurrentBtn');
@@ -844,6 +951,8 @@ document.addEventListener('DOMContentLoaded', () => {
   updateCartUI();
   initFilters();
   initCartEvents();
+  initCheckoutEvents();
+  populateCheckoutCountries();
   initReviewsCarousel();
   initLightboxEvents();
   initQuickViewEvents();
@@ -993,6 +1102,7 @@ function setLanguage(lang) {
   // Re-render product grid, single product and cart
   renderProducts();
   updateCartUI();
+  populateCheckoutCountries();
   initSingleProductPage();
 }
 
@@ -1321,17 +1431,9 @@ function initCartEvents() {
   });
 
   if (checkoutBtn) {
-    checkoutBtn.addEventListener('click', () => {
-      const t = translations[currentLang];
-      if (cart.length === 0) {
-        alert(t.alert_checkout_empty);
-        return;
-      }
-      alert(t.alert_checkout_success);
-      cart = [];
-      saveCart();
-      updateCartUI();
-      closeCart();
+    checkoutBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      openCheckoutModal();
     });
   }
 
@@ -1339,6 +1441,174 @@ function initCartEvents() {
     dropNotifyBtn.addEventListener('click', () => {
       const t = translations[currentLang];
       alert(t.alert_notify_success);
+    });
+  }
+}
+
+// Populate Country Options in Select Dropdown
+function populateCheckoutCountries() {
+  if (!checkoutCountry) return;
+  const currentVal = checkoutCountry.value;
+  checkoutCountry.innerHTML = checkoutCountries.map(c => {
+    const label = c[currentLang] || c.en;
+    return `<option value="${c.code}" ${c.code === (currentVal || 'DE') ? 'selected' : ''}>${label}</option>`;
+  }).join('');
+}
+
+// Open Checkout Modal
+function openCheckoutModal() {
+  if (!checkoutOverlay) return;
+  const t = translations[currentLang];
+  if (cart.length === 0) {
+    showToast(t.alert_checkout_empty);
+    return;
+  }
+
+  closeCart();
+  populateCheckoutCountries();
+
+  // Render items preview
+  const totalPrice = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
+  if (checkoutSummaryTotal) checkoutSummaryTotal.textContent = `${totalPrice.toLocaleString()} €`;
+
+  if (checkoutItemsPreview) {
+    checkoutItemsPreview.innerHTML = cart.map(item => {
+      const product = products.find(p => p.id === item.id);
+      const itemName = product ? (product.names[currentLang] || product.names['en']) : item.brandName;
+      const itemImg = (product && Array.isArray(product.images) && product.images.length > 0) ? product.images[0] : ((product && product.image) || item.image);
+      const displaySize = product ? (product.size ? (Array.isArray(product.size) ? product.size.join('/') : product.size) : '') : '';
+
+      return `
+        <div class="checkout-mini-item">
+          ${itemImg ? `<img src="${itemImg}" alt="${itemName}" class="checkout-mini-img">` : ''}
+          <div class="checkout-mini-info">
+            <span class="checkout-mini-name" title="${itemName}">${itemName}</span>
+            <span class="checkout-mini-price">${item.price} € ${displaySize ? `(${displaySize})` : ''}</span>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  checkoutOverlay.classList.add('active');
+  document.body.classList.add('modal-open');
+}
+
+// Close Checkout Modal
+function closeCheckoutModal() {
+  if (checkoutOverlay) checkoutOverlay.classList.remove('active');
+  document.body.classList.remove('modal-open');
+}
+
+// Initialize Checkout Form Events
+function initCheckoutEvents() {
+  if (checkoutClose) {
+    checkoutClose.addEventListener('click', closeCheckoutModal);
+  }
+
+  if (checkoutOverlay) {
+    checkoutOverlay.addEventListener('click', (e) => {
+      if (e.target === checkoutOverlay) {
+        closeCheckoutModal();
+      }
+    });
+  }
+
+  if (successCloseBtn) {
+    successCloseBtn.addEventListener('click', () => {
+      if (orderSuccessOverlay) orderSuccessOverlay.classList.remove('active');
+      document.body.classList.remove('modal-open');
+    });
+  }
+
+  if (orderSuccessOverlay) {
+    orderSuccessOverlay.addEventListener('click', (e) => {
+      if (e.target === orderSuccessOverlay) {
+        orderSuccessOverlay.classList.remove('active');
+        document.body.classList.remove('modal-open');
+      }
+    });
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      if (checkoutOverlay && checkoutOverlay.classList.contains('active')) {
+        closeCheckoutModal();
+      }
+      if (orderSuccessOverlay && orderSuccessOverlay.classList.contains('active')) {
+        orderSuccessOverlay.classList.remove('active');
+        document.body.classList.remove('modal-open');
+      }
+    }
+  });
+
+  if (checkoutForm) {
+    checkoutForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const t = translations[currentLang];
+
+      const country = document.getElementById('checkoutCountry')?.value?.trim();
+      const region = document.getElementById('checkoutRegion')?.value?.trim();
+      const zip = document.getElementById('checkoutZip')?.value?.trim();
+      const city = document.getElementById('checkoutCity')?.value?.trim();
+      const phone = document.getElementById('checkoutPhone')?.value?.trim();
+      const name = document.getElementById('checkoutName')?.value?.trim();
+      const email = document.getElementById('checkoutEmail')?.value?.trim();
+      const postOffice = document.getElementById('checkoutPostOffice')?.value?.trim();
+      const address = document.getElementById('checkoutAddress')?.value?.trim();
+
+      if (!country || !region || !zip || !city || !phone || !name || !email || !postOffice || !address) {
+        showToast(t.validation_error_all_fields);
+        return;
+      }
+
+      // Basic Gmail validation check
+      if (!email.includes('@') || !email.toLowerCase().endsWith('gmail.com')) {
+        showToast(t.validation_error_gmail);
+        return;
+      }
+
+      // Generate Order ID
+      const orderId = `R8-${Math.floor(10000 + Math.random() * 90000)}`;
+
+      const orderData = {
+        orderId,
+        date: new Date().toISOString(),
+        items: [...cart],
+        total: cart.reduce((acc, item) => acc + (item.price * item.qty), 0),
+        shipping: {
+          country,
+          region,
+          zip,
+          city,
+          phone,
+          name,
+          email,
+          postOffice,
+          address
+        }
+      };
+
+      // Save order to LocalStorage
+      const pastOrders = JSON.parse(localStorage.getItem('r8ilt_orders')) || [];
+      pastOrders.unshift(orderData);
+      localStorage.setItem('r8ilt_orders', JSON.stringify(pastOrders));
+
+      // Clear cart
+      cart = [];
+      saveCart();
+      updateCartUI();
+
+      // Close checkout modal & open success modal
+      closeCheckoutModal();
+
+      if (successOrderNumber) successOrderNumber.textContent = `№ ${orderId}`;
+      if (orderSuccessOverlay) {
+        orderSuccessOverlay.classList.add('active');
+        document.body.classList.add('modal-open');
+      }
+
+      checkoutForm.reset();
     });
   }
 }
@@ -1418,11 +1688,17 @@ function openQuickView(productId) {
     </div>
   `;
 
-  if (quickViewOverlay) quickViewOverlay.classList.add('active');
+  if (quickViewOverlay) {
+    quickViewOverlay.classList.add('active');
+    document.body.classList.add('modal-open');
+  }
 }
 
 function closeQuickView() {
-  if (quickViewOverlay) quickViewOverlay.classList.remove('active');
+  if (quickViewOverlay) {
+    quickViewOverlay.classList.remove('active');
+    document.body.classList.remove('modal-open');
+  }
 }
 
 // Customer Reviews Infinite Carousel Logic
@@ -1545,14 +1821,16 @@ function openLightbox(src) {
   if (!photoLightbox || !lightboxImg) return;
   lightboxImg.src = src;
   photoLightbox.classList.add('active');
-  document.body.style.overflow = 'hidden';
+  document.body.classList.add('lightbox-open');
+  document.body.classList.add('modal-open');
 }
 
 function closeLightbox() {
   const photoLightbox = document.getElementById('photoLightbox');
   if (!photoLightbox) return;
   photoLightbox.classList.remove('active');
-  document.body.style.overflow = '';
+  document.body.classList.remove('lightbox-open');
+  document.body.classList.remove('modal-open');
 }
 
 // Customer Review & Product Photo Fullscreen Lightbox Modal
