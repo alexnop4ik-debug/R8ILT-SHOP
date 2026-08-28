@@ -151,6 +151,23 @@ const translations = {
     order_success_final_desc: "Данные для отправки и оплата приняты! Мы забронировали товар за вами. В ближайшее время менеджер свяжется с вами и предоставит трек-номер посылки.",
     order_success_tg: "Связаться в Telegram",
     order_success_tg_receipt: "Связаться с менеджером в Telegram",
+    footer_shipping: "Оплата и доставка",
+    footer_returns: "Возврат и обмен",
+    footer_privacy: "Политика конфиденциальности",
+    info_modal_support_btn: "Связаться с поддержкой",
+    info_modal_close_btn: "Понятно",
+    info_shipping_title: "Доставка и оплата",
+    info_shipping_p1: "<b>Отправка заказов:</b> 1-3 рабочих дня после подтверждения заказа и оплаты.",
+    info_shipping_p2: "<b>Оплата:</b> полная предоплата по банковским реквизитам (Monobank / Revolut) либо безопасная сделка через европейский сервис Vinted.",
+    info_shipping_p3: "<b>Доставка:</b> выполняется через доступные международные и локальные логистические службы с предоставлением трек-номера.",
+    info_returns_title: "Условия возврата и обмена",
+    info_returns_p1: "<b>Возврат возможен только в случае ошибки со стороны магазина</b> (не тот товар, производственный дефект/брак или неправильная комплектация).",
+    info_returns_p2: "<b>Если не подошел размер или товар просто не понравился</b> — возврат и обмен не осуществляются. Пожалуйста, внимательно сверяйте параметры перед покупкой.",
+    info_returns_p3: "<b>Для решения спорных ситуаций</b> и любых вопросов обязательно обращайтесь в поддержку магазина в Telegram.",
+    info_privacy_title: "Политика конфиденциальности",
+    info_privacy_p1: "<b>Сбор информации:</b> мы запрашиваем только контактные данные (ФИО, телефон, email, адрес), необходимые исключительно для отправки и доставки вашего заказа.",
+    info_privacy_p2: "<b>Конфиденциальность:</b> персональные данные клиентов строго защищены, не передаются третьим лицам и не используются для рекламных рассылок.",
+    info_privacy_p3: "<b>Безопасность платежей:</b> все реквизиты и скриншоты чеков обрабатываются в строго конфиденциальном режиме.",
     order_success_close: "Вернуться в магазин",
     validation_error_all_fields: "Пожалуйста, заполните все обязательные поля!",
     validation_error_gmail: "Пожалуйста, укажите корректный адрес Gmail (например, yourname@gmail.com)!",
@@ -303,6 +320,23 @@ const translations = {
     order_success_final_desc: "Shipping details and order have been received! We reserved the item for you. Our manager will provide your parcel tracking number shortly.",
     order_success_tg: "Contact on Telegram",
     order_success_tg_receipt: "Contact Manager on Telegram",
+    footer_shipping: "Shipping & Payment",
+    footer_returns: "Returns & Exchanges",
+    footer_privacy: "Privacy Policy",
+    info_modal_support_btn: "Contact Support",
+    info_modal_close_btn: "Got It",
+    info_shipping_title: "Shipping & Payment",
+    info_shipping_p1: "<b>Order Dispatch:</b> 1-3 business days after payment and order confirmation.",
+    info_shipping_p2: "<b>Payment:</b> 100% prepayment via direct bank transfer (Monobank / Revolut) or secure purchase via Vinted platform.",
+    info_shipping_p3: "<b>Delivery:</b> handled via verified international and local courier services with online parcel tracking.",
+    info_returns_title: "Return & Exchange Terms",
+    info_returns_p1: "<b>Returns are only accepted in case of an error by the store</b> (wrong product sent, factory defect, or incorrect package items).",
+    info_returns_p2: "<b>If the size does not fit or you simply change your mind</b>, returns or exchanges cannot be processed. Please check size measurements carefully.",
+    info_returns_p3: "<b>For dispute resolution or questions</b>, please always contact our customer service on Telegram.",
+    info_privacy_title: "Privacy Policy",
+    info_privacy_p1: "<b>Data Collection:</b> we only collect essential shipping details (name, phone, email, address) strictly required to ship your order.",
+    info_privacy_p2: "<b>Confidentiality:</b> customer personal data is strictly protected, never sold, and never shared with third parties except delivery services.",
+    info_privacy_p3: "<b>Payment Security:</b> financial transactions and payment receipts are processed in a strictly confidential environment.",
     order_success_close: "Back to Store",
     validation_error_all_fields: "Please fill in all required fields!",
     validation_error_gmail: "Please enter a valid Gmail address (e.g. yourname@gmail.com)!",
@@ -455,6 +489,23 @@ const translations = {
     order_success_final_desc: "Ihre Versanddaten und die Bestellung wurden erfasst! Der Artikel ist für Sie reserviert. Unser Manager wird Ihnen in Kürze die Sendungsnummer mitteilen.",
     order_success_tg: "Auf Telegram kontaktieren",
     order_success_tg_receipt: "Manager auf Telegram kontaktieren",
+    footer_shipping: "Lieferung & Bezahlung",
+    footer_returns: "Rückgabe & Umtausch",
+    footer_privacy: "Datenschutzerklärung",
+    info_modal_support_btn: "Support kontaktieren",
+    info_modal_close_btn: "Verstanden",
+    info_shipping_title: "Lieferung & Bezahlung",
+    info_shipping_p1: "<b>Versand der Bestellungen:</b> 1-3 Werktage nach Bestätigung und vollständiger Bezahlung.",
+    info_shipping_p2: "<b>Zahlung:</b> vollständige Vorauszahlung per Banküberweisung (Monobank / Revolut) oder sicherer Kauf über die Vinted-Plattform.",
+    info_shipping_p3: "<b>Lieferung:</b> erfolgt über zuverlässige internationale und lokale Logistikdienstleister mit Online-Sendungsverfolgung.",
+    info_returns_title: "Rückgabe- & Umtauschbedingungen",
+    info_returns_p1: "<b>Rückgaben sind nur bei Fehlern seitens des Shops möglich</b> (falscher Artikel geliefert, Fabrikationsfehler oder unvollständige Lieferung).",
+    info_returns_p2: "<b>Wenn die Größe nicht passt oder der Artikel nicht gefällt</b>, ist eine Rückgabe oder ein Umtausch ausgeschlossen. Bitte Maße vor dem Kauf genau prüfen.",
+    info_returns_p3: "<b>Bei Streitfällen oder Fragen</b> wenden Sie sich bitte jederzeit an unseren Support im Telegram.",
+    info_privacy_title: "Datenschutzerklärung",
+    info_privacy_p1: "<b>Datenerfassung:</b> Wir erfassen ausschließlich die für den Versand erforderlichen Kontaktdaten (Name, Telefon, E-Mail, Lieferadresse).",
+    info_privacy_p2: "<b>Datenschutz:</b> Ihre persönlichen Kundendaten werden streng vertraulich behandelt und niemals an unbefugte Dritte weitergegeben.",
+    info_privacy_p3: "<b>Zahlungssicherheit:</b> Alle Zahlungsdaten und Belegübertragungen werden verschlüsselt und sicher verarbeitet.",
     order_success_close: "Zurück zum Store",
     validation_error_all_fields: "Bitte füllen Sie alle Pflichtfelder aus!",
     validation_error_gmail: "Bitte geben Sie eine gültige Gmail-Adresse an (z. B. yourname@gmail.com)!",
@@ -1178,6 +1229,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initScrollSpy();
   initSingleProductPage();
   initAuthEvents();
+  initInfoModals();
 });
 
 // Dynamic Navigation ScrollSpy (Active Underline Highlight on Scroll - rAF Throttled)
@@ -3349,4 +3401,108 @@ function initSingleProductPage() {
       addToCart(product.id);
     });
   }
+}
+
+// ==============================================================================
+// Information Policy Modals (Shipping, Returns, Privacy)
+// ==============================================================================
+
+function openInfoModal(type) {
+  const overlay = document.getElementById('infoModalOverlay');
+  const icon = document.getElementById('infoModalIcon');
+  const title = document.getElementById('infoModalTitle');
+  const body = document.getElementById('infoModalBody');
+  if (!overlay || !body) return;
+
+  const t = translations[currentLang] || translations['ru'];
+
+  if (type === 'shipping') {
+    if (icon) icon.className = 'fa-solid fa-truck-fast checkout-icon';
+    if (title) title.textContent = t.info_shipping_title || 'Доставка и оплата';
+    body.innerHTML = `
+      <div class="info-card-block">
+        <i class="fa-solid fa-calendar-check"></i>
+        <div class="info-card-text">${t.info_shipping_p1}</div>
+      </div>
+      <div class="info-card-block">
+        <i class="fa-solid fa-credit-card"></i>
+        <div class="info-card-text">${t.info_shipping_p2}</div>
+      </div>
+      <div class="info-card-block">
+        <i class="fa-solid fa-plane-departure"></i>
+        <div class="info-card-text">${t.info_shipping_p3}</div>
+      </div>
+    `;
+  } else if (type === 'returns') {
+    if (icon) icon.className = 'fa-solid fa-rotate-left checkout-icon';
+    if (title) title.textContent = t.info_returns_title || 'Условия возврата и обмена';
+    body.innerHTML = `
+      <div class="info-card-block">
+        <i class="fa-solid fa-circle-exclamation"></i>
+        <div class="info-card-text">${t.info_returns_p1}</div>
+      </div>
+      <div class="info-card-block">
+        <i class="fa-solid fa-ban"></i>
+        <div class="info-card-text">${t.info_returns_p2}</div>
+      </div>
+      <div class="info-card-block">
+        <i class="fa-solid fa-headset"></i>
+        <div class="info-card-text">${t.info_returns_p3}</div>
+      </div>
+    `;
+  } else if (type === 'privacy') {
+    if (icon) icon.className = 'fa-solid fa-shield-halved checkout-icon';
+    if (title) title.textContent = t.info_privacy_title || 'Политика конфиденциальности';
+    body.innerHTML = `
+      <div class="info-card-block">
+        <i class="fa-solid fa-address-card"></i>
+        <div class="info-card-text">${t.info_privacy_p1}</div>
+      </div>
+      <div class="info-card-block">
+        <i class="fa-solid fa-lock"></i>
+        <div class="info-card-text">${t.info_privacy_p2}</div>
+      </div>
+      <div class="info-card-block">
+        <i class="fa-solid fa-shield-check"></i>
+        <div class="info-card-text">${t.info_privacy_p3}</div>
+      </div>
+    `;
+  }
+
+  overlay.classList.add('active');
+  document.body.classList.add('modal-open');
+}
+
+function closeInfoModal() {
+  const overlay = document.getElementById('infoModalOverlay');
+  if (overlay) overlay.classList.remove('active');
+  document.body.classList.remove('modal-open');
+}
+
+function initInfoModals() {
+  document.querySelectorAll('.info-modal-trigger').forEach(trigger => {
+    trigger.addEventListener('click', (e) => {
+      e.preventDefault();
+      const type = trigger.dataset.info || 'shipping';
+      openInfoModal(type);
+    });
+  });
+
+  const infoModalClose = document.getElementById('infoModalClose');
+  const infoModalOkBtn = document.getElementById('infoModalOkBtn');
+  const infoModalOverlay = document.getElementById('infoModalOverlay');
+
+  if (infoModalClose) infoModalClose.addEventListener('click', closeInfoModal);
+  if (infoModalOkBtn) infoModalOkBtn.addEventListener('click', closeInfoModal);
+  if (infoModalOverlay) {
+    infoModalOverlay.addEventListener('click', (e) => {
+      if (e.target === infoModalOverlay) closeInfoModal();
+    });
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && infoModalOverlay && infoModalOverlay.classList.contains('active')) {
+      closeInfoModal();
+    }
+  });
 }
