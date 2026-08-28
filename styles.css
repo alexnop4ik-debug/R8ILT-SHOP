@@ -591,27 +591,7 @@ textarea:focus-visible {
   z-index: 5;
 }
 
-.menu-toggle {
-  display: none;
-  font-size: 1.25rem;
-  color: var(--text-primary);
-  width: 40px;
-  height: 40px;
-  align-items: center;
-  justify-content: center;
-  border-radius: var(--radius-sm);
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  transition: all var(--transition-fast);
-  flex-shrink: 0;
-  box-sizing: border-box;
-}
 
-.menu-toggle:hover,
-.menu-toggle:active {
-  color: var(--color-bright-red);
-  border-color: var(--color-crimson);
-}
 
 /* Buttons */
 .btn {
@@ -2849,6 +2829,405 @@ body.cart-open {
   }
 }
 
+/* ==========================================================================
+   Supabase Auth & Personal Cabinet (Order History)
+   ========================================================================== */
+
+/* Header Auth & Account Buttons */
+.user-auth-wrap {
+  display: flex;
+  align-items: center;
+}
+
+.auth-btn {
+  /* Inherits .action-btn (44x44px square, centered icon matching cart-btn) */
+  font-size: 1.15rem;
+}
+
+.account-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(217, 4, 41, 0.12);
+  border: 1px solid rgba(217, 4, 41, 0.35);
+  border-radius: var(--radius-sm);
+  padding: 0 14px;
+  height: 44px;
+  color: #ff99aa;
+  font-family: var(--font-body);
+  font-size: 0.84rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  box-sizing: border-box;
+}
+
+.account-btn:hover {
+  background: rgba(217, 4, 41, 0.25);
+  border-color: var(--color-crimson);
+  color: #fff;
+  box-shadow: 0 0 16px rgba(217, 4, 41, 0.35);
+}
+
+.account-btn i {
+  color: var(--color-bright-red);
+  font-size: 1rem;
+}
+
+.account-btn-label {
+  max-width: 120px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Auth Modal */
+.auth-modal {
+  max-width: 440px;
+}
+
+.auth-modal-body {
+  padding: 22px 24px 28px;
+}
+
+.auth-tabs {
+  display: flex;
+  gap: 8px;
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 4px;
+  margin-bottom: 20px;
+}
+
+.auth-tab {
+  flex: 1;
+  padding: 10px;
+  border-radius: 6px;
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-family: var(--font-body);
+  font-size: 0.86rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.auth-tab.active {
+  background: var(--color-crimson);
+  color: #fff;
+  box-shadow: 0 4px 15px rgba(217, 4, 41, 0.4);
+}
+
+.auth-tab:hover:not(.active) {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.auth-alert {
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-size: 0.84rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  animation: fadeIn 0.3s ease;
+}
+
+.auth-alert.error {
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  color: #fca5a5;
+}
+
+.auth-alert.success {
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  color: #6ee7b7;
+}
+
+.auth-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.auth-input-icon {
+  position: absolute;
+  left: 14px;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  pointer-events: none;
+}
+
+.auth-input-wrapper input {
+  width: 100%;
+  padding: 12px 42px 12px 40px;
+  background: rgba(0, 0, 0, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-sm);
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  outline: none;
+  transition: all var(--transition-fast);
+}
+
+.auth-input-wrapper input:focus {
+  border-color: var(--color-crimson);
+  box-shadow: 0 0 15px rgba(217, 4, 41, 0.3);
+  background: rgba(0, 0, 0, 0.75);
+}
+
+.auth-toggle-pwd {
+  position: absolute;
+  right: 12px;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 4px;
+  transition: color var(--transition-fast);
+}
+
+.auth-toggle-pwd:hover {
+  color: #fff;
+}
+
+.auth-submit-btn {
+  margin-top: 20px;
+  gap: 10px;
+}
+
+/* Account Modal & Order History */
+.account-modal {
+  max-width: 650px;
+}
+
+.account-modal-body {
+  padding: 24px 26px 30px;
+}
+
+.account-profile-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-sm);
+  padding: 16px 20px;
+  margin-bottom: 24px;
+}
+
+.account-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(217, 4, 41, 0.3) 0%, rgba(138, 3, 26, 0.6) 100%);
+  border: 1px solid rgba(217, 4, 41, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.account-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  overflow: hidden;
+}
+
+.account-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #ff6b82;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.account-email {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0;
+}
+
+.btn-logout {
+  padding: 8px 14px;
+  border-radius: 6px;
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #f87171;
+  font-size: 0.82rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.btn-logout:hover {
+  background: #ef4444;
+  color: #fff;
+}
+
+.account-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.account-section-header h4 {
+  font-size: 1rem;
+  color: #fff;
+  letter-spacing: 0.06em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+}
+
+.orders-count-badge {
+  font-size: 0.76rem;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  background: rgba(255, 255, 255, 0.05);
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+.account-orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 380px;
+  overflow-y: auto;
+  padding-right: 4px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-crimson) rgba(255, 255, 255, 0.05);
+}
+
+.orders-loading, .orders-empty {
+  text-align: center;
+  padding: 30px 20px;
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.orders-empty i {
+  font-size: 2.5rem;
+  color: rgba(217, 4, 41, 0.3);
+}
+
+.order-card {
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 14px 16px;
+  transition: all var(--transition-fast);
+}
+
+.order-card:hover {
+  border-color: rgba(217, 4, 41, 0.4);
+  background: rgba(0, 0, 0, 0.65);
+}
+
+.order-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.order-card-id {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.92rem;
+  color: #fff;
+}
+
+.order-status-tag {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.order-status-tag.created, .order-status-tag.pending {
+  background: rgba(245, 158, 11, 0.15);
+  border: 1px solid rgba(245, 158, 11, 0.35);
+  color: #fbbf24;
+}
+
+.order-status-tag.paid, .order-status-tag.completed {
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  color: #34d399;
+}
+
+.order-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.order-item-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.84rem;
+  color: var(--text-secondary);
+}
+
+.order-item-name {
+  color: #eee;
+  font-weight: 600;
+}
+
+.order-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  padding-top: 8px;
+  border-top: 1px dashed rgba(255, 255, 255, 0.08);
+}
+
+.order-card-total {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--color-bright-red);
+}
+
 /* Customer Photo Fullscreen Lightbox Modal */
 .photo-lightbox {
   position: fixed;
@@ -3070,14 +3449,7 @@ body.cart-open {
     padding: 14px 0;
   }
 
-  .menu-toggle {
-    display: inline-flex;
-    width: 42px;
-    height: 42px;
-    font-size: 1.25rem;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-  }
+
 
   .logo {
     font-size: 1.35rem;
