@@ -1085,6 +1085,7 @@ const checkoutCountries = [
   { code: "CH", ru: "Швейцария (Schweiz)", en: "Switzerland", de: "Schweiz" },
   { code: "PL", ru: "Польша (Polska)", en: "Poland", de: "Polen" },
   { code: "UA", ru: "Украина (Україна)", en: "Ukraine", de: "Ukraine" },
+  { code: "GE", ru: "Грузия (საქართველო)", en: "Georgia", de: "Georgien" },
   { code: "GB", ru: "Великобритания (Great Britain / UK)", en: "United Kingdom (UK)", de: "Großbritannien (UK)" },
   { code: "US", ru: "США (USA)", en: "United States (USA)", de: "Vereinigte Staaten (USA)" },
   { code: "CA", ru: "Канада (Canada)", en: "Canada", de: "Kanada" },
@@ -1733,7 +1734,8 @@ const countryShippingRates = {
   'CY': 24,    // Кипр - 24€
   'NL': 15,    // Нидерланды - 15€
   'ES': 15,    // Испания - 15€
-  'CZ': 15     // Чехия - 15€
+  'CZ': 15,    // Чехия - 15€
+  'GE': 26     // Грузия - 26€
 };
 const DEFAULT_SHIPPING_RATE = 19; // Остальные страны - 19€
 
