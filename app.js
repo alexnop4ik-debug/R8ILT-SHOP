@@ -2182,10 +2182,17 @@ function initCheckoutEvents() {
       }
 
       // Save order to Supabase DB (if available)
-      if (supabaseClient) {
+      const sbClient = await getSupabase();
+      let authUser = currentUser;
+      if (sbClient && !authUser) {
         try {
-          const authUser = currentUser || (await supabaseClient.auth.getUser())?.data?.user;
-          const { error: dbErr } = await supabaseClient.from('orders').insert({
+          authUser = (await sbClient.auth.getUser())?.data?.user;
+        } catch (e) {}
+      }
+
+      if (sbClient) {
+        try {
+          const { error: dbErr } = await sbClient.from('orders').insert({
             id: pendingOrderData.orderId,
             user_id: authUser ? authUser.id : null,
             customer_name: pendingOrderData.shipping.name,
@@ -2207,17 +2214,20 @@ function initCheckoutEvents() {
           if (dbErr) {
             console.warn('Supabase DB Insert Notice:', dbErr.message);
           } else {
-            console.log('Order successfully synced to Supabase DB!');
+            console.log('Order successfully synced to Supabase DB for user:', authUser ? authUser.id : 'guest');
           }
         } catch (dbError) {
           console.warn('Supabase DB Sync Exception:', dbError);
         }
       }
 
-      // Save order to LocalStorage backup
-      const pastOrders = JSON.parse(localStorage.getItem('r8ilt_orders')) || [];
-      pastOrders.unshift(pendingOrderData);
-      localStorage.setItem('r8ilt_orders', JSON.stringify(pastOrders));
+      // Save order to LocalStorage strictly for this authenticated user (if logged in)
+      if (authUser && authUser.id) {
+        const userOrdersKey = `r8ilt_orders_${authUser.id}`;
+        const pastOrders = JSON.parse(localStorage.getItem(userOrdersKey)) || [];
+        pastOrders.unshift(pendingOrderData);
+        localStorage.setItem(userOrdersKey, JSON.stringify(pastOrders));
+      }
 
       if (successOrderNumber) {
         successOrderNumber.textContent = `№ ${pendingOrderData.orderId}`;
@@ -2354,11 +2364,12 @@ async function loadUserOrders(user) {
   `;
 
   let orders = [];
+  const sb = await getSupabase();
 
-  // 1. Try fetching from Supabase DB first
-  if (supabaseClient && user) {
+  // 1. Fetch strictly for this user from Supabase DB
+  if (sb && user && user.id) {
     try {
-      const { data, error } = await supabaseClient
+      const { data, error } = await sb
         .from('orders')
         .select('*')
         .eq('user_id', user.id)
@@ -2366,15 +2377,18 @@ async function loadUserOrders(user) {
 
       if (!error && Array.isArray(data)) {
         orders = data;
+      } else if (error) {
+        console.warn('Supabase order fetch notice:', error);
       }
     } catch (e) {
       console.warn('Supabase order fetch notice:', e);
     }
   }
 
-  // 2. Fallback to LocalStorage orders if no DB records found
-  if (orders.length === 0) {
-    const local = JSON.parse(localStorage.getItem('r8ilt_orders')) || [];
+  // 2. Only check local storage scoped to this user ID
+  if (orders.length === 0 && user && user.id) {
+    const userOrdersKey = `r8ilt_orders_${user.id}`;
+    const local = JSON.parse(localStorage.getItem(userOrdersKey)) || [];
     orders = local;
   }
 
