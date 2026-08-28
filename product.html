@@ -22,7 +22,7 @@
   <!-- Supabase JS Client -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <link rel="stylesheet" href="styles.css?v=77">
+  <link rel="stylesheet" href="styles.css?v=78">
 </head>
 <body class="product-page-body">
 
@@ -410,16 +410,37 @@
             </div>
 
             <!-- Revolut -->
-            <div class="requisite-card">
+            <div class="requisite-card revolut-card">
               <div class="requisite-card-header">
                 <div class="requisite-bank-tag revolut-tag">
-                  <i class="fa-solid fa-building-columns"></i> <span data-i18n="payment_revolut_title">Revolut (IBAN / SEPA)</span>
+                  <i class="fa-solid fa-building-columns"></i> <span data-i18n="payment_revolut_title">Revolut (IBAN / Card / EUR)</span>
                 </div>
-                <button type="button" class="btn-copy-req" onclick="copyRequisite('DE02100101787231708750')" title="Скопировать IBAN">
-                  <i class="fa-regular fa-copy"></i> <span data-i18n="payment_copy_btn">Копировать</span>
-                </button>
               </div>
-              <div class="requisite-number iban-number" id="revolutIban">DE02 1001 0178 7231 7087 50</div>
+
+              <div class="requisite-rows-list">
+                <!-- Row 1: IBAN -->
+                <div class="requisite-row">
+                  <div class="req-row-info">
+                    <span class="req-row-label">IBAN:</span>
+                    <span class="requisite-number iban-number" id="revolutIban">DE02 1001 0178 7231 7087 50</span>
+                  </div>
+                  <button type="button" class="btn-copy-req" onclick="copyRequisite('DE02100101787231708750')" title="Скопировать IBAN">
+                    <i class="fa-regular fa-copy"></i> <span data-i18n="payment_copy_btn">Копировать</span>
+                  </button>
+                </div>
+
+                <!-- Row 2: Card Number -->
+                <div class="requisite-row">
+                  <div class="req-row-info">
+                    <span class="req-row-label" data-i18n="payment_revolut_card_label">Номер карты:</span>
+                    <span class="requisite-number" id="revolutCardNumber">4165 9834 9308 4834</span>
+                  </div>
+                  <button type="button" class="btn-copy-req" onclick="copyRequisite('4165983493084834')" title="Скопировать номер карты">
+                    <i class="fa-regular fa-copy"></i> <span data-i18n="payment_copy_btn">Копировать</span>
+                  </button>
+                </div>
+              </div>
+
               <div class="requisite-holder">
                 <span class="req-label">Получатель:</span> <span class="req-val" data-i18n="payment_revolut_recipient">Savelii Shkurko</span>
               </div>
@@ -682,6 +703,6 @@
     <span class="floating-cart-badge" id="floatingCartCount">0</span>
   </button>
 
-  <script src="app.js?v=77"></script>
+  <script src="app.js?v=78"></script>
 </body>
 </html>
