@@ -1,78 +1,75 @@
 export const config = {
-  api: {
-    bodyParser: false,
-  },
+  runtime: 'edge',
 };
 
-export default async function handler(req, res) {
+export default async function handler(req) {
   // CORS Headers
-  res.setHeader('Access-Control-Allow-Credentials', true);
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
-  res.setHeader(
-    'Access-Control-Allow-Headers',
-    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
-  );
+  const corsHeaders = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type',
+  };
 
   if (req.method === 'OPTIONS') {
-    res.status(200).end();
-    return;
+    return new Response(null, { status: 204, headers: corsHeaders });
   }
 
   if (req.method !== 'POST') {
-    return res.status(405).json({ success: false, error: 'Method not allowed' });
+    return new Response(JSON.stringify({ success: false, error: 'Method not allowed' }), {
+      status: 405,
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+    });
   }
 
   const botToken = process.env.TELEGRAM_BOT_TOKEN;
   const chatId = process.env.TELEGRAM_CHAT_ID;
 
   if (!botToken || !chatId) {
-    return res.status(500).json({
-      success: false,
-      error: 'TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID is not configured in server environment.'
-    });
+    return new Response(
+      JSON.stringify({
+        success: false,
+        error: 'Missing TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID in environment variables.',
+      }),
+      { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+    );
   }
 
   try {
-    // Read raw body chunks from incoming multipart/form-data
-    const chunks = [];
-    for await (const chunk of req) {
-      chunks.push(chunk);
+    const formData = await req.formData();
+    const caption = formData.get('caption') || '';
+    const photo = formData.get('photo');
+
+    const tgFormData = new FormData();
+    tgFormData.append('chat_id', chatId.trim());
+    tgFormData.append('caption', caption);
+    tgFormData.append('parse_mode', 'HTML');
+
+    let tgMethod = 'sendMessage';
+
+    if (photo && typeof photo === 'object' && photo.size > 0) {
+      const isPdf = photo.type === 'application/pdf' || (photo.name && photo.name.endsWith('.pdf'));
+      tgMethod = isPdf ? 'sendDocument' : 'sendPhoto';
+      tgFormData.append(isPdf ? 'document' : 'photo', photo, photo.name || 'receipt.jpg');
+    } else {
+      tgFormData.append('text', caption);
     }
-    const buffer = Buffer.concat(chunks);
-    const contentType = req.headers['content-type'] || '';
 
-    // Determine target Telegram method based on header / content
-    const tgUrl = `https://api.telegram.org/bot${botToken}/sendPhoto`;
-
-    const tgResponse = await fetch(tgUrl, {
+    const tgResponse = await fetch(`https://api.telegram.org/bot${botToken.trim()}/${tgMethod}`, {
       method: 'POST',
-      headers: {
-        'Content-Type': contentType
-      },
-      body: buffer
+      body: tgFormData,
     });
 
-    const tgData = await tgResponse.json();
+    const result = await tgResponse.json();
 
-    if (!tgResponse.ok || !tgData.ok) {
-      // If sendPhoto failed (e.g. if file is a PDF document), attempt sendDocument
-      const docUrl = `https://api.telegram.org/bot${botToken}/sendDocument`;
-      const docResponse = await fetch(docUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': contentType
-        },
-        body: buffer
-      });
-      const docData = await docResponse.json();
-      return res.status(docResponse.status).json(docData);
-    }
-
-    return res.status(200).json(tgData);
+    return new Response(JSON.stringify(result), {
+      status: tgResponse.status,
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+    });
   } catch (error) {
-    console.error('Telegram dispatch error:', error);
-    return res.status(500).json({ success: false, error: error.message });
+    console.error('Telegram Serverless Dispatch Error:', error);
+    return new Response(
+      JSON.stringify({ success: false, error: error.message || 'Internal server error' }),
+      { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+    );
   }
 }
-
