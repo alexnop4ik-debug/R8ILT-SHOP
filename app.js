@@ -2431,30 +2431,39 @@ async function loadUserOrders(user) {
   }).join('');
 }
 
-async function initAuthEvents() {
-  // Automatically fetch public keys from Vercel Environment Variables via /api/config
-  if (!supabaseClient && typeof window.supabase !== 'undefined') {
-    try {
-      const res = await fetch('/api/config');
-      if (res.ok) {
-        const conf = await res.json();
-        if (conf.supabaseUrl && conf.supabaseAnonKey) {
-          supabaseClient = window.supabase.createClient(conf.supabaseUrl, conf.supabaseAnonKey);
-          console.log('[Supabase]: Successfully initialized from Vercel Environment Variables (/api/config)');
-        }
+async function getSupabase() {
+  if (supabaseClient) return supabaseClient;
+  if (typeof window.supabase === 'undefined') return null;
+
+  try {
+    const res = await fetch('/api/config');
+    if (res.ok) {
+      const conf = await res.json();
+      if (conf.supabaseUrl && conf.supabaseAnonKey) {
+        supabaseClient = window.supabase.createClient(conf.supabaseUrl, conf.supabaseAnonKey);
+        console.log('[Supabase]: Initialized from /api/config');
+        return supabaseClient;
       }
-    } catch (err) {
-      console.warn('Could not auto-load Supabase config from /api/config:', err);
     }
+  } catch (err) {
+    console.warn('[Supabase]: /api/config unreachable:', err);
   }
+  return null;
+}
+
+async function initAuthEvents() {
+  const sb = await getSupabase();
 
   // Listen to Supabase auth changes
-  if (supabaseClient) {
-    supabaseClient.auth.getSession().then(({ data: { session } }) => {
+  if (sb) {
+    try {
+      const { data: { session } } = await sb.auth.getSession();
       updateAuthUI(session?.user || null);
-    });
+    } catch (e) {
+      console.warn('Supabase getSession error:', e);
+    }
 
-    supabaseClient.auth.onAuthStateChange((_event, session) => {
+    sb.auth.onAuthStateChange((_event, session) => {
       updateAuthUI(session?.user || null);
     });
   }
@@ -2514,33 +2523,43 @@ async function initAuthEvents() {
         loginBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Вход...';
       }
 
-      if (supabaseClient) {
-        const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
-        if (loginBtn) {
-          loginBtn.disabled = false;
-          loginBtn.innerHTML = origText;
-        }
+      try {
+        const client = await getSupabase();
 
-        if (error) {
-          showAuthAlert(error.message, 'error');
+        if (client) {
+          const loginPromise = client.auth.signInWithPassword({ email, password });
+          const timeoutPromise = new Promise((_, reject) =>
+            setTimeout(() => reject(new Error('Превышено время ожидания сервера. Проверьте соединение.')), 10000)
+          );
+
+          const { data, error } = await Promise.race([loginPromise, timeoutPromise]);
+
+          if (error) {
+            console.error('Supabase Login Error:', error);
+            showAuthAlert(error.message || 'Неверный email или пароль', 'error');
+          } else if (data && data.user) {
+            showAuthAlert(t.auth_success_login || 'Успешный вход!', 'success');
+            updateAuthUI(data.user);
+            setTimeout(() => {
+              closeAuthModal();
+              showToast(t.auth_success_login || 'Добро пожаловать!');
+            }, 600);
+          }
         } else {
-          showAuthAlert(t.auth_success_login || 'Успешный вход!', 'success');
-          updateAuthUI(data.user);
-          setTimeout(() => {
-            closeAuthModal();
-            showToast(t.auth_success_login || 'Добро пожаловать!');
-          }, 600);
+          // Local demo fallback if no Supabase credentials
+          const demoUser = { id: 'demo-' + Date.now(), email };
+          updateAuthUI(demoUser);
+          closeAuthModal();
+          showToast('Добро пожаловать, ' + email.split('@')[0] + '!');
         }
-      } else {
-        // Fallback for demo without credentials
+      } catch (err) {
+        console.error('Login Exception:', err);
+        showAuthAlert(err.message || 'Ошибка соединения с сервером.', 'error');
+      } finally {
         if (loginBtn) {
           loginBtn.disabled = false;
           loginBtn.innerHTML = origText;
         }
-        const demoUser = { id: 'demo-' + Date.now(), email };
-        updateAuthUI(demoUser);
-        closeAuthModal();
-        showToast('Добро пожаловать, ' + email.split('@')[0] + '!');
       }
     });
   }
@@ -2576,32 +2595,55 @@ async function initAuthEvents() {
         regBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Создание...';
       }
 
-      if (supabaseClient) {
-        const { data, error } = await supabaseClient.auth.signUp({ email, password });
-        if (regBtn) {
-          regBtn.disabled = false;
-          regBtn.innerHTML = origText;
-        }
+      try {
+        const client = await getSupabase();
 
-        if (error) {
-          showAuthAlert(error.message, 'error');
+        if (client) {
+          const signUpPromise = client.auth.signUp({ email, password });
+          const timeoutPromise = new Promise((_, reject) =>
+            setTimeout(() => reject(new Error('Превышено время ожидания ответа от Supabase. Проверьте переменные окружения на Vercel.')), 10000)
+          );
+
+          const { data, error } = await Promise.race([signUpPromise, timeoutPromise]);
+
+          if (error) {
+            console.error('Supabase SignUp Error:', error);
+            showAuthAlert(error.message || 'Ошибка при создании аккаунта', 'error');
+          } else if (data && data.user) {
+            if (data.session) {
+              // Automatically logged in (Confirm Email turned off)
+              showAuthAlert(t.auth_success_reg || 'Аккаунт успешно создан!', 'success');
+              updateAuthUI(data.user);
+              setTimeout(() => {
+                closeAuthModal();
+                showToast(t.auth_success_reg || 'Аккаунт успешно создан!');
+              }, 800);
+            } else {
+              // Email confirmation link was sent
+              showAuthAlert('Аккаунт создан! Пожалуйста, проверьте почту для подтверждения.', 'success');
+              setTimeout(() => {
+                closeAuthModal();
+                showToast('Письмо с подтверждением отправлено на ' + email);
+              }, 1800);
+            }
+          } else {
+            showAuthAlert('Не удалось создать аккаунт. Попробуйте еще раз.', 'error');
+          }
         } else {
-          showAuthAlert(t.auth_success_reg || 'Аккаунт успешно создан!', 'success');
-          if (data.user) updateAuthUI(data.user);
-          setTimeout(() => {
-            closeAuthModal();
-            showToast(t.auth_success_reg || 'Аккаунт успешно создан!');
-          }, 800);
+          // Local demo fallback if no Supabase credentials
+          const demoUser = { id: 'demo-' + Date.now(), email };
+          updateAuthUI(demoUser);
+          closeAuthModal();
+          showToast('Аккаунт создан! Добро пожаловать.');
         }
-      } else {
+      } catch (err) {
+        console.error('Registration Exception:', err);
+        showAuthAlert(err.message || 'Ошибка соединения с базой данных.', 'error');
+      } finally {
         if (regBtn) {
           regBtn.disabled = false;
           regBtn.innerHTML = origText;
         }
-        const demoUser = { id: 'demo-' + Date.now(), email };
-        updateAuthUI(demoUser);
-        closeAuthModal();
-        showToast('Аккаунт создан! Добро пожаловать.');
       }
     });
   }
@@ -2609,8 +2651,13 @@ async function initAuthEvents() {
   // Logout Button
   if (logoutBtn) {
     logoutBtn.addEventListener('click', async () => {
-      if (supabaseClient) {
-        await supabaseClient.auth.signOut();
+      const client = await getSupabase();
+      if (client) {
+        try {
+          await client.auth.signOut();
+        } catch (e) {
+          console.warn('Logout error:', e);
+        }
       }
       updateAuthUI(null);
       closeAccountModal();
