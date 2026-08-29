@@ -846,6 +846,35 @@ textarea:focus-visible {
   background-repeat: no-repeat;
 }
 
+.bg-lonsdale {
+  background-image: url('fotkii/Gemini_Generated_Image_8k35jb8k35jb8k35.jpe');
+  background-size: 98% auto;
+  background-position: center 20%;
+  background-repeat: no-repeat;
+  background-color: #000000;
+}
+
+.bg-alphaindustries {
+  background-image: url('fotkii/photo_2026-08-29_19-14-10.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.bg-m8l8th {
+  background-image: url('fotkii/Gemini_Generated_Image_jv9b6xjv9b6xjv9b.jpe');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.bg-hardcoredivision {
+  background-image: url('fotkii/Gemini_Generated_Image_3ngsat3ngsat3ngs.jpe');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
 .category-card:hover .category-bg {
   transform: scale(1.08);
 }
