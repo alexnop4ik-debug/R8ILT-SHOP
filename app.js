@@ -552,42 +552,6 @@ const products = [
     size: "XL"
   },
   {
-    id: 2,
-    brand: "beloyar",
-    brandName: "Белояр",
-    category: "tees",
-    price: 25,
-    oldPrice: 35,
-    currency: "€",
-    badge: "sale",
-    rune: "ᛟ",
-    images: [
-      "tovari/photo_3_2026-08-28_11-45-48.jpg",
-      "tovari/photo_4_2026-08-28_11-45-48.jpg"
-    ],
-    names: {
-      ru: "Майка Белояр Black",
-      en: "Beloyar Tank Top Black",
-      de: "Beloyar Tanktop Schwarz"
-    },
-    categoryNames: {
-      ru: "Футболки / Майки",
-      en: "T-Shirts & Tanks",
-      de: "T-Shirts & Tanks"
-    },
-    badgeTexts: {
-      ru: "SALE",
-      en: "SALE",
-      de: "SALE"
-    },
-    descriptions: {
-      ru: "Черная оригинальная майка от бренда Белояр с контрастным славянским орнаментом и фирменным логотипом. Плотный дышащий хлопок высшего качества, надежный принт и фирменная жаккардовая бирка внизу. Состояние 9/10, отличный вид без нюансов.",
-      en: "Original black tank top by Beloyar with contrasting Slavic ornament and brand lettering. Breathable premium cotton, durable screen print and woven hem tag. Condition 9/10, clean and without flaws.",
-      de: "Originales schwarzes Tanktop von Beloyar mit kontrastierendem slawischem Ornament und Markenlogo. Hochwertige Baumwolle und langlebiger Druck. Zustand 9/10, makellos."
-    },
-    size: "XL"
-  },
-  {
     id: 3,
     brand: "beloyar",
     brandName: "Белояр",
