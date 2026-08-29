@@ -30,7 +30,7 @@ const translations = {
     auth_error_pwd_match: "Пароли не совпадают!",
     auth_success_reg: "Аккаунт успешно создан! Добро пожаловать.",
     auth_success_login: "Вы успешно вошли в аккаунт!",
-    hero_tag: "Pit Bull Germany • Svastone • Белояр • Thor Steinar",
+    hero_tag: "Pit Bull Germany • Svastone • Белояр • Thor Steinar • Lonsdale • Alpha Industries • M8L8TH • Hardcore Division",
     hero_title: "R8ILT SHOP",
     hero_subtitle: "Магазин оригинальной брендовой одежды. Здесь собраны вещи от известных брендов - Pit Bull Germany, Svastone, Белояр и Thor Steinar. Привозим оригинальную одежду напрямую и подбираем вещи.",
     btn_catalog: "В каталог товаров",
@@ -197,7 +197,7 @@ const translations = {
     auth_error_pwd_match: "Passwords do not match!",
     auth_success_reg: "Account created successfully! Welcome to R8ILT Club.",
     auth_success_login: "Welcome back to R8ILT Club!",
-    hero_tag: "Pit Bull Germany • Svastone • Beloyar • Thor Steinar",
+    hero_tag: "Pit Bull Germany • Svastone • Beloyar • Thor Steinar • Lonsdale • Alpha Industries • M8L8TH • Hardcore Division",
     hero_title: "R8ILT SHOP",
     hero_subtitle: "Original branded apparel store. Featuring curated items from iconic labels - Pit Bull Germany, Svastone, Beloyar, and Thor Steinar. We bring authentic clothes directly and pick the best pieces.",
     btn_catalog: "Explore Catalog",
@@ -366,7 +366,7 @@ const translations = {
     auth_error_pwd_match: "Passwörter stimmen nicht überein!",
     auth_success_reg: "Konto erfolgreich erstellt! Willkommen im R8ILT Club.",
     auth_success_login: "Willkommen zurück im R8ILT Club!",
-    hero_tag: "Pit Bull Germany • Svastone • Beloyar • Thor Steinar",
+    hero_tag: "Pit Bull Germany • Svastone • Beloyar • Thor Steinar • Lonsdale • Alpha Industries • M8L8TH • Hardcore Division",
     hero_title: "R8ILT SHOP",
     hero_subtitle: "Originaler Marken-Store. Hier gibt es Kleidung von bekannten Marken - Pit Bull Germany, Svastone, Beloyar und Thor Steinar. Wir importieren echte Originalware direkt und wählen die besten Stücke aus.",
     btn_catalog: "Zum Warenkatalog",
@@ -1374,7 +1374,7 @@ function renderProducts() {
   const t = translations[currentLang];
 
   const filtered = products.filter(p => {
-    const mainBrands = ['pitbull', 'svastone', 'beloyar', 'thorsteinar'];
+    const mainBrands = ['pitbull', 'svastone', 'beloyar', 'thorsteinar', 'lonsdale', 'alphaindustries', 'm8l8th', 'hardcoredivision'];
     const matchBrand = (activeBrandFilter === 'all')
       ? true
       : (activeBrandFilter === 'other' || activeBrandFilter === 'misc'
@@ -1488,7 +1488,7 @@ function initFilters() {
   });
 
   // Click on brand cards
-  brandCards.forEach(card => {
+  document.querySelectorAll('.category-card').forEach(card => {
     card.addEventListener('click', () => {
       const brand = card.dataset.brand;
       activeBrandFilter = brand;
@@ -1503,7 +1503,7 @@ function initFilters() {
       });
 
       renderProducts();
-      document.getElementById('catalog').scrollIntoView({ behavior: 'smooth' });
+      document.getElementById('catalog')?.scrollIntoView({ behavior: 'smooth' });
     });
   });
 }
