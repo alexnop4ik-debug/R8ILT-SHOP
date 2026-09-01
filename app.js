@@ -514,7 +514,7 @@ const translations = {
 };
 
 // Multilingual Products Catalog
-const products = [
+let products = [
   {
     id: 1,
     brand: "mastrum",
@@ -1124,7 +1124,74 @@ document.addEventListener('DOMContentLoaded', () => {
   initSingleProductPage();
   initAuthEvents();
   initInfoModals();
+  loadDynamicCatalog();
 });
+
+// Load Dynamic Catalog from Backend / Supabase API
+async function loadDynamicCatalog() {
+  try {
+    const res = await fetch('/api/get-products');
+    if (!res.ok) return;
+    const data = await res.json();
+    if (data.success && Array.isArray(data.products) && data.products.length > 0) {
+      const BRAND_MAP = {
+        pitbull: "Pit Bull Germany",
+        svastone: "Svastone",
+        beloyar: "Белояр",
+        thorsteinar: "Thor Steinar",
+        lonsdale: "Lonsdale",
+        alphaindustries: "Alpha Industries",
+        m8l8th: "M8L8TH",
+        hardcoredivision: "Hardcore Division",
+        mastrum: "MA.STRUM",
+        other: "Разное"
+      };
+
+      const CAT_MAP = {
+        bombers: { ru: "Бомберы / Куртки", en: "Bombers & Jackets", de: "Bomber & Jacken" },
+        hoodies: { ru: "Худи", en: "Hoodie", de: "Kapuzenpullover" },
+        sweatshirts: { ru: "Свитшоты", en: "Sweatshirts", de: "Sweatshirts" },
+        tees: { ru: "Футболки / Майки", en: "T-Shirts & Tanks", de: "T-Shirts & Tanks" },
+        pants: { ru: "Штаны", en: "Pants", de: "Hosen" },
+        shorts: { ru: "Шорты", en: "Shorts", de: "Shorts" },
+        misc: { ru: "Разное", en: "Accessories & Misc", de: "Accessoires & Sonstiges" }
+      };
+
+      products = data.products.map(p => {
+        const badgeVal = p.badge || null;
+        const bText = badgeVal ? badgeVal.toUpperCase() : '';
+        return {
+          id: p.id,
+          brand: p.brand || 'other',
+          brandName: p.brand_name || BRAND_MAP[p.brand] || p.brand,
+          category: p.category || 'misc',
+          price: parseFloat(p.price) || 0,
+          oldPrice: p.old_price ? parseFloat(p.old_price) : null,
+          currency: p.currency || '€',
+          badge: badgeVal,
+          rune: p.rune || '☩',
+          images: Array.isArray(p.images) ? p.images : (p.image ? [p.image] : []),
+          names: p.names || { ru: p.name || '', en: p.name || '', de: p.name || '' },
+          categoryNames: p.category_names || CAT_MAP[p.category] || { ru: p.category || '', en: p.category || '', de: p.category || '' },
+          badgeTexts: p.badge_texts || { ru: bText, en: bText, de: bText },
+          descriptions: p.descriptions || { ru: p.description || '', en: p.description || '', de: p.description || '' },
+          size: p.size || 'L',
+          display_order: p.display_order ?? 0,
+        };
+      });
+
+      // Sort by display_order ascending, then by id
+      products.sort((a, b) => (a.display_order ?? 0) - (b.display_order ?? 0));
+
+      if (productGrid) renderProducts();
+      if (document.getElementById('productDetailContent')) {
+        initSingleProductPage();
+      }
+    }
+  } catch (err) {
+    console.log('Dynamic catalog load notice:', err);
+  }
+}
 
 // Dynamic Navigation ScrollSpy (Active Underline Highlight on Scroll - rAF Throttled)
 function initScrollSpy() {
