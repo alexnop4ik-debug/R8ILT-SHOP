@@ -691,7 +691,7 @@ function renderProductsTable() {
 // Move Product Display Order (▲ / ▼)
 // ==============================================================================
 window.moveProductOrder = async function(id, direction) {
-  const currentIndex = allProducts.findIndex(p => p.id === id);
+  const currentIndex = allProducts.findIndex(p => p.id == id || String(p.id) === String(id));
   if (currentIndex === -1) return;
 
   const targetIndex = currentIndex + direction;
@@ -737,7 +737,7 @@ window.moveProductOrder = async function(id, direction) {
 // Toggle Badge Quick (SALE -> NEW -> LIMITED -> NONE)
 // ==============================================================================
 window.toggleBadgeQuick = async function(id) {
-  const prod = allProducts.find(p => p.id === id);
+  const prod = allProducts.find(p => p.id == id || String(p.id) === String(id));
   if (!prod) return;
 
   const cycle = [null, 'sale', 'new', 'limited'];
@@ -767,8 +767,8 @@ window.toggleBadgeQuick = async function(id) {
 // Delete Product with Confirmation
 // ==============================================================================
 window.deleteProduct = async function(id) {
-  const prod = allProducts.find(p => p.id === id);
-  const name = prod?.names?.ru || 'товар';
+  const prod = allProducts.find(p => p.id == id || String(p.id) === String(id));
+  const name = prod?.names?.ru || prod?.names?.en || 'товар';
 
   if (!confirm(`Вы действительно хотите удалить «${name}» из каталога?`)) {
     return;
@@ -785,7 +785,7 @@ window.deleteProduct = async function(id) {
 
     const data = await res.json();
     if (data.success) {
-      allProducts = allProducts.filter(p => p.id !== id);
+      allProducts = allProducts.filter(p => !(p.id == id || String(p.id) === String(id)));
       renderProductsTable();
       updateStats();
       showToast('Товар успешно удален!');
@@ -864,7 +864,7 @@ function openProductModal(productId = null) {
   const descEn = document.getElementById('prodDescEn');
 
   if (productId) {
-    const prod = allProducts.find(p => p.id === productId);
+    const prod = allProducts.find(p => p.id == productId || String(p.id) === String(productId));
     if (!prod) return;
 
     if (productModalTitle) productModalTitle.textContent = 'Редактировать товар';
