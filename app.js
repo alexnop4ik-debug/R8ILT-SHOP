@@ -516,42 +516,6 @@ const translations = {
 // Multilingual Products Catalog
 let products = [
   {
-    id: 1,
-    brand: "mastrum",
-    brandName: "MA.STRUM",
-    category: "hoodies",
-    price: 40,
-    oldPrice: 50,
-    currency: "€",
-    badge: "sale",
-    rune: "☩",
-    images: [
-      "tovari/photo_1_2026-08-28_11-45-48.jpg",
-      "tovari/photo_2_2026-08-28_11-45-48.jpg"
-    ],
-    names: {
-      ru: "Худи MA.STRUM White",
-      en: "MA.STRUM White Hoodie",
-      de: "MA.STRUM Weißer Kapuzenpullover"
-    },
-    categoryNames: {
-      ru: "Худи",
-      en: "Hoodie",
-      de: "Kapuzenpullover"
-    },
-    badgeTexts: {
-      ru: "SALE",
-      en: "SALE",
-      de: "SALE"
-    },
-    descriptions: {
-      ru: "Белое оригинальное худи от британского бренда MA.STRUM с фирменным патчем-компасом на плече. Плотный качественный хлопок, удобный капюшон со шнурками и карман-кенгуру. Состояние 9/10, вещь чистая и без нюансов.",
-      en: "Original white hoodie by British brand MA.STRUM with signature compass shoulder patch. Heavyweight cotton, adjustable drawstring hood and kangaroo pocket. Condition 9/10, clean and without flaws.",
-      de: "Originaler weißer Kapuzenpullover von MA.STRUM mit ikonischem Kompass-Patch an der Schulter. Hochwertige Baumwolle und Kängurutasche. Zustand 9/10, ohne Mängel."
-    },
-    size: "XL"
-  },
-  {
     id: 3,
     brand: "beloyar",
     brandName: "Белояр",
@@ -1184,7 +1148,7 @@ async function loadDynamicCatalog() {
       products.sort((a, b) => (a.display_order ?? 0) - (b.display_order ?? 0));
 
       if (productGrid) renderProducts();
-      if (document.getElementById('productDetailContent')) {
+      if (document.getElementById('singleProductContainer')) {
         initSingleProductPage();
       }
     }
@@ -1505,14 +1469,14 @@ function initFilters() {
 
 // Add to Cart
 function addToCart(productId) {
-  const product = products.find(p => p.id === productId);
+  const product = products.find(p => p.id == productId || String(p.id) === String(productId));
   if (!product) return;
 
   const maxStock = (typeof product.maxStock === 'number') ? product.maxStock : 1;
   const pName = product.names[currentLang] || product.names['en'];
   const t = translations[currentLang];
 
-  const existingItem = cart.find(item => item.id === productId);
+  const existingItem = cart.find(item => item.id == productId || String(item.id) === String(productId));
   if (existingItem) {
     if (existingItem.qty >= maxStock) {
       showToast(t.toast_unique_item || `Товар «${pName}» в единственном экземпляре!`);
@@ -1539,10 +1503,10 @@ function addToCart(productId) {
 
 // Update Cart Quantity
 function changeQty(productId, delta) {
-  const item = cart.find(i => i.id === productId);
+  const item = cart.find(i => i.id == productId || String(i.id) === String(productId));
   if (!item) return;
 
-  const product = products.find(p => p.id === productId);
+  const product = products.find(p => p.id == productId || String(p.id) === String(productId));
   const maxStock = (product && typeof product.maxStock === 'number') ? product.maxStock : 1;
   const t = translations[currentLang];
 
@@ -1553,7 +1517,7 @@ function changeQty(productId, delta) {
 
   item.qty += delta;
   if (item.qty <= 0) {
-    cart = cart.filter(i => i.id !== productId);
+    cart = cart.filter(i => !(i.id == productId || String(i.id) === String(productId)));
   }
 
   saveCart();
@@ -1562,7 +1526,7 @@ function changeQty(productId, delta) {
 
 // Remove from Cart
 function removeFromCart(productId) {
-  cart = cart.filter(i => i.id !== productId);
+  cart = cart.filter(i => !(i.id == productId || String(i.id) === String(productId)));
   saveCart();
   updateCartUI();
   showToast(translations[currentLang].toast_removed);
@@ -3287,8 +3251,9 @@ function initSingleProductPage() {
   if (!singleProductContainer) return;
 
   const urlParams = new URLSearchParams(window.location.search);
-  const productId = parseInt(urlParams.get('id')) || 1;
-  const product = products.find(p => p.id === productId) || products[0];
+  const rawId = urlParams.get('id');
+  const product = products.find(p => String(p.id) === String(rawId)) || products.find(p => p.id === parseInt(rawId)) || products[0];
+  if (!product) return;
 
   const t = translations[currentLang] || translations['ru'];
   const pName = product.names[currentLang] || product.names['en'];
