@@ -40,32 +40,6 @@ function resolveImgSrc(src) {
 // Default Products (used for 1-click import into Supabase DB)
 const DEFAULT_PRODUCTS = [
   {
-    id: 1,
-    brand: "mastrum",
-    brand_name: "MA.STRUM",
-    category: "hoodies",
-    price: 40,
-    old_price: 50,
-    currency: "€",
-    badge: "sale",
-    rune: "☩",
-    images: [
-      "tovari/photo_1_2026-08-28_11-45-48.jpg",
-      "tovari/photo_2_2026-08-28_11-45-48.jpg"
-    ],
-    names: { ru: "Худи MA.STRUM White", en: "MA.STRUM White Hoodie", de: "MA.STRUM Weißer Kapuzenpullover" },
-    category_names: { ru: "Худи", en: "Hoodie", de: "Kapuzenpullover" },
-    badge_texts: { ru: "SALE", en: "SALE", de: "SALE" },
-    descriptions: {
-      ru: "Белое оригинальное худи от британского бренда MA.STRUM с фирменным патчем-компасом на плече. Плотный качественный хлопок, удобный капюшон со шнурками и карман-кенгуру. Состояние 9/10, вещь чистая и без нюансов.",
-      en: "Original white hoodie by British brand MA.STRUM with signature compass shoulder patch. Heavyweight cotton, adjustable drawstring hood and kangaroo pocket. Condition 9/10, clean and without flaws.",
-      de: "Originaler weißer Kapuzenpullover von MA.STRUM mit ikonischem Kompass-Patch an der Schulter. Hochwertige Baumwolle und Kängurutasche. Zustand 9/10, ohne Mängel."
-    },
-    size: "XL",
-    display_order: 10,
-    is_active: true
-  },
-  {
     id: 3,
     brand: "beloyar",
     brand_name: "Белояр",
