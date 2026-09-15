@@ -911,6 +911,17 @@ let products = [
   }
 ];
 
+// Restore dynamic catalog from cache immediately to prevent visual flash
+try {
+  const cachedCatalog = localStorage.getItem('r8ilt_cached_products');
+  if (cachedCatalog) {
+    const parsed = JSON.parse(cachedCatalog);
+    if (Array.isArray(parsed) && parsed.length > 0) {
+      products = parsed;
+    }
+  }
+} catch (e) {}
+
 // App State
 let currentLang = localStorage.getItem('r8ilt_lang') || 'ru';
 let cart = JSON.parse(localStorage.getItem('r8ilt_cart')) || [];
@@ -1066,7 +1077,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Validate and clamp unique item quantities (1 max per unique product)
   if (Array.isArray(cart)) {
     cart.forEach(item => {
-      const prod = products.find(p => p.id === item.id);
+      const prod = products.find(p => p.id == item.id || String(p.id) === String(item.id));
       const maxStock = (prod && typeof prod.maxStock === 'number') ? prod.maxStock : 1;
       if (item.qty > maxStock) item.qty = maxStock;
     });
@@ -1147,9 +1158,24 @@ async function loadDynamicCatalog() {
       // Sort by display_order ascending, then by id
       products.sort((a, b) => (a.display_order ?? 0) - (b.display_order ?? 0));
 
+      // Save to localStorage cache for instant zero-flash renders
+      try {
+        localStorage.setItem('r8ilt_cached_products', JSON.stringify(products));
+      } catch (e) {}
+
+      // Automatically purge deleted products from cart
+      if (Array.isArray(cart) && cart.length > 0) {
+        const initialCount = cart.length;
+        cart = cart.filter(item => products.some(p => p.id == item.id || String(p.id) === String(item.id)));
+        if (cart.length !== initialCount) {
+          saveCart();
+          updateCartUI();
+        }
+      }
+
       if (productGrid) renderProducts();
       if (document.getElementById('singleProductContainer')) {
-        initSingleProductPage();
+        initSingleProductPage(true);
       }
     }
   } catch (err) {
@@ -1408,8 +1434,10 @@ function attachProductEvents() {
   // Click anywhere on product card to open dedicated product page
   document.querySelectorAll('.product-card').forEach(card => {
     card.addEventListener('click', () => {
-      const id = parseInt(card.dataset.id);
-      window.location.href = `product.html?id=${id}`;
+      const id = card.dataset.id;
+      if (id) {
+        window.location.href = `product.html?id=${encodeURIComponent(id)}`;
+      }
     });
   });
 
@@ -1417,8 +1445,10 @@ function attachProductEvents() {
   document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
-      const id = parseInt(btn.dataset.id);
-      addToCart(id);
+      const id = btn.dataset.id;
+      if (id) {
+        addToCart(id);
+      }
     });
   });
 }
@@ -1473,7 +1503,7 @@ function addToCart(productId) {
   if (!product) return;
 
   const maxStock = (typeof product.maxStock === 'number') ? product.maxStock : 1;
-  const pName = product.names[currentLang] || product.names['en'];
+  const pName = (product.names && (product.names[currentLang] || product.names['en'])) || product.brandName;
   const t = translations[currentLang];
 
   const existingItem = cart.find(item => item.id == productId || String(item.id) === String(productId));
@@ -1487,7 +1517,10 @@ function addToCart(productId) {
     const productImg = (Array.isArray(product.images) && product.images.length > 0) ? product.images[0] : (product.image || null);
     cart.push({
       id: product.id,
+      name: pName,
+      names: product.names,
       brandName: product.brandName,
+      size: product.size,
       price: product.price,
       currency: product.currency,
       rune: product.rune,
@@ -1562,9 +1595,9 @@ function updateCartUI() {
   }
 
   cartItemsContainer.innerHTML = cart.map(item => {
-    const product = products.find(p => p.id === item.id);
-    const itemName = product ? (product.names[currentLang] || product.names['en']) : item.brandName;
-    const itemImg = (product && Array.isArray(product.images) && product.images.length > 0) ? product.images[0] : ((product && product.image) || item.image);
+    const product = products.find(p => p.id == item.id || String(p.id) === String(item.id));
+    const itemName = (product && product.names) ? (product.names[currentLang] || product.names['en']) : (item.names ? (item.names[currentLang] || item.names['en']) : (item.name || item.brandName));
+    const itemImg = (product && Array.isArray(product.images) && product.images.length > 0) ? product.images[0] : (item.image || ((product && product.image) || null));
     const maxStock = (product && typeof product.maxStock === 'number') ? product.maxStock : 1;
     const isMaxReached = item.qty >= maxStock;
 
@@ -1577,13 +1610,13 @@ function updateCartUI() {
           <div class="cart-item-title">${itemName}</div>
           <div class="cart-item-price">${(item.price * item.qty).toLocaleString()} ${item.currency}</div>
           <div class="cart-item-qty">
-            <button class="qty-btn" onclick="changeQty(${item.id}, -1)">-</button>
+            <button class="qty-btn" onclick="changeQty('${item.id}', -1)">-</button>
             <span class="qty-num">${item.qty}</span>
-            <button class="qty-btn ${isMaxReached ? 'disabled' : ''}" ${isMaxReached ? 'disabled title="' + (t.unique_badge || '1 шт.') + '"' : ''} onclick="changeQty(${item.id}, 1)">+</button>
+            <button class="qty-btn ${isMaxReached ? 'disabled' : ''}" ${isMaxReached ? 'disabled title="' + (t.unique_badge || '1 шт.') + '"' : ''} onclick="changeQty('${item.id}', 1)">+</button>
             ${maxStock === 1 ? `<span class="cart-unique-tag">${t.unique_badge || '1 шт. (Эксклюзив)'}</span>` : ''}
           </div>
         </div>
-        <button class="cart-item-remove" onclick="removeFromCart(${item.id})" title="Delete">
+        <button class="cart-item-remove" onclick="removeFromCart('${item.id}')" title="Delete">
           <i class="fa-solid fa-trash"></i>
         </button>
       </div>
@@ -1808,10 +1841,10 @@ function openCheckoutModal() {
 
   if (checkoutItemsPreview) {
     checkoutItemsPreview.innerHTML = cart.map(item => {
-      const product = products.find(p => p.id === item.id);
-      const itemName = product ? (product.names[currentLang] || product.names['en']) : item.brandName;
-      const itemImg = (product && Array.isArray(product.images) && product.images.length > 0) ? product.images[0] : ((product && product.image) || item.image);
-      const displaySize = product ? (product.size ? (Array.isArray(product.size) ? product.size.join('/') : product.size) : '') : '';
+      const product = products.find(p => p.id == item.id || String(p.id) === String(item.id));
+      const itemName = (product && product.names) ? (product.names[currentLang] || product.names['en']) : (item.names ? (item.names[currentLang] || item.names['en']) : (item.name || item.brandName));
+      const itemImg = (product && Array.isArray(product.images) && product.images.length > 0) ? product.images[0] : (item.image || ((product && product.image) || null));
+      const displaySize = item.size ? (Array.isArray(item.size) ? item.size.join('/') : item.size) : (product && product.size ? (Array.isArray(product.size) ? product.size.join('/') : product.size) : '');
 
       return `
         <div class="checkout-mini-item">
@@ -1882,9 +1915,9 @@ function switchPaymentMethod(method) {
 function buildTelegramOrderCaption(order) {
   const isVinted = order.paymentMethod === 'vinted';
   const itemsList = order.items.map((item, index) => {
-    const p = products.find(prod => prod.id === item.id);
-    const name = escapeHtml((p && p.names && (p.names['ru'] || p.names['en'])) || item.brandName);
-    const size = escapeHtml(item.selectedSize || (p && p.size ? (Array.isArray(p.size) ? p.size.join('/') : p.size) : ''));
+    const p = products.find(prod => prod.id == item.id || String(prod.id) === String(item.id));
+    const name = escapeHtml((p && p.names && (p.names['ru'] || p.names['en'])) || (item.names && (item.names['ru'] || item.names['en'])) || item.name || item.brandName);
+    const size = escapeHtml(item.selectedSize || (item.size ? (Array.isArray(item.size) ? item.size.join('/') : item.size) : (p && p.size ? (Array.isArray(p.size) ? p.size.join('/') : p.size) : '')));
     const qtyStr = item.qty > 1 ? ` (${item.qty}x)` : '';
     return `${index + 1}. ${name} ${size ? `(${size})` : ''}${qtyStr} — ${item.price * item.qty}€`;
   }).join('\n');
@@ -1926,9 +1959,9 @@ function buildTelegramOrderCaption(order) {
 // Build separate alert message for Vinted Request
 function buildTelegramVintedAlert(order) {
   const itemsList = order.items.map((item, index) => {
-    const p = products.find(prod => prod.id === item.id);
-    const name = escapeHtml((p && p.names && (p.names['ru'] || p.names['en'])) || item.brandName);
-    const size = escapeHtml(item.selectedSize || (p && p.size ? (Array.isArray(p.size) ? p.size.join('/') : p.size) : ''));
+    const p = products.find(prod => prod.id == item.id || String(prod.id) === String(item.id));
+    const name = escapeHtml((p && p.names && (p.names['ru'] || p.names['en'])) || (item.names && (item.names['ru'] || item.names['en'])) || item.name || item.brandName);
+    const size = escapeHtml(item.selectedSize || (item.size ? (Array.isArray(item.size) ? item.size.join('/') : item.size) : (p && p.size ? (Array.isArray(p.size) ? p.size.join('/') : p.size) : '')));
     const qtyStr = item.qty > 1 ? ` (${item.qty}x)` : '';
     return `${index + 1}. ${name} ${size ? `(${size})` : ''}${qtyStr} — ${item.price * item.qty}€`;
   }).join('\n');
@@ -3063,7 +3096,7 @@ function openQuickView(productId) {
         </div>
         ` : ''}
 
-        <button class="btn btn-primary btn-block" onclick="addToCart(${product.id}); closeQuickView();">
+        <button class="btn btn-primary btn-block" onclick="addToCart('${product.id}'); closeQuickView();">
           <i class="fa-solid fa-bag-shopping"></i> ${t.add_to_cart}
         </button>
       </div>
@@ -3246,14 +3279,31 @@ function initLightboxEvents() {
 }
 
 // Render & Initialize Single Product Page (product.html)
-function initSingleProductPage() {
+function initSingleProductPage(isDynamicLoaded = false) {
   const singleProductContainer = document.getElementById('singleProductContainer');
   if (!singleProductContainer) return;
 
   const urlParams = new URLSearchParams(window.location.search);
   const rawId = urlParams.get('id');
-  const product = products.find(p => String(p.id) === String(rawId)) || products.find(p => p.id === parseInt(rawId)) || products[0];
-  if (!product) return;
+  if (!rawId) return;
+
+  const product = products.find(p => String(p.id) === String(rawId)) || products.find(p => p.id === parseInt(rawId));
+  if (!product) {
+    if (isDynamicLoaded) {
+      const t = translations[currentLang] || translations['ru'];
+      singleProductContainer.innerHTML = `
+        <div style="text-align:center; padding: 60px 20px;">
+          <i class="fa-solid fa-box-open" style="font-size: 3rem; color: var(--color-crimson); margin-bottom: 16px; display:block;"></i>
+          <h2 style="font-family: var(--font-title); font-size: 1.4rem; margin-bottom: 12px; color: #fff;">${currentLang === 'ru' ? 'Товар продан или снят с продажи' : currentLang === 'de' ? 'Artikel nicht mehr verfügbar' : 'Item is no longer available'}</h2>
+          <p style="color: var(--text-secondary); margin-bottom: 24px; font-size: 0.95rem;">${currentLang === 'ru' ? 'Этот товар был приобретен или удален из каталога.' : 'This item has been sold or removed from the catalog.'}</p>
+          <a href="index.html#catalog" class="btn btn-primary"><i class="fa-solid fa-arrow-left"></i> ${t.back_to_catalog || 'Перейти в каталог'}</a>
+        </div>
+      `;
+      const breadcrumbTitle = document.getElementById('breadcrumbTitle');
+      if (breadcrumbTitle) breadcrumbTitle.textContent = currentLang === 'ru' ? 'Товар не найден' : 'Item not found';
+    }
+    return;
+  }
 
   const t = translations[currentLang] || translations['ru'];
   const pName = product.names[currentLang] || product.names['en'];
