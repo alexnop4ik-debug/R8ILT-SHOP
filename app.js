@@ -120,24 +120,17 @@ const translations = {
     checkout_summary_items: "Стоимость товаров:",
     checkout_summary_shipping: "Доставка в выбранную страну:",
     checkout_summary_total_to_pay: "Итого к оплате:",
-    payment_mono_title: "Монобанк (UAH / EUR)",
-    payment_mono_recipient: "Пацула Вадим Анатолиевич / Patsula Vadim",
-    payment_revolut_title: "Revolut (IBAN / Card / EUR)",
-    payment_revolut_recipient: "Savelii Shkurko",
-    payment_revolut_card_label: "Номер карты Revolut:",
+    payment_instruction: "Пожалуйста, выберите банк и переведите сумму заказа по указанным реквизитам:",
+    bank_tab_europe: "Europe Bank",
+    bank_tab_american: "American Bank",
+    bank_tab_mono: "Ukraine",
+    bank_europe_title: "Europe Bank (EUR / IBAN)",
+    bank_american_title: "American Bank (USD / IBAN)",
+    bank_mono_title: "Ukraine (UAH / Monobank)",
+    bank_card_label: "Номер карты:",
+    bank_recipient_label: "Получатель:",
     payment_copy_btn: "Копировать",
     payment_copied_toast: "Реквизиты скопированы в буфер обмена!",
-    payment_tab_direct: "Прямой перевод (Реквизиты)",
-    payment_tab_vinted: "Заказ через Vinted",
-    vinted_card_title: "Покупка через сервис Vinted",
-    vinted_card_desc: "Вы можете оформить безопасную покупку через европейскую платформу Vinted с официальной защитой покупателя и удобной доставкой.",
-    vinted_feat_1: "100% Защита средств покупателя Vinted Buyer Protection",
-    vinted_feat_2: "Официальное отслеживание посылки и страховка доставки",
-    vinted_feat_3: "Менеджер оперативно создаст персональный лот на Vinted и пришлет вам прямую ссылку в Telegram или на Email",
-    vinted_note_text: "После нажатия кнопки мы мгновенно получим вашу заявку и менеджер свяжется с вами для отправки ссылки на Vinted!",
-    btn_vinted_submit: "Отправить заявку через Vinted",
-    vinted_order_success_title: "Заявка на Vinted оформлена!",
-    vinted_order_success_desc: "Ваша заявка на покупку через Vinted успешно отправлена! Наш менеджер в ближайшее время свяжется с вами в Telegram или по Email со ссылкой на лот для оплаты.",
     receipt_upload_title: "Квитанция / скриншот оплаты *",
     receipt_drop_text: "Нажмите или перетащите скриншот оплаты сюда",
     receipt_drop_hint: "JPG, PNG, WEBP или PDF (макс. 15 МБ)",
@@ -158,7 +151,7 @@ const translations = {
     info_modal_close_btn: "Понятно",
     info_shipping_title: "Доставка и оплата",
     info_shipping_p1: "<b>Отправка заказов:</b> 1-3 рабочих дня после подтверждения заказа и оплаты.",
-    info_shipping_p2: "<b>Оплата:</b> полная предоплата по банковским реквизитам (Monobank / Revolut) либо безопасная сделка через европейский сервис Vinted.",
+    info_shipping_p2: "<b>Оплата:</b> полная оплата по банковским реквизитам (Monobank / Revolut).",
     info_shipping_p3: "<b>Доставка:</b> выполняется через доступные международные и локальные логистические службы с предоставлением трек-номера.",
     info_returns_title: "Условия возврата и обмена",
     info_returns_p1: "<b>Возврат возможен только в случае ошибки со стороны магазина</b> (не тот товар, производственный дефект/брак или неправильная комплектация).",
@@ -287,26 +280,17 @@ const translations = {
     checkout_summary_shipping: "Shipping to destination:",
     checkout_summary_total_to_pay: "Total to Pay:",
     payment_modal_title: "Order Payment",
-    payment_step_label: "Step 2 of 2: Payment",
-    payment_instruction: "Please transfer the exact order amount to any of the payment details below:",
-    payment_mono_title: "Monobank (UAH / EUR)",
-    payment_mono_recipient: "Patsula Vadim / Пацула Вадим Анатолиевич",
-    payment_revolut_title: "Revolut (IBAN / Card / EUR)",
-    payment_revolut_recipient: "Savelii Shkurko",
-    payment_revolut_card_label: "Revolut Card Number:",
+    payment_instruction: "Please select a bank and transfer the order amount using the details below:",
+    bank_tab_europe: "Europe Bank",
+    bank_tab_american: "American Bank",
+    bank_tab_mono: "Ukraine",
+    bank_europe_title: "Europe Bank (EUR / IBAN)",
+    bank_american_title: "American Bank (USD / IBAN)",
+    bank_mono_title: "Ukraine (UAH / Monobank)",
+    bank_card_label: "Card Number:",
+    bank_recipient_label: "Recipient:",
     payment_copy_btn: "Copy",
     payment_copied_toast: "Payment details copied to clipboard!",
-    payment_tab_direct: "Direct Transfer (Details)",
-    payment_tab_vinted: "Order via Vinted",
-    vinted_card_title: "Purchase via Vinted Platform",
-    vinted_card_desc: "You can place a secure order via the European platform Vinted with official buyer protection and tracked delivery.",
-    vinted_feat_1: "100% Vinted Buyer Protection guarantee",
-    vinted_feat_2: "Official parcel tracking and insured shipment",
-    vinted_feat_3: "Our manager will create a custom Vinted listing and send you the direct payment link on Telegram or Email",
-    vinted_note_text: "Upon clicking the button, we will instantly receive your request and our manager will contact you with the Vinted link!",
-    btn_vinted_submit: "Submit Vinted Order Request",
-    vinted_order_success_title: "Vinted Request Submitted!",
-    vinted_order_success_desc: "Your Vinted purchase request has been submitted! Our manager will contact you shortly on Telegram or Email with the custom listing link.",
     receipt_upload_title: "Payment Receipt / Screenshot *",
     receipt_drop_text: "Click or drag & drop payment screenshot here",
     receipt_drop_hint: "JPG, PNG, WEBP or PDF (max 15 MB)",
@@ -327,7 +311,7 @@ const translations = {
     info_modal_close_btn: "Got It",
     info_shipping_title: "Shipping & Payment",
     info_shipping_p1: "<b>Order Dispatch:</b> 1-3 business days after payment and order confirmation.",
-    info_shipping_p2: "<b>Payment:</b> 100% prepayment via direct bank transfer (Monobank / Revolut) or secure purchase via Vinted platform.",
+    info_shipping_p2: "<b>Payment:</b> 100% payment via direct bank transfer (Monobank / Revolut).",
     info_shipping_p3: "<b>Delivery:</b> handled via verified international and local courier services with online parcel tracking.",
     info_returns_title: "Return & Exchange Terms",
     info_returns_p1: "<b>Returns are only accepted in case of an error by the store</b> (wrong product sent, factory defect, or incorrect package items).",
@@ -456,26 +440,17 @@ const translations = {
     checkout_summary_shipping: "Versand in das Zielland:",
     checkout_summary_total_to_pay: "Gesamtsumme zur Zahlung:",
     payment_modal_title: "Bestellung bezahlen",
-    payment_step_label: "Schritt 2 von 2: Bezahlung",
-    payment_instruction: "Bitte überweisen Sie den genauen Rechnungsbetrag an eine der folgenden Bankverbindungen:",
-    payment_mono_title: "Monobank (UAH / EUR)",
-    payment_mono_recipient: "Patsula Vadim",
-    payment_revolut_title: "Revolut (IBAN / Karte / EUR)",
-    payment_revolut_recipient: "Savelii Shkurko",
-    payment_revolut_card_label: "Revolut Kartennummer:",
+    payment_instruction: "Bitte wählen Sie eine Bank und überweisen Sie den Rechnungsbetrag:",
+    bank_tab_europe: "Europe Bank",
+    bank_tab_american: "American Bank",
+    bank_tab_mono: "Ukraine",
+    bank_europe_title: "Europe Bank (EUR / IBAN)",
+    bank_american_title: "American Bank (USD / IBAN)",
+    bank_mono_title: "Ukraine (UAH / Monobank)",
+    bank_card_label: "Kartennummer:",
+    bank_recipient_label: "Empfänger:",
     payment_copy_btn: "Kopieren",
     payment_copied_toast: "Zahlungsdaten in die Zwischenablage kopiert!",
-    payment_tab_direct: "Direktüberweisung (Bank)",
-    payment_tab_vinted: "Kauf über Vinted",
-    vinted_card_title: "Sicherer Kauf über Vinted",
-    vinted_card_desc: "Sie können Ihren Kauf sicher über die europäische Plattform Vinted mit offiziellem Käuferschutz und Paketverfolgung abwickeln.",
-    vinted_feat_1: "100% Vinted Käuferschutz-Garantie",
-    vinted_feat_2: "Offizielle Paketverfolgung und versicherter Versand",
-    vinted_feat_3: "Unser Manager erstellt ein persönliches Vinted-Angebot und sendet Ihnen den direkten Link per Telegram oder E-Mail",
-    vinted_note_text: "Nach dem Absenden erhalten wir Ihre Anfrage und unser Manager kontaktiert Sie umgehend mit dem Vinted-Link!",
-    btn_vinted_submit: "Vinted-Anfrage absenden",
-    vinted_order_success_title: "Vinted-Anfrage eingereicht!",
-    vinted_order_success_desc: "Ihre Anfrage für den Kauf über Vinted wurde erfolgreich übermittelt! Unser Manager wird sich in Kürze per Telegram oder E-Mail mit dem Link bei Ihnen melden.",
     receipt_upload_title: "Zahlungsbeleg / Screenshot *",
     receipt_drop_text: "Klicken oder Zahlungsbeleg hierher ziehen",
     receipt_drop_hint: "JPG, PNG, WEBP oder PDF (max. 15 MB)",
@@ -496,7 +471,7 @@ const translations = {
     info_modal_close_btn: "Verstanden",
     info_shipping_title: "Lieferung & Bezahlung",
     info_shipping_p1: "<b>Versand der Bestellungen:</b> 1-3 Werktage nach Bestätigung und vollständiger Bezahlung.",
-    info_shipping_p2: "<b>Zahlung:</b> vollständige Vorauszahlung per Banküberweisung (Monobank / Revolut) oder sicherer Kauf über die Vinted-Plattform.",
+    info_shipping_p2: "<b>Zahlung:</b> vollständige Bezahlung per Banküberweisung (Monobank / Revolut).",
     info_shipping_p3: "<b>Lieferung:</b> erfolgt über zuverlässige internationale und lokale Logistikdienstleister mit Online-Sendungsverfolgung.",
     info_returns_title: "Rückgabe- & Umtauschbedingungen",
     info_returns_p1: "<b>Rückgaben sind nur bei Fehlern seitens des Shops möglich</b> (falscher Artikel geliefert, Fabrikationsfehler oder unvollständige Lieferung).",
@@ -1889,31 +1864,42 @@ function generateOrderNumber() {
   return `${digits}-${letters}`;
 }
 
-let currentPaymentMethod = 'direct';
+// Currently selected bank requisite ID ('europe', 'american', 'mono')
+let currentSelectedBank = 'europe';
 
-function switchPaymentMethod(method) {
-  currentPaymentMethod = method;
-  const tabDirect = document.getElementById('tabPayDirectBtn');
-  const tabVinted = document.getElementById('tabPayVintedBtn');
-  const panelDirect = document.getElementById('payDirectPanel');
-  const panelVinted = document.getElementById('payVintedPanel');
+// Switch active bank requisites tab in payment modal
+window.switchBankRequisite = function(bankId) {
+  currentSelectedBank = bankId || 'europe';
+  if (pendingOrderData) {
+    pendingOrderData.selectedBank = currentSelectedBank;
+  }
+  const tabs = document.querySelectorAll('.req-bank-tab');
+  tabs.forEach(tab => {
+    tab.classList.toggle('active', tab.dataset.bank === bankId);
+  });
 
-  if (method === 'vinted') {
-    if (tabDirect) tabDirect.classList.remove('active');
-    if (tabVinted) tabVinted.classList.add('active');
-    if (panelDirect) panelDirect.classList.remove('active');
-    if (panelVinted) panelVinted.classList.add('active');
-  } else {
-    if (tabVinted) tabVinted.classList.remove('active');
-    if (tabDirect) tabDirect.classList.add('active');
-    if (panelVinted) panelVinted.classList.remove('active');
-    if (panelDirect) panelDirect.classList.add('active');
+  const panels = document.querySelectorAll('.bank-requisite-panel');
+  panels.forEach(panel => {
+    panel.classList.toggle('active', panel.dataset.bank === bankId);
+  });
+};
+
+// Map bank ID to user-facing bank name for Telegram
+function getBankDisplayName(bankId) {
+  switch (bankId) {
+    case 'europe':
+      return 'Europe Bank (EUR)';
+    case 'american':
+      return 'American Bank (USD)';
+    case 'mono':
+      return 'Ukraine (UAH / Monobank)';
+    default:
+      return 'Europe Bank (EUR)';
   }
 }
 
 // Build formatted message for Telegram Bot
 function buildTelegramOrderCaption(order) {
-  const isVinted = order.paymentMethod === 'vinted';
   const itemsList = order.items.map((item, index) => {
     const p = products.find(prod => prod.id == item.id || String(prod.id) === String(item.id));
     const name = escapeHtml((p && p.names && (p.names['ru'] || p.names['en'])) || (item.names && (item.names['ru'] || item.names['en'])) || item.name || item.brandName);
@@ -1931,12 +1917,9 @@ function buildTelegramOrderCaption(order) {
   const name = escapeHtml(order.shipping.name);
   const phone = escapeHtml(order.shipping.phone);
   const email = escapeHtml(order.shipping.email);
+  const bankName = escapeHtml(getBankDisplayName(order.selectedBank || currentSelectedBank));
 
-  const headerTitle = isVinted ? '🛍 <b>NEW WORLDWIDE ORDER (VINTED)</b> 🛍' : '🌎 <b>NEW WORLDWIDE ORDER</b> 🌎';
-  const paymentText = isVinted ? '🛍 <b>VINTED (Заказ через Vinted)</b>' : 'Worldwide payment details';
-  const statusText = isVinted ? 'vinted_pending' : 'created';
-
-  return `${headerTitle}\n\n` +
+  return `🌎 <b>NEW WORLDWIDE ORDER</b> 🌎\n\n` +
          `🆔 <b>Order:</b> ${order.orderId}\n` +
          `👤 <b>Full Name:</b> ${name}\n` +
          `📞 <b>Phone:</b> ${phone}\n` +
@@ -1949,38 +1932,12 @@ function buildTelegramOrderCaption(order) {
          `🏠 <b>Residence Address:</b> ${address}\n\n` +
          `🛒 <b>Items:</b>\n` +
          `${itemsList}\n\n` +
-         `💳 <b>Payment:</b> ${paymentText}\n` +
+         `🏦 <b>Selected Bank / Requisites:</b> <b>${bankName}</b>\n` +
+         `💳 <b>Payment Method:</b> Worldwide direct transfer\n` +
          `🧾 <b>Goods Total:</b> ${formatPrice(order.subtotal)}€\n` +
          `🚚 <b>Shipping:</b> ${formatPrice(order.shippingCost)}€\n` +
-         `📌 <b>Status:</b> ${statusText}\n` +
+         `📌 <b>Status:</b> created\n` +
          `💰 <b>TOTAL:</b> ${formatPrice(order.total)}€`;
-}
-
-// Build separate alert message for Vinted Request
-function buildTelegramVintedAlert(order) {
-  const itemsList = order.items.map((item, index) => {
-    const p = products.find(prod => prod.id == item.id || String(prod.id) === String(item.id));
-    const name = escapeHtml((p && p.names && (p.names['ru'] || p.names['en'])) || (item.names && (item.names['ru'] || item.names['en'])) || item.name || item.brandName);
-    const size = escapeHtml(item.selectedSize || (item.size ? (Array.isArray(item.size) ? item.size.join('/') : item.size) : (p && p.size ? (Array.isArray(p.size) ? p.size.join('/') : p.size) : '')));
-    const qtyStr = item.qty > 1 ? ` (${item.qty}x)` : '';
-    return `${index + 1}. ${name} ${size ? `(${size})` : ''}${qtyStr} — ${item.price * item.qty}€`;
-  }).join('\n');
-
-  const name = escapeHtml(order.shipping.name);
-  const phone = escapeHtml(order.shipping.phone);
-  const email = escapeHtml(order.shipping.email);
-  const country = escapeHtml(order.shipping.country);
-  const city = escapeHtml(order.shipping.city);
-
-  return `🛍⚠️ <b>НОВАЯ ЗАЯВКА НА ПОКУПКУ ЧЕРЕЗ VINTED!</b> ⚠️🛍\n\n` +
-         `🆔 <b>Заказ:</b> № ${order.orderId}\n` +
-         `👤 <b>Покупатель:</b> ${name}\n` +
-         `📞 <b>Телефон / WhatsApp:</b> ${phone}\n` +
-         `📧 <b>Email:</b> ${email}\n` +
-         `🌍 <b>Страна доставки:</b> ${country}, ${city}\n\n` +
-         `📦 <b>Товары к покупке:</b>\n${itemsList}\n\n` +
-         `💰 <b>Сумма к оплате:</b> ${formatPrice(order.total)} €\n\n` +
-         `👉 <b>Действие:</b> Пользователь запросил покупку товара через Vinted. Свяжитесь с клиентом для создания листинга и отправки ссылки на Vinted!`;
 }
 
 // Send Order + Receipt Photo to Telegram
@@ -1992,12 +1949,6 @@ async function sendOrderToTelegram(orderData, receiptFile) {
 
   if (receiptFile) {
     formData.append('photo', receiptFile, receiptFile.name);
-  }
-
-  // If Vinted order, append the separate alert as second message
-  if (orderData.paymentMethod === 'vinted') {
-    const vintedAlert = buildTelegramVintedAlert(orderData);
-    formData.append('second_message', vintedAlert);
   }
 
   // 1. Attempt Vercel Serverless Function /api/send-order or /api/order
@@ -2045,20 +1996,6 @@ async function sendOrderToTelegram(orderData, receiptFile) {
       });
       const directData = await directRes.json();
       console.log('[Direct Telegram Response]:', directData);
-
-      // Send 2nd message if Vinted
-      if (orderData.paymentMethod === 'vinted') {
-        const vintedAlert = buildTelegramVintedAlert(orderData);
-        await fetch(`https://api.telegram.org/bot${clientToken.trim()}/sendMessage`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            chat_id: clientChatId.trim(),
-            text: vintedAlert,
-            parse_mode: 'HTML'
-          })
-        });
-      }
 
       if (directData && directData.ok) {
         return { success: true, data: directData };
@@ -2316,11 +2253,9 @@ function initCheckoutEvents() {
         }
       };
 
-      // Reset payment method tab to direct by default
-      switchPaymentMethod('direct');
-
-      // Reset receipt upload state
+      // Reset receipt upload state and default to Europe Bank tab
       resetReceiptUpload();
+      switchBankRequisite('europe');
 
       // Populate Payment Modal with exact sums & order ID
       if (paymentOrderNumber) paymentOrderNumber.textContent = `№ ${orderId}`;
@@ -2355,6 +2290,7 @@ function initCheckoutEvents() {
       if (!pendingOrderData) return;
 
       pendingOrderData.paymentMethod = 'direct';
+      pendingOrderData.selectedBank = currentSelectedBank;
 
       // Button loading indicator
       const origBtnHtml = paymentConfirmPaidBtn.innerHTML;
@@ -2395,7 +2331,7 @@ function initCheckoutEvents() {
             shipping_cost: pendingOrderData.shippingCost,
             total_amount: pendingOrderData.total,
             status: 'created',
-            payment_method: 'Worldwide payment details'
+            payment_method: getBankDisplayName(currentSelectedBank)
           });
           if (dbErr) {
             console.warn('Supabase DB Insert Notice:', dbErr.message);
@@ -2433,105 +2369,6 @@ function initCheckoutEvents() {
       paymentConfirmPaidBtn.disabled = false;
       paymentConfirmPaidBtn.innerHTML = origBtnHtml;
       resetReceiptUpload();
-
-      // Close payment modal & open final success screen
-      if (paymentOverlay) paymentOverlay.classList.remove('active');
-
-      if (orderSuccessOverlay) {
-        orderSuccessOverlay.classList.add('active');
-        document.body.classList.add('modal-open');
-      }
-
-      if (checkoutForm) checkoutForm.reset();
-      pendingOrderData = null;
-    });
-  }
-
-  // Step 2B: Confirm Vinted Request -> Send 2 Telegram Messages -> Record Order & Open Step 3: Success Screen
-  const paymentSubmitVintedBtn = document.getElementById('paymentSubmitVintedBtn');
-  if (paymentSubmitVintedBtn) {
-    paymentSubmitVintedBtn.addEventListener('click', async () => {
-      const t = translations[currentLang];
-      if (!pendingOrderData) return;
-
-      pendingOrderData.paymentMethod = 'vinted';
-
-      // Button loading indicator
-      const origBtnHtml = paymentSubmitVintedBtn.innerHTML;
-      paymentSubmitVintedBtn.disabled = true;
-      paymentSubmitVintedBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> <span>${t.receipt_sending || "Отправка заявки..."}</span>`;
-
-      try {
-        await sendOrderToTelegram(pendingOrderData, null);
-      } catch (err) {
-        console.warn('Telegram send notice:', err);
-      }
-
-      // Save order to Supabase DB (if available)
-      const sbClient = await getSupabase();
-      let authUser = currentUser;
-      if (sbClient && !authUser) {
-        try {
-          authUser = (await sbClient.auth.getUser())?.data?.user;
-        } catch (e) {}
-      }
-
-      if (sbClient) {
-        try {
-          const { error: dbErr } = await sbClient.from('orders').insert({
-            id: pendingOrderData.orderId,
-            user_id: authUser ? authUser.id : null,
-            customer_name: pendingOrderData.shipping.name,
-            phone: pendingOrderData.shipping.phone,
-            email: pendingOrderData.shipping.email,
-            country: pendingOrderData.shipping.country,
-            region: pendingOrderData.shipping.region,
-            zip: pendingOrderData.shipping.zip,
-            city: pendingOrderData.shipping.city,
-            post_office: pendingOrderData.shipping.postOffice,
-            address: pendingOrderData.shipping.address,
-            items: pendingOrderData.items,
-            subtotal: pendingOrderData.subtotal,
-            shipping_cost: pendingOrderData.shippingCost,
-            total_amount: pendingOrderData.total,
-            status: 'vinted_pending',
-            payment_method: 'Vinted'
-          });
-          if (dbErr) {
-            console.warn('Supabase DB Insert Notice:', dbErr.message);
-          } else {
-            console.log('Vinted Order synced to Supabase DB for user:', authUser ? authUser.id : 'guest');
-          }
-        } catch (dbError) {
-          console.warn('Supabase DB Sync Exception:', dbError);
-        }
-      }
-
-      // Save order to LocalStorage strictly for this authenticated user (if logged in)
-      if (authUser && authUser.id) {
-        const userOrdersKey = `r8ilt_orders_${authUser.id}`;
-        const pastOrders = JSON.parse(localStorage.getItem(userOrdersKey)) || [];
-        pastOrders.unshift(pendingOrderData);
-        localStorage.setItem(userOrdersKey, JSON.stringify(pastOrders));
-      }
-
-      if (successOrderNumber) {
-        successOrderNumber.textContent = `№ ${pendingOrderData.orderId}`;
-      }
-
-      // Success modal customized for Vinted
-      const successTitle = document.querySelector('.success-title');
-      if (successTitle) successTitle.textContent = t.vinted_order_success_title || "Заявка на Vinted оформлена!";
-      if (successOrderDesc) successOrderDesc.textContent = t.vinted_order_success_desc || "Ваша заявка на покупку через Vinted успешно отправлена! Менеджер свяжется с вами в Telegram или по Email со ссылкой на лот.";
-
-      // Clear cart
-      cart = [];
-      saveCart();
-      updateCartUI();
-
-      // Reset button state
-      paymentSubmitVintedBtn.disabled = false;
-      paymentSubmitVintedBtn.innerHTML = origBtnHtml;
 
       // Close payment modal & open final success screen
       if (paymentOverlay) paymentOverlay.classList.remove('active');
