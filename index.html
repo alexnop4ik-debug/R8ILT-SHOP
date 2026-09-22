@@ -22,7 +22,7 @@
   <!-- Supabase JS Client -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <link rel="stylesheet" href="styles.css?v=113">
+  <link rel="stylesheet" href="styles.css?v=114">
 </head>
 <body>
 
@@ -734,12 +734,20 @@
                   <div class="requisite-bank-tag mono-tag">
                     <i class="fa-solid fa-credit-card"></i> <span data-i18n="bank_mono_title">Ukraine (UAH / Monobank)</span>
                   </div>
-                  <button type="button" class="btn-copy-req" onclick="copyRequisite('4874070024788927')" title="Скопировать номер карты">
-                    <i class="fa-regular fa-copy"></i> <span data-i18n="payment_copy_btn">Копировать</span>
-                  </button>
                 </div>
 
-                <div class="requisite-number">4874 0700 2478 8927</div>
+                <div class="requisite-rows-list">
+                  <!-- Card Number -->
+                  <div class="requisite-row">
+                    <div class="req-row-info">
+                      <span class="req-row-label" data-i18n="bank_card_label">Номер карты:</span>
+                      <span class="requisite-number">4874 0700 2478 8927</span>
+                    </div>
+                    <button type="button" class="btn-copy-req" onclick="copyRequisite('4874070024788927')" title="Скопировать номер карты">
+                      <i class="fa-regular fa-copy"></i> <span data-i18n="payment_copy_btn">Копировать</span>
+                    </button>
+                  </div>
+                </div>
 
                 <div class="requisite-holder">
                   <span class="req-label" data-i18n="bank_recipient_label">Получатель:</span> <span class="req-val">Пацула Вадим / Vadym Patsula</span>
