@@ -38,7 +38,6 @@ export default async function handler(req) {
     const formData = await req.formData();
     const caption = formData.get('caption') || '';
     const photo = formData.get('photo');
-    const secondMessage = formData.get('second_message') || '';
 
     const tgFormData = new FormData();
     tgFormData.append('chat_id', chatId.trim());
@@ -61,23 +60,6 @@ export default async function handler(req) {
     });
 
     const result = await tgResponse.json();
-
-    // If second message is present (e.g. separate Vinted alert notification)
-    if (secondMessage && secondMessage.trim()) {
-      try {
-        await fetch(`https://api.telegram.org/bot${botToken.trim()}/sendMessage`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            chat_id: chatId.trim(),
-            text: secondMessage,
-            parse_mode: 'HTML',
-          }),
-        });
-      } catch (err2) {
-        console.warn('Failed to send second Telegram message:', err2);
-      }
-    }
 
     return new Response(JSON.stringify(result), {
       status: tgResponse.status,
