@@ -1763,12 +1763,13 @@ body.cart-open {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.75);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
   z-index: 1000;
   opacity: 0;
   visibility: hidden;
-  transition: all var(--transition-smooth);
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+  will-change: opacity;
 }
 
 .cart-overlay.active {
@@ -1790,8 +1791,10 @@ body.cart-open {
   background: var(--bg-surface-elevated);
   border-left: 1px solid var(--border-active);
   z-index: 1001;
-  transform: translateX(100%);
-  transition: transform var(--transition-smooth), visibility var(--transition-smooth);
+  transform: translate3d(100%, 0, 0);
+  -webkit-transform: translate3d(100%, 0, 0);
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.28s ease;
+  will-change: transform;
   display: flex;
   flex-direction: column;
   visibility: hidden;
@@ -1801,7 +1804,8 @@ body.cart-open {
 }
 
 .cart-drawer.active {
-  transform: translateX(0);
+  transform: translate3d(0, 0, 0);
+  -webkit-transform: translate3d(0, 0, 0);
   visibility: visible;
   pointer-events: all;
 }
@@ -2031,16 +2035,17 @@ body.cart-open {
 .checkout-modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(5, 2, 4, 0.85);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: rgba(5, 2, 4, 0.88);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
   z-index: 1060;
   display: flex;
   align-items: center;
   justify-content: center;
   opacity: 0;
   visibility: hidden;
-  transition: opacity var(--transition-smooth), visibility var(--transition-smooth);
+  transition: opacity 0.22s ease, visibility 0.22s ease;
+  will-change: opacity;
   padding: 20px;
   overflow-y: auto;
 }
@@ -2060,14 +2065,17 @@ body.cart-open {
   position: relative;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.95), 0 0 45px rgba(184, 4, 34, 0.25);
-  transform: translateY(20px) scale(0.97);
-  transition: transform var(--transition-smooth);
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.95), 0 0 35px rgba(184, 4, 34, 0.2);
+  transform: translate3d(0, 16px, 0) scale(0.98);
+  -webkit-transform: translate3d(0, 16px, 0) scale(0.98);
+  transition: transform 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
   overflow: hidden;
 }
 
 .checkout-modal-overlay.active .checkout-modal {
-  transform: translateY(0) scale(1);
+  transform: translate3d(0, 0, 0) scale(1);
+  -webkit-transform: translate3d(0, 0, 0) scale(1);
 }
 
 .checkout-header {
@@ -2851,11 +2859,15 @@ body.cart-open {
 
 .bank-requisite-panel {
   display: none;
-  animation: fadeInModal 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  opacity: 0;
+  transform: translate3d(0, 4px, 0);
+  transition: opacity 0.18s ease, transform 0.18s ease;
 }
 
 .bank-requisite-panel.active {
   display: block;
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
 }
 
 .europe-tag {
@@ -4305,6 +4317,21 @@ body.cart-open {
 
   .toast.show {
     transform: translate(-50%, 0);
+  }
+
+  /* GPU Optimized Modals for Mobile devices */
+  .checkout-modal-overlay,
+  .cart-overlay,
+  .modal-overlay {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: rgba(4, 1, 3, 0.94) !important;
+  }
+
+  .checkout-modal,
+  .payment-modal,
+  .quickview-modal {
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.9) !important;
   }
 }
 
