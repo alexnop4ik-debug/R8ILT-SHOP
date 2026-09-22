@@ -22,7 +22,7 @@
   <!-- Supabase JS Client -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <link rel="stylesheet" href="styles.css?v=98">
+  <link rel="stylesheet" href="styles.css?v=113">
 </head>
 <body class="product-page-body">
 
@@ -360,93 +360,164 @@
           <span class="success-order-num" id="paymentOrderNumber">№ R8-82491</span>
         </div>
 
-        <!-- Order Amount Breakdown -->
-        <div class="payment-order-summary">
-          <div class="payment-summary-row">
-            <span data-i18n="checkout_summary_items">Стоимость товаров:</span>
-            <span id="paymentItemsTotal">0 €</span>
-          </div>
-          <div class="payment-summary-row">
-            <span data-i18n="checkout_summary_shipping">Доставка:</span>
-            <span class="shipping-highlight" id="paymentShippingCost">30 €</span>
-          </div>
-          <div class="payment-summary-row total-row">
-            <span data-i18n="checkout_summary_total_to_pay">Итого к оплате:</span>
-            <span class="payment-total-sum" id="paymentTotalToPay">0 €</span>
-          </div>
-        </div>
-
-        <!-- Payment Method Tabs -->
-        <div class="payment-method-tabs">
-          <button type="button" class="payment-method-tab active" id="tabPayDirectBtn" onclick="switchPaymentMethod('direct')">
-            <i class="fa-solid fa-credit-card"></i>
-            <span data-i18n="payment_tab_direct">Прямой перевод (Реквизиты)</span>
-          </button>
-          <button type="button" class="payment-method-tab vinted-tab" id="tabPayVintedBtn" onclick="switchPaymentMethod('vinted')">
-            <i class="fa-solid fa-bag-shopping"></i>
-            <span data-i18n="payment_tab_vinted">Заказ через Vinted</span>
-          </button>
-        </div>
-
-        <!-- Panel 1: Direct Bank Transfer & Mandatory Receipt -->
+        <!-- Direct Bank Transfer & Mandatory Receipt -->
         <div class="payment-panel active" id="payDirectPanel">
           <p class="payment-instruction-text" data-i18n="payment_instruction">
-            Пожалуйста, переведите точную сумму заказа по любым удобным реквизитам ниже:
+            Пожалуйста, выберите банк и переведите сумму заказа по указанным реквизитам:
           </p>
 
-          <!-- Requisites Cards with One-Click Copy -->
+          <!-- 3 Bank Requisites Selector Tabs -->
+          <div class="requisite-bank-tabs">
+            <button type="button" class="req-bank-tab active" data-bank="europe" onclick="switchBankRequisite('europe')">
+              <i class="fa-solid fa-earth-europe"></i>
+              <span data-i18n="bank_tab_europe">Europe Bank</span>
+            </button>
+            <button type="button" class="req-bank-tab" data-bank="american" onclick="switchBankRequisite('american')">
+              <i class="fa-solid fa-building-columns"></i>
+              <span data-i18n="bank_tab_american">American Bank</span>
+            </button>
+            <button type="button" class="req-bank-tab" data-bank="mono" onclick="switchBankRequisite('mono')">
+              <i class="fa-solid fa-credit-card"></i>
+              <span data-i18n="bank_tab_mono">Ukraine</span>
+            </button>
+          </div>
+
+          <!-- Bank Requisites Panels -->
           <div class="requisites-container">
-            <!-- Monobank -->
-            <div class="requisite-card">
-              <div class="requisite-card-header">
-                <div class="requisite-bank-tag mono-tag">
-                  <i class="fa-solid fa-credit-card"></i> <span data-i18n="payment_mono_title">Монобанк (UAH / EUR)</span>
+            <!-- 1. Europe Bank (EUR) -->
+            <div class="bank-requisite-panel active" id="bankPanelEurope" data-bank="europe">
+              <div class="requisite-card europe-card">
+                <div class="requisite-card-header">
+                  <div class="requisite-bank-tag europe-tag">
+                    <i class="fa-solid fa-earth-europe"></i> <span data-i18n="bank_europe_title">Europe Bank (EUR / IBAN)</span>
+                  </div>
                 </div>
-                <button type="button" class="btn-copy-req" onclick="copyRequisite('4441111055523041')" title="Скопировать номер карты">
-                  <i class="fa-regular fa-copy"></i> <span data-i18n="payment_copy_btn">Копировать</span>
-                </button>
-              </div>
-              <div class="requisite-number" id="monoCardNumber">4441 1110 5552 3041</div>
-              <div class="requisite-holder">
-                <span class="req-label">Получатель:</span> <span class="req-val" data-i18n="payment_mono_recipient">Пацула Вадим Анатолиевич / Patsula Vadim</span>
+
+                <div class="requisite-rows-list">
+                  <!-- IBAN -->
+                  <div class="requisite-row">
+                    <div class="req-row-info">
+                      <span class="req-row-label">IBAN:</span>
+                      <span class="requisite-number iban-number">GB98 CLJU 0099 7187 9224 51</span>
+                    </div>
+                    <button type="button" class="btn-copy-req" onclick="copyRequisite('GB98CLJU00997187922451')" title="Скопировать IBAN">
+                      <i class="fa-regular fa-copy"></i> <span data-i18n="payment_copy_btn">Копировать</span>
+                    </button>
+                  </div>
+
+                  <!-- BIC CODE -->
+                  <div class="requisite-row">
+                    <div class="req-row-info">
+                      <span class="req-row-label">BIC CODE:</span>
+                      <span class="requisite-number">CLJUGB21</span>
+                    </div>
+                    <button type="button" class="btn-copy-req" onclick="copyRequisite('CLJUGB21')" title="Скопировать BIC CODE">
+                      <i class="fa-regular fa-copy"></i> <span data-i18n="payment_copy_btn">Копировать</span>
+                    </button>
+                  </div>
+
+                  <!-- Card Number -->
+                  <div class="requisite-row">
+                    <div class="req-row-info">
+                      <span class="req-row-label" data-i18n="bank_card_label">Номер карты:</span>
+                      <span class="requisite-number">4441 1144 9947 1058</span>
+                    </div>
+                    <button type="button" class="btn-copy-req" onclick="copyRequisite('4441114499471058')" title="Скопировать номер карты">
+                      <i class="fa-regular fa-copy"></i> <span data-i18n="payment_copy_btn">Копировать</span>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="requisite-holder">
+                  <span class="req-label" data-i18n="bank_recipient_label">Получатель:</span> <span class="req-val">Vadym Patsula</span>
+                </div>
               </div>
             </div>
 
-            <!-- Revolut -->
-            <div class="requisite-card revolut-card">
-              <div class="requisite-card-header">
-                <div class="requisite-bank-tag revolut-tag">
-                  <i class="fa-solid fa-building-columns"></i> <span data-i18n="payment_revolut_title">Revolut (IBAN / Card / EUR)</span>
+            <!-- 2. American Bank (USD) -->
+            <div class="bank-requisite-panel" id="bankPanelAmerican" data-bank="american">
+              <div class="requisite-card american-card">
+                <div class="requisite-card-header">
+                  <div class="requisite-bank-tag american-tag">
+                    <i class="fa-solid fa-building-columns"></i> <span data-i18n="bank_american_title">American Bank (USD / IBAN)</span>
+                  </div>
+                </div>
+
+                <div class="requisite-rows-list">
+                  <!-- IBAN -->
+                  <div class="requisite-row">
+                    <div class="req-row-info">
+                      <span class="req-row-label">IBAN:</span>
+                      <span class="requisite-number iban-number">UA25 3220 0100 0002 6206 3774 5029 0</span>
+                    </div>
+                    <button type="button" class="btn-copy-req" onclick="copyRequisite('UA253220010000026206377450290')" title="Скопировать IBAN">
+                      <i class="fa-regular fa-copy"></i> <span data-i18n="payment_copy_btn">Копировать</span>
+                    </button>
+                  </div>
+
+                  <!-- BIC CODE -->
+                  <div class="requisite-row">
+                    <div class="req-row-info">
+                      <span class="req-row-label">BIC CODE:</span>
+                      <span class="requisite-number">UNJSUAUKXXX</span>
+                    </div>
+                    <button type="button" class="btn-copy-req" onclick="copyRequisite('UNJSUAUKXXX')" title="Скопировать BIC CODE">
+                      <i class="fa-regular fa-copy"></i> <span data-i18n="payment_copy_btn">Копировать</span>
+                    </button>
+                  </div>
+
+                  <!-- Card Number -->
+                  <div class="requisite-row">
+                    <div class="req-row-info">
+                      <span class="req-row-label" data-i18n="bank_card_label">Номер карты:</span>
+                      <span class="requisite-number">4874 1000 8556 2232</span>
+                    </div>
+                    <button type="button" class="btn-copy-req" onclick="copyRequisite('4874100085562232')" title="Скопировать номер карты">
+                      <i class="fa-regular fa-copy"></i> <span data-i18n="payment_copy_btn">Копировать</span>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="requisite-holder">
+                  <span class="req-label" data-i18n="bank_recipient_label">Получатель:</span> <span class="req-val">Vadim Patsula</span>
                 </div>
               </div>
+            </div>
 
-              <div class="requisite-rows-list">
-                <!-- Row 1: IBAN -->
-                <div class="requisite-row">
-                  <div class="req-row-info">
-                    <span class="req-row-label">IBAN:</span>
-                    <span class="requisite-number iban-number" id="revolutIban">DE02 1001 0178 7231 7087 50</span>
+            <!-- 3. Ukraine (UAH / Monobank) -->
+            <div class="bank-requisite-panel" id="bankPanelMono" data-bank="mono">
+              <div class="requisite-card mono-card">
+                <div class="requisite-card-header">
+                  <div class="requisite-bank-tag mono-tag">
+                    <i class="fa-solid fa-credit-card"></i> <span data-i18n="bank_mono_title">Ukraine (UAH / Monobank)</span>
                   </div>
-                  <button type="button" class="btn-copy-req" onclick="copyRequisite('DE02100101787231708750')" title="Скопировать IBAN">
+                  <button type="button" class="btn-copy-req" onclick="copyRequisite('4874070024788927')" title="Скопировать номер карты">
                     <i class="fa-regular fa-copy"></i> <span data-i18n="payment_copy_btn">Копировать</span>
                   </button>
                 </div>
 
-                <!-- Row 2: Card Number -->
-                <div class="requisite-row">
-                  <div class="req-row-info">
-                    <span class="req-row-label" data-i18n="payment_revolut_card_label">Номер карты:</span>
-                    <span class="requisite-number" id="revolutCardNumber">4165 9834 9308 4834</span>
-                  </div>
-                  <button type="button" class="btn-copy-req" onclick="copyRequisite('4165983493084834')" title="Скопировать номер карты">
-                    <i class="fa-regular fa-copy"></i> <span data-i18n="payment_copy_btn">Копировать</span>
-                  </button>
+                <div class="requisite-number">4874 0700 2478 8927</div>
+
+                <div class="requisite-holder">
+                  <span class="req-label" data-i18n="bank_recipient_label">Получатель:</span> <span class="req-val">Пацула Вадим / Vadym Patsula</span>
                 </div>
               </div>
+            </div>
+          </div>
 
-              <div class="requisite-holder">
-                <span class="req-label">Получатель:</span> <span class="req-val" data-i18n="payment_revolut_recipient">Savelii Shkurko</span>
-              </div>
+          <!-- Order Amount Breakdown -->
+          <div class="payment-order-summary">
+            <div class="payment-summary-row">
+              <span data-i18n="checkout_summary_items">Стоимость товаров:</span>
+              <span id="paymentItemsTotal">0 €</span>
+            </div>
+            <div class="payment-summary-row">
+              <span data-i18n="checkout_summary_shipping">Доставка:</span>
+              <span class="shipping-highlight" id="paymentShippingCost">30 €</span>
+            </div>
+            <div class="payment-summary-row total-row">
+              <span data-i18n="checkout_summary_total_to_pay">Итого к оплате:</span>
+              <span class="payment-total-sum" id="paymentTotalToPay">0 €</span>
             </div>
           </div>
 
@@ -490,53 +561,6 @@
           <div class="payment-actions-wrap">
             <button type="button" class="btn btn-primary btn-block payment-confirm-btn" id="paymentConfirmPaidBtn">
               <i class="fa-solid fa-paper-plane"></i> <span data-i18n="btn_i_paid_confirm">Оформить заказ и отправить чек</span>
-            </button>
-            <a href="https://t.me/r8iltmanager" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-block tg-receipt-btn" style="gap:10px;">
-              <i class="fa-brands fa-telegram"></i> <span data-i18n="order_success_tg_receipt">Связаться с менеджером в Telegram</span>
-            </a>
-          </div>
-        </div>
-
-        <!-- Panel 2: Vinted Safe Deal Request -->
-        <div class="payment-panel" id="payVintedPanel">
-          <div class="vinted-card">
-            <div class="vinted-badge-row">
-              <span class="vinted-badge"><i class="fa-solid fa-shield-check"></i> Vinted Buyer Protection</span>
-              <span class="vinted-badge" style="background:rgba(255,255,255,0.06);color:#fff;border-color:rgba(255,255,255,0.15);">Безопасная сделка</span>
-            </div>
-            
-            <h3 class="vinted-card-title">
-              <i class="fa-solid fa-bag-shopping"></i> <span data-i18n="vinted_card_title">Покупка через сервис Vinted</span>
-            </h3>
-            
-            <p class="vinted-card-desc" data-i18n="vinted_card_desc">
-              Вы можете оформить безопасную покупку через европейскую платформу Vinted с официальной защитой покупателя и удобной доставкой.
-            </p>
-
-            <ul class="vinted-features-list">
-              <li>
-                <i class="fa-solid fa-circle-check"></i>
-                <span data-i18n="vinted_feat_1">100% Защита средств покупателя Vinted Buyer Protection</span>
-              </li>
-              <li>
-                <i class="fa-solid fa-circle-check"></i>
-                <span data-i18n="vinted_feat_2">Официальное отслеживание посылки и страховка доставки</span>
-              </li>
-              <li>
-                <i class="fa-solid fa-circle-check"></i>
-                <span data-i18n="vinted_feat_3">Менеджер оперативно создаст персональный лот на Vinted и пришлет вам прямую ссылку в Telegram или на Email</span>
-              </li>
-            </ul>
-
-            <div class="vinted-note-box">
-              <i class="fa-solid fa-headset"></i>
-              <span data-i18n="vinted_note_text">После нажатия кнопки мы мгновенно получим вашу заявку и менеджер свяжется с вами для отправки ссылки на Vinted!</span>
-            </div>
-          </div>
-
-          <div class="payment-actions-wrap">
-            <button type="button" class="btn btn-primary btn-block vinted-submit-btn" id="paymentSubmitVintedBtn">
-              <i class="fa-solid fa-paper-plane"></i> <span data-i18n="btn_vinted_submit">Отправить заявку через Vinted</span>
             </button>
             <a href="https://t.me/r8iltmanager" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-block tg-receipt-btn" style="gap:10px;">
               <i class="fa-brands fa-telegram"></i> <span data-i18n="order_success_tg_receipt">Связаться с менеджером в Telegram</span>
@@ -732,6 +756,6 @@
     <span class="floating-cart-badge" id="floatingCartCount">0</span>
   </button>
 
-  <script src="app.js?v=98"></script>
+  <script src="app.js?v=111"></script>
 </body>
 </html>
