@@ -935,16 +935,25 @@ textarea:focus-visible {
 }
 
 /* Filter Tabs & Dual Row Container (Sleek Pills / Chips) */
+.catalog-section .header-split {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 22px;
+  width: 100%;
+}
+
 .filter-container {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 12px;
+  width: 100%;
 }
 
 .filter-group {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
+  width: 100%;
   flex-wrap: wrap;
 }
 
@@ -955,21 +964,22 @@ textarea:focus-visible {
   color: var(--color-crimson);
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  min-width: 82px;
+  min-width: 80px;
   flex-shrink: 0;
 }
 
 .filter-tabs {
   display: flex;
-  gap: 8px;
+  gap: 6px;
   flex-wrap: wrap;
   align-items: center;
+  flex: 1;
 }
 
 .filter-btn {
   font-family: var(--font-body);
-  padding: 7px 16px;
-  font-size: 0.8rem;
+  padding: 6px 14px;
+  font-size: 0.78rem;
   font-weight: 600;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -2710,192 +2720,9 @@ body.cart-open {
   border: 1px solid rgba(217, 4, 41, 0.25);
 }
 
-/* Payment Method Selector Tabs */
-.payment-method-tabs {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-bottom: 18px;
-  width: 100%;
-}
-
-.payment-method-tab {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 12px 14px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: var(--radius-sm);
-  color: var(--text-secondary);
-  font-size: 0.84rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all var(--transition-fast);
-  text-align: center;
-}
-
-.payment-method-tab:hover {
-  color: #fff;
-  border-color: rgba(217, 4, 41, 0.4);
-  background: rgba(217, 4, 41, 0.08);
-}
-
-.payment-method-tab.active {
-  background: var(--color-crimson);
-  color: #fff;
-  border-color: var(--color-crimson);
-  box-shadow: 0 4px 18px rgba(217, 4, 41, 0.4);
-}
-
-.payment-method-tab i {
-  font-size: 1rem;
-}
-
-.payment-method-tab.vinted-tab.active {
-  background: linear-gradient(135deg, #09b1ba 0%, #007782 100%);
-  border-color: #09b1ba;
-  box-shadow: 0 4px 20px rgba(9, 177, 186, 0.35);
-}
-
-.payment-method-tab.vinted-tab:hover:not(.active) {
-  border-color: rgba(9, 177, 186, 0.5);
-  background: rgba(9, 177, 186, 0.1);
-  color: #fff;
-}
-
 /* Payment Panels */
 .payment-panel {
-  display: none;
-  animation: fadeInModal 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.payment-panel.active {
   display: block;
-}
-
-/* Vinted Card Styling */
-.vinted-card {
-  background: linear-gradient(180deg, rgba(9, 177, 186, 0.08) 0%, rgba(5, 10, 15, 0.8) 100%);
-  border: 1px solid rgba(9, 177, 186, 0.35);
-  border-radius: 10px;
-  padding: 20px;
-  text-align: left;
-  margin-bottom: 20px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 25px rgba(9, 177, 186, 0.12);
-  position: relative;
-  overflow: hidden;
-}
-
-.vinted-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, #09b1ba, #00d2d3, #ff2a4d);
-}
-
-.vinted-badge-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 12px;
-}
-
-.vinted-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: rgba(9, 177, 186, 0.18);
-  border: 1px solid rgba(9, 177, 186, 0.4);
-  color: #2bcbba;
-  font-size: 0.74rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  padding: 4px 10px;
-  border-radius: 20px;
-}
-
-.vinted-card-title {
-  font-size: 1.15rem;
-  font-weight: 800;
-  color: #fff;
-  margin-bottom: 10px;
-  display: flex;
-  align-items: center;
-  gap: 9px;
-}
-
-.vinted-card-title i {
-  color: #09b1ba;
-}
-
-.vinted-card-desc {
-  font-size: 0.88rem;
-  color: #cbd5e1;
-  line-height: 1.55;
-  margin-bottom: 16px;
-}
-
-.vinted-features-list {
-  list-style: none;
-  padding: 0;
-  margin: 0 0 18px 0;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.vinted-features-list li {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  font-size: 0.84rem;
-  color: #f1f5f9;
-  line-height: 1.45;
-}
-
-.vinted-features-list li i {
-  color: #2bcbba;
-  font-size: 0.92rem;
-  margin-top: 2px;
-  flex-shrink: 0;
-}
-
-.vinted-note-box {
-  background: rgba(0, 0, 0, 0.45);
-  border: 1px dashed rgba(9, 177, 186, 0.4);
-  border-radius: 6px;
-  padding: 12px 14px;
-  font-size: 0.82rem;
-  color: #94a3b8;
-  line-height: 1.45;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.vinted-note-box i {
-  color: #38ef7d;
-  font-size: 1.1rem;
-  flex-shrink: 0;
-}
-
-.vinted-submit-btn {
-  background: linear-gradient(135deg, #007782 0%, #09b1ba 100%) !important;
-  border-color: #09b1ba !important;
-  color: #fff !important;
-  box-shadow: 0 6px 25px rgba(9, 177, 186, 0.35) !important;
-}
-
-.vinted-submit-btn:hover {
-  background: linear-gradient(135deg, #09b1ba 0%, #00d2d3 100%) !important;
-  box-shadow: 0 8px 30px rgba(9, 177, 186, 0.55) !important;
-  transform: translateY(-2px);
 }
 
 .payment-instruction-text {
@@ -2905,6 +2732,175 @@ body.cart-open {
   margin-bottom: 14px;
   text-align: left;
   line-height: 1.4;
+}
+
+/* 3 Bank Requisites Selector Tabs */
+.requisite-bank-tabs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 14px;
+  width: 100%;
+}
+
+.req-bank-tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 4px;
+  height: 46px;
+  min-height: 46px;
+  max-height: 46px;
+  box-sizing: border-box;
+  border-radius: var(--radius-sm);
+  color: #fff;
+  font-size: 0.76rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.95), 0 0 3px #000;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+/* 1. Europe Bank - Clean Authentic EU Flag (Blue Border & Glow) */
+.req-bank-tab[data-bank="europe"] {
+  background: linear-gradient(rgba(0, 0, 0, 0.52), rgba(0, 0, 0, 0.70)), 
+              url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 100' preserveAspectRatio='none'%3E%3Crect width='300' height='100' fill='%23003399'/%3E%3Cdefs%3E%3Cg id='s'%3E%3Cpolygon fill='%23ffcc00' points='0,-4 1.18,3.24 -3.8,-1.24 3.8,-1.24 -1.18,3.24'/%3E%3C/g%3E%3C/defs%3E%3Cg transform='translate(150,50)'%3E%3Cuse href='%23s' transform='translate(0,-28)'/%3E%3Cuse href='%23s' transform='translate(14,-24.25)'/%3E%3Cuse href='%23s' transform='translate(24.25,-14)'/%3E%3Cuse href='%23s' transform='translate(28,0)'/%3E%3Cuse href='%23s' transform='translate(24.25,14)'/%3E%3Cuse href='%23s' transform='translate(14,24.25)'/%3E%3Cuse href='%23s' transform='translate(0,28)'/%3E%3Cuse href='%23s' transform='translate(-14,24.25)'/%3E%3Cuse href='%23s' transform='translate(-24.25,14)'/%3E%3Cuse href='%23s' transform='translate(-28,0)'/%3E%3Cuse href='%23s' transform='translate(-24.25,-14)'/%3E%3Cuse href='%23s' transform='translate(-14,-24.25)'/%3E%3C/g%3E%3C/svg%3E") center/cover no-repeat;
+  border: 2px solid rgba(0, 117, 255, 0.4);
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.6);
+}
+
+.req-bank-tab[data-bank="europe"] i {
+  color: #38bdf8;
+  filter: drop-shadow(0 0 4px rgba(56, 189, 248, 0.8));
+}
+
+.req-bank-tab[data-bank="europe"]:hover {
+  background: linear-gradient(rgba(0, 0, 0, 0.38), rgba(0, 0, 0, 0.55)), 
+              url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 100' preserveAspectRatio='none'%3E%3Crect width='300' height='100' fill='%23003399'/%3E%3Cdefs%3E%3Cg id='s'%3E%3Cpolygon fill='%23ffcc00' points='0,-4 1.18,3.24 -3.8,-1.24 3.8,-1.24 -1.18,3.24'/%3E%3C/g%3E%3C/defs%3E%3Cg transform='translate(150,50)'%3E%3Cuse href='%23s' transform='translate(0,-28)'/%3E%3Cuse href='%23s' transform='translate(14,-24.25)'/%3E%3Cuse href='%23s' transform='translate(24.25,-14)'/%3E%3Cuse href='%23s' transform='translate(28,0)'/%3E%3Cuse href='%23s' transform='translate(24.25,14)'/%3E%3Cuse href='%23s' transform='translate(14,24.25)'/%3E%3Cuse href='%23s' transform='translate(0,28)'/%3E%3Cuse href='%23s' transform='translate(-14,24.25)'/%3E%3Cuse href='%23s' transform='translate(-24.25,14)'/%3E%3Cuse href='%23s' transform='translate(-28,0)'/%3E%3Cuse href='%23s' transform='translate(-24.25,-14)'/%3E%3Cuse href='%23s' transform='translate(-14,-24.25)'/%3E%3C/g%3E%3C/svg%3E") center/cover no-repeat;
+  border-color: rgba(56, 189, 248, 0.75);
+  box-shadow: 0 0 16px rgba(0, 102, 255, 0.6), 0 0 8px rgba(56, 189, 248, 0.4), inset 0 0 8px rgba(0, 0, 0, 0.4);
+}
+
+.req-bank-tab[data-bank="europe"].active {
+  background: linear-gradient(rgba(0, 0, 0, 0.22), rgba(0, 0, 0, 0.42)), 
+              url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 100' preserveAspectRatio='none'%3E%3Crect width='300' height='100' fill='%23003399'/%3E%3Cdefs%3E%3Cg id='s'%3E%3Cpolygon fill='%23ffcc00' points='0,-4 1.18,3.24 -3.8,-1.24 3.8,-1.24 -1.18,3.24'/%3E%3C/g%3E%3C/defs%3E%3Cg transform='translate(150,50)'%3E%3Cuse href='%23s' transform='translate(0,-28)'/%3E%3Cuse href='%23s' transform='translate(14,-24.25)'/%3E%3Cuse href='%23s' transform='translate(24.25,-14)'/%3E%3Cuse href='%23s' transform='translate(28,0)'/%3E%3Cuse href='%23s' transform='translate(24.25,14)'/%3E%3Cuse href='%23s' transform='translate(14,24.25)'/%3E%3Cuse href='%23s' transform='translate(0,28)'/%3E%3Cuse href='%23s' transform='translate(-14,24.25)'/%3E%3Cuse href='%23s' transform='translate(-24.25,14)'/%3E%3Cuse href='%23s' transform='translate(-28,0)'/%3E%3Cuse href='%23s' transform='translate(-24.25,-14)'/%3E%3Cuse href='%23s' transform='translate(-14,-24.25)'/%3E%3C/g%3E%3C/svg%3E") center/cover no-repeat;
+  border: 2px solid #0088ff;
+  box-shadow: 0 4px 22px rgba(0, 102, 255, 0.85), 0 0 16px rgba(56, 189, 248, 0.65), inset 0 0 8px rgba(0, 0, 0, 0.3);
+}
+
+/* 2. American Bank - Clean Authentic USA Flag (Red Border & Glow) */
+.req-bank-tab[data-bank="american"] {
+  background: linear-gradient(rgba(0, 0, 0, 0.52), rgba(0, 0, 0, 0.70)), 
+              url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 100' preserveAspectRatio='none'%3E%3Crect width='300' height='100' fill='%23b22234'/%3E%3Crect y='7.69' width='300' height='7.69' fill='%23fff'/%3E%3Crect y='23.08' width='300' height='7.69' fill='%23fff'/%3E%3Crect y='38.46' width='300' height='7.69' fill='%23fff'/%3E%3Crect y='53.85' width='300' height='7.69' fill='%23fff'/%3E%3Crect y='69.23' width='300' height='7.69' fill='%23fff'/%3E%3Crect y='84.62' width='300' height='7.69' fill='%23fff'/%3E%3Crect width='120' height='53.85' fill='%231c2b5e'/%3E%3Cdefs%3E%3Cg id='u'%3E%3Cpolygon fill='%23fff' points='0,-2.5 0.73,2 -2.38,-0.77 2.38,-0.77 -0.73,2'/%3E%3C/g%3E%3C/defs%3E%3Cuse href='%23u' x='12' y='9'/%3E%3Cuse href='%23u' x='36' y='9'/%3E%3Cuse href='%23u' x='60' y='9'/%3E%3Cuse href='%23u' x='84' y='9'/%3E%3Cuse href='%23u' x='108' y='9'/%3E%3Cuse href='%23u' x='24' y='18'/%3E%3Cuse href='%23u' x='48' y='18'/%3E%3Cuse href='%23u' x='72' y='18'/%3E%3Cuse href='%23u' x='96' y='18'/%3E%3Cuse href='%23u' x='12' y='27'/%3E%3Cuse href='%23u' x='36' y='27'/%3E%3Cuse href='%23u' x='60' y='27'/%3E%3Cuse href='%23u' x='84' y='27'/%3E%3Cuse href='%23u' x='108' y='27'/%3E%3Cuse href='%23u' x='24' y='36'/%3E%3Cuse href='%23u' x='48' y='36'/%3E%3Cuse href='%23u' x='72' y='36'/%3E%3Cuse href='%23u' x='96' y='36'/%3E%3Cuse href='%23u' x='12' y='45'/%3E%3Cuse href='%23u' x='36' y='45'/%3E%3Cuse href='%23u' x='60' y='45'/%3E%3Cuse href='%23u' x='84' y='45'/%3E%3Cuse href='%23u' x='108' y='45'/%3E%3C/svg%3E") center/cover no-repeat;
+  border: 2px solid rgba(217, 4, 41, 0.4);
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.6);
+}
+
+.req-bank-tab[data-bank="american"] i {
+  color: #ff4d6d;
+  filter: drop-shadow(0 0 4px rgba(255, 77, 109, 0.8));
+}
+
+.req-bank-tab[data-bank="american"]:hover {
+  background: linear-gradient(rgba(0, 0, 0, 0.38), rgba(0, 0, 0, 0.55)), 
+              url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 100' preserveAspectRatio='none'%3E%3Crect width='300' height='100' fill='%23b22234'/%3E%3Crect y='7.69' width='300' height='7.69' fill='%23fff'/%3E%3Crect y='23.08' width='300' height='7.69' fill='%23fff'/%3E%3Crect y='38.46' width='300' height='7.69' fill='%23fff'/%3E%3Crect y='53.85' width='300' height='7.69' fill='%23fff'/%3E%3Crect y='69.23' width='300' height='7.69' fill='%23fff'/%3E%3Crect y='84.62' width='300' height='7.69' fill='%23fff'/%3E%3Crect width='120' height='53.85' fill='%231c2b5e'/%3E%3Cdefs%3E%3Cg id='u'%3E%3Cpolygon fill='%23fff' points='0,-2.5 0.73,2 -2.38,-0.77 2.38,-0.77 -0.73,2'/%3E%3C/g%3E%3C/defs%3E%3Cuse href='%23u' x='12' y='9'/%3E%3Cuse href='%23u' x='36' y='9'/%3E%3Cuse href='%23u' x='60' y='9'/%3E%3Cuse href='%23u' x='84' y='9'/%3E%3Cuse href='%23u' x='108' y='9'/%3E%3Cuse href='%23u' x='24' y='18'/%3E%3Cuse href='%23u' x='48' y='18'/%3E%3Cuse href='%23u' x='72' y='18'/%3E%3Cuse href='%23u' x='96' y='18'/%3E%3Cuse href='%23u' x='12' y='27'/%3E%3Cuse href='%23u' x='36' y='27'/%3E%3Cuse href='%23u' x='60' y='27'/%3E%3Cuse href='%23u' x='84' y='27'/%3E%3Cuse href='%23u' x='108' y='27'/%3E%3Cuse href='%23u' x='24' y='36'/%3E%3Cuse href='%23u' x='48' y='36'/%3E%3Cuse href='%23u' x='72' y='36'/%3E%3Cuse href='%23u' x='96' y='36'/%3E%3Cuse href='%23u' x='12' y='45'/%3E%3Cuse href='%23u' x='36' y='45'/%3E%3Cuse href='%23u' x='60' y='45'/%3E%3Cuse href='%23u' x='84' y='45'/%3E%3Cuse href='%23u' x='108' y='45'/%3E%3C/svg%3E") center/cover no-repeat;
+  border-color: rgba(255, 77, 109, 0.75);
+  box-shadow: 0 0 16px rgba(217, 4, 41, 0.6), 0 0 8px rgba(255, 77, 109, 0.4), inset 0 0 8px rgba(0, 0, 0, 0.4);
+}
+
+.req-bank-tab[data-bank="american"].active {
+  background: linear-gradient(rgba(0, 0, 0, 0.22), rgba(0, 0, 0, 0.42)), 
+              url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 100' preserveAspectRatio='none'%3E%3Crect width='300' height='100' fill='%23b22234'/%3E%3Crect y='7.69' width='300' height='7.69' fill='%23fff'/%3E%3Crect y='23.08' width='300' height='7.69' fill='%23fff'/%3E%3Crect y='38.46' width='300' height='7.69' fill='%23fff'/%3E%3Crect y='53.85' width='300' height='7.69' fill='%23fff'/%3E%3Crect y='69.23' width='300' height='7.69' fill='%23fff'/%3E%3Crect y='84.62' width='300' height='7.69' fill='%23fff'/%3E%3Crect width='120' height='53.85' fill='%231c2b5e'/%3E%3Cdefs%3E%3Cg id='u'%3E%3Cpolygon fill='%23fff' points='0,-2.5 0.73,2 -2.38,-0.77 2.38,-0.77 -0.73,2'/%3E%3C/g%3E%3C/defs%3E%3Cuse href='%23u' x='12' y='9'/%3E%3Cuse href='%23u' x='36' y='9'/%3E%3Cuse href='%23u' x='60' y='9'/%3E%3Cuse href='%23u' x='84' y='9'/%3E%3Cuse href='%23u' x='108' y='9'/%3E%3Cuse href='%23u' x='24' y='18'/%3E%3Cuse href='%23u' x='48' y='18'/%3E%3Cuse href='%23u' x='72' y='18'/%3E%3Cuse href='%23u' x='96' y='18'/%3E%3Cuse href='%23u' x='12' y='27'/%3E%3Cuse href='%23u' x='36' y='27'/%3E%3Cuse href='%23u' x='60' y='27'/%3E%3Cuse href='%23u' x='84' y='27'/%3E%3Cuse href='%23u' x='108' y='27'/%3E%3Cuse href='%23u' x='24' y='36'/%3E%3Cuse href='%23u' x='48' y='36'/%3E%3Cuse href='%23u' x='72' y='36'/%3E%3Cuse href='%23u' x='96' y='36'/%3E%3Cuse href='%23u' x='12' y='45'/%3E%3Cuse href='%23u' x='36' y='45'/%3E%3Cuse href='%23u' x='60' y='45'/%3E%3Cuse href='%23u' x='84' y='45'/%3E%3Cuse href='%23u' x='108' y='45'/%3E%3C/svg%3E") center/cover no-repeat;
+  border: 2px solid #ef4444;
+  box-shadow: 0 4px 22px rgba(239, 68, 68, 0.85), 0 0 16px rgba(255, 77, 109, 0.65), inset 0 0 8px rgba(0, 0, 0, 0.3);
+}
+
+/* 3. Monobank - Clean Authentic Ukraine Flag */
+.req-bank-tab[data-bank="mono"] {
+  background: linear-gradient(rgba(0, 0, 0, 0.50), rgba(0, 0, 0, 0.68)), 
+              linear-gradient(180deg, #0057b7 0%, #0057b7 50%, #ffd700 50%, #ffd700 100%);
+  border: 2px solid rgba(255, 215, 0, 0.35);
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.6);
+}
+
+.req-bank-tab[data-bank="mono"] i {
+  color: #ffd700;
+  filter: drop-shadow(0 0 4px rgba(255, 215, 0, 0.8));
+}
+
+.req-bank-tab[data-bank="mono"]:hover {
+  background: linear-gradient(rgba(0, 0, 0, 0.36), rgba(0, 0, 0, 0.54)), 
+              linear-gradient(180deg, #0057b7 0%, #0057b7 50%, #ffd700 50%, #ffd700 100%);
+  border-color: rgba(255, 215, 0, 0.75);
+  box-shadow: 0 0 16px rgba(0, 87, 183, 0.6), 0 0 10px rgba(255, 215, 0, 0.4), inset 0 0 8px rgba(0, 0, 0, 0.4);
+}
+
+.req-bank-tab[data-bank="mono"].active {
+  background: linear-gradient(rgba(0, 0, 0, 0.22), rgba(0, 0, 0, 0.42)), 
+              linear-gradient(180deg, #0057b7 0%, #0057b7 50%, #ffd700 50%, #ffd700 100%);
+  border: 2px solid #ffd700;
+  box-shadow: 0 4px 20px rgba(0, 87, 183, 0.8), 0 0 14px rgba(255, 215, 0, 0.6), inset 0 0 8px rgba(0, 0, 0, 0.3);
+  color: #fff;
+}
+
+.bank-requisite-panel {
+  display: none;
+  animation: fadeInModal 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.bank-requisite-panel.active {
+  display: block;
+}
+
+.europe-tag {
+  background: rgba(14, 165, 233, 0.12);
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.25);
+}
+
+.american-tag {
+  background: rgba(217, 4, 41, 0.12);
+  color: #ff4d6d;
+  border: 1px solid rgba(255, 77, 109, 0.3);
+}
+
+@media (max-width: 540px) {
+  .requisite-bank-tabs {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+  }
+  .req-bank-tab {
+    padding: 6px 2px;
+    height: 44px;
+    min-height: 44px;
+    max-height: 44px;
+    font-size: 0.70rem;
+    justify-content: center;
+    gap: 4px;
+  }
+  .req-bank-tab i {
+    font-size: 0.76rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .requisite-bank-tabs {
+    gap: 4px;
+  }
+  .req-bank-tab {
+    font-size: 0.64rem;
+    padding: 4px 1px;
+    gap: 3px;
+  }
+  .req-bank-tab i {
+    font-size: 0.70rem;
+  }
 }
 
 /* Receipt Upload Section */
