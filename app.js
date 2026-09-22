@@ -1833,8 +1833,10 @@ function openCheckoutModal() {
     }).join('');
   }
 
-  checkoutOverlay.classList.add('active');
-  document.body.classList.add('modal-open');
+  requestAnimationFrame(() => {
+    checkoutOverlay.classList.add('active');
+    document.body.classList.add('modal-open');
+  });
 }
 
 // Close Checkout Modal
@@ -2266,10 +2268,12 @@ function initCheckoutEvents() {
       // Close checkout form and transition smoothly to payment requisites screen
       closeCheckoutModal();
 
-      if (paymentOverlay) {
-        paymentOverlay.classList.add('active');
-        document.body.classList.add('modal-open');
-      }
+      requestAnimationFrame(() => {
+        if (paymentOverlay) {
+          paymentOverlay.classList.add('active');
+          document.body.classList.add('modal-open');
+        }
+      });
     });
   }
 
