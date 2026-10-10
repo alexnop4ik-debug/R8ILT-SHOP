@@ -211,8 +211,28 @@ export default async function handler(req) {
       });
     }
 
-    // 6. DELETE Product
+    // 6. DELETE Product (Single or Clear All)
     if (req.method === 'DELETE') {
+      if (action === 'clear-all') {
+        const deleteRes = await fetch(`${supabaseUrl}/rest/v1/products?id=not.is.null`, {
+          method: 'DELETE',
+          headers: sbHeaders,
+        });
+
+        if (!deleteRes.ok) {
+          const errText = await deleteRes.text();
+          return new Response(JSON.stringify({ success: false, error: errText }), {
+            status: 500,
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          });
+        }
+
+        return new Response(JSON.stringify({ success: true, message: 'Все товары успешно удалены из каталога.' }), {
+          status: 200,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        });
+      }
+
       if (!productId) {
         return new Response(JSON.stringify({ success: false, error: 'Не указан ID товара для удаления.' }), {
           status: 400,
