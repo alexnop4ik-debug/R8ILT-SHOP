@@ -488,412 +488,24 @@ const translations = {
   }
 };
 
-// Multilingual Products Catalog
-let products = [
-  {
-    id: 3,
-    brand: "beloyar",
-    brandName: "Белояр",
-    category: "tees",
-    price: 25,
-    oldPrice: 35,
-    currency: "€",
-    badge: "sale",
-    rune: "ᛉ",
-    images: [
-      "tovari/photo_5_2026-08-28_11-45-48.jpg",
-      "tovari/photo_6_2026-08-28_11-45-48.jpg"
-    ],
-    names: {
-      ru: "Футболка Белояр «Set Sail and Conquer the World» Black",
-      en: "Beloyar T-Shirt «Set Sail and Conquer the World» Black",
-      de: "Beloyar T-Shirt «Set Sail and Conquer the World» Schwarz"
-    },
-    categoryNames: {
-      ru: "Футболки / Майки",
-      en: "T-Shirts & Tanks",
-      de: "T-Shirts & Tanks"
-    },
-    badgeTexts: {
-      ru: "SALE",
-      en: "SALE",
-      de: "SALE"
-    },
-    descriptions: {
-      ru: "Культовая черная футболка от бренда Белояр с принтом драккара и легендарным слоганом Set Sail and Conquer the World. Насыщенный черный цвет, плотный премиальный хлопок, фирменный принт на рукаве и бирка Сделано на Руси. Состояние 9/10, вещь без нюансов.",
-      en: "Iconic black t-shirt by Beloyar featuring the drakkar graphic and Set Sail and Conquer the World motto. Heavyweight premium cotton, durable screen print and sleeve branding. Condition 9/10, clean and flaw-free.",
-      de: "Kultiges schwarzes T-Shirt von Beloyar mit Drakkar-Motiv und dem Motto Set Sail and Conquer the World. Hochwertige Baumwolle und langlebiger Druck. Zustand 9/10, makellos."
-    },
-    size: "XL"
-  },
-  {
-    id: 4,
-    brand: "beloyar",
-    brandName: "Белояр",
-    category: "tees",
-    price: 25,
-    oldPrice: 35,
-    currency: "€",
-    badge: "sale",
-    rune: "ᚱ",
-    images: [
-      "tovari/photo_7_2026-08-28_11-45-48.jpg",
-      "tovari/photo_8_2026-08-28_11-45-48.jpg"
-    ],
-    names: {
-      ru: "Футболка Белояр «Classic Yellow Logo» Black",
-      en: "Beloyar T-Shirt «Classic Yellow Logo» Black",
-      de: "Beloyar T-Shirt «Classic Yellow Logo» Schwarz"
-    },
-    categoryNames: {
-      ru: "Футболки / Майки",
-      en: "T-Shirts & Tanks",
-      de: "T-Shirts & Tanks"
-    },
-    badgeTexts: {
-      ru: "SALE",
-      en: "SALE",
-      de: "SALE"
-    },
-    descriptions: {
-      ru: "Оригинальная черная футболка от бренда Белояр с контрастным желтым руническим логотипом на груди. Плотный качественный хлопок, бирка Сделано на Руси и фирменный принт на рукаве. Состояние 9/10, чистая и без нюансов.",
-      en: "Original black t-shirt by Beloyar featuring a bold yellow runic logo across the chest. Heavyweight cotton, sleeve branding and authentic neck tag. Condition 9/10, clean and in great shape.",
-      de: "Originales schwarzes T-Shirt von Beloyar mit gelbem Runenlogo auf der Brust. Hochwertige Baumwolle und Ärmelbranding. Zustand 9/10, makellos."
-    },
-    size: "L"
-  },
-  {
-    id: 5,
-    brand: "svastone",
-    brandName: "Svastone",
-    category: "tees",
-    price: 25,
-    oldPrice: 35,
-    currency: "€",
-    badge: "sale",
-    rune: "🜵",
-    images: [
-      "tovari/photo_9_2026-08-28_11-45-48.jpg",
-      "tovari/photo_10_2026-08-28_11-45-48.jpg"
-    ],
-    names: {
-      ru: "Футболка Svastone «Іду на Ви» Ringer Black",
-      en: "Svastone T-Shirt «Idu Na Vy» Ringer Black",
-      de: "Svastone T-Shirt «Idu Na Vy» Ringer Schwarz"
-    },
-    categoryNames: {
-      ru: "Футболки / Майки",
-      en: "T-Shirts & Tanks",
-      de: "T-Shirts & Tanks"
-    },
-    badgeTexts: {
-      ru: "SALE",
-      en: "SALE",
-      de: "SALE"
-    },
-    descriptions: {
-      ru: "Культовая футболка от украинского бренда Svastone с принтом Іду на Ви и контрастными светлыми манжетами ringer tee. Состояние 7/10, винтажный характер: есть естественные трещинки на принте и легкая растянутость ткани от носки, дырок и пятен нет.",
-      en: "Iconic combat ringer t-shirt by Svastone featuring the legendary Idu Na Vy print and contrasting trims. Condition 7/10 with honest vintage character: cracking on the print and slight relaxed stretch from wear, no holes or stains.",
-      de: "Kultiges Ringer T-Shirt von Svastone mit dem Motiv Idu Na Vy und kontrastierenden Bündchen. Zustand 7/10 mit authentischem Vintage-Charakter: leichte Risse im Druck und gewollte Dehnung, ohne Löcher."
-    },
-    size: "XL"
-  },
-  {
-    id: 6,
-    brand: "pitbull",
-    brandName: "Pit Bull Germany",
-    category: "sweatshirts",
-    price: 75,
-    oldPrice: 85,
-    currency: "€",
-    badge: "sale",
-    rune: "🝊",
-    images: [
-      "tovari/photo_11_2026-08-28_11-45-48.jpg",
-      "tovari/photo_12_2026-08-28_11-45-48.jpg"
-    ],
-    names: {
-      ru: "Свитшот Pit Bull Germany «Germania 01» Black",
-      en: "Pit Bull Germany Sweatshirt «Germania 01» Black",
-      de: "Pit Bull Germany Sweatshirt «Germania 01» Schwarz"
-    },
-    categoryNames: {
-      ru: "Свитшоты",
-      en: "Sweatshirts",
-      de: "Sweatshirts"
-    },
-    badgeTexts: {
-      ru: "SALE",
-      en: "SALE",
-      de: "SALE"
-    },
-    descriptions: {
-      ru: "Тяжелый оригинальный свитшот от немецкого бренда Pit Bull Germany с массивными принтами Germania 01 на груди, спине и рукавах. Плотный качественный хлопок с начесом, фирменный патч с бульдогом на манжете. Состояние 8/10, есть естественные трещинки на принте от носки, сама кофта плотная и без дефектов.",
-      en: "Heavyweight authentic sweatshirt by Pit Bull Germany featuring massive Germania 01 graphics across chest, back and sleeve. Heavy fleece cotton, signature dog patch on sleeve cuff. Condition 8/10 with honest print cracking from wear, fabric is solid and clean.",
-      de: "Schweres originales Sweatshirt von Pit Bull Germany mit markanten Germania 01 Prints auf Brust, Rücken und Ärmeln. Robuste Fleece-Baumwolle und Pitbull-Patch am Ärmel. Zustand 8/10, leichte Risse im Druck, Stoff top."
-    },
-    size: "XL"
-  },
-  {
-    id: 7,
-    brand: "pitbull",
-    brandName: "Pit Bull Germany",
-    category: "bombers",
-    price: 50,
-    oldPrice: 60,
-    currency: "€",
-    badge: "sale",
-    rune: "🜏",
-    images: [
-      "tovari/photo_13_2026-08-28_11-45-48.jpg",
-      "tovari/photo_14_2026-08-28_11-45-48.jpg"
-    ],
-    names: {
-      ru: "Куртка Pit Bull Germany «Softshell Tactical» Black",
-      en: "Pit Bull Germany Jacket «Softshell Tactical» Black",
-      de: "Pit Bull Germany Jacke «Softshell Tactical» Schwarz"
-    },
-    categoryNames: {
-      ru: "Бомберы / Куртки",
-      en: "Bombers & Jackets",
-      de: "Bomber & Jacken"
-    },
-    badgeTexts: {
-      ru: "SALE",
-      en: "SALE",
-      de: "SALE"
-    },
-    descriptions: {
-      ru: "Тактическая черная ветрозащитная куртка softshell от немецкого бренда Pit Bull Germany. Плотный влагоотталкивающий материал, теплая флисовая подкладка, регулируемые манжеты на липучках и карманы на молниях. Состояние 8/10, есть нюанс: снизу отходит язычок молнии (легко поправить в ателье), поэтому цена приятно снижена.",
-      en: "Tactical black windproof softshell jacket by German label Pit Bull Germany. Water-resistant outer shell, warm fleece lining, Velcro adjustable cuffs and secure zipper pockets. Condition 8/10, minor flaw: lower zipper tab needs a simple stitch in a repair shop, priced down accordingly.",
-      de: "Taktische schwarze Softshelljacke von Pit Bull Germany. Wind- und wasserabweisendes Material, warmes Fleecefutter und Reißverschlusstaschen. Zustand 8/10 mit kleinem Reißverschluss-Detail, stark reduzierter Preis."
-    },
-    size: "L"
-  },
-  {
-    id: 8,
-    brand: "pitbull",
-    brandName: "Pit Bull Germany",
-    category: "tees",
-    price: 65,
-    oldPrice: 75,
-    currency: "€",
-    badge: "sale",
-    rune: "🝊",
-    images: [
-      "tovari/photo_15_2026-08-28_11-45-48.jpg",
-      "tovari/photo_16_2026-08-28_11-45-48.jpg"
-    ],
-    names: {
-      ru: "Футболка Pit Bull Germany «Frankfurt Knuckles» Black",
-      en: "Pit Bull Germany T-Shirt «Frankfurt Knuckles» Black",
-      de: "Pit Bull Germany T-Shirt «Frankfurt Knuckles» Schwarz"
-    },
-    categoryNames: {
-      ru: "Футболки / Майки",
-      en: "T-Shirts & Tanks",
-      de: "T-Shirts & Tanks"
-    },
-    badgeTexts: {
-      ru: "SALE",
-      en: "SALE",
-      de: "SALE"
-    },
-    descriptions: {
-      ru: "Редкая винтажная футболка от культового немецкого бренда Pit Bull Germany. Готический логотип Frankfurt на груди и массивный принт с кастетом на спине. Плотный хлопок старой школы, бирка Deutsches Produkt. Состояние 8/10, есть легкие трещинки на принте от времени, вещь без дыр и дефектов.",
-      en: "Rare vintage t-shirt by legendary German label Pit Bull Germany. Gothic Frankfurt chest logo and large brass knuckles print across the back. Heavyweight old-school cotton, authentic Deutsches Produkt tag. Condition 8/10 with subtle vintage print cracking, no holes or flaws.",
-      de: "Seltenes Vintage T-Shirt von Pit Bull Germany. Gotisches Frankfurt-Logo auf der Brust und massiver Schlagring-Print auf dem Rücken. Robuste Baumwolle im Oldschool-Schnitt. Zustand 8/10, leichte Risse im Druck, Stoff top."
-    },
-    size: "XL"
-  },
-  {
-    id: 11,
-    brand: "pitbull",
-    brandName: "Pit Bull Germany",
-    category: "bombers",
-    price: 60,
-    oldPrice: 70,
-    currency: "€",
-    badge: "sale",
-    rune: "🜏",
-    images: [
-      "tovari/photo_21_2026-08-28_11-45-48.jpg",
-      "tovari/photo_22_2026-08-28_11-45-48.jpg"
-    ],
-    names: {
-      ru: "Варсити Куртка Pit Bull Germany «Punishgirl» Pink/Cream",
-      en: "Pit Bull Germany Varsity Jacket «Punishgirl» Pink/Cream",
-      de: "Pit Bull Germany Collegejacke «Punishgirl» Pink/Creme"
-    },
-    categoryNames: {
-      ru: "Бомберы / Куртки",
-      en: "Bombers & Jackets",
-      de: "Bomber & Jacken"
-    },
-    badgeTexts: {
-      ru: "SALE",
-      en: "SALE",
-      de: "SALE"
-    },
-    descriptions: {
-      ru: "Коллекционная варсити-куртка бомбер от Pit Bull Germany в ярком малиново-розовом и кремовом оттенках. Кнопки спереди, плотные полосатые манжеты, принты Good Girl - Bad Girl на рукавах и массивная графика Punishgirl на спине. Состояние 8/10, есть нюанс: срезана верхняя бирка на шее, сама вещь в отличной форме.",
-      en: "Collector's varsity bomber jacket by Pit Bull Germany in bold magenta pink and cream colorway. Snap-button front, striped ribbing, Good Girl - Bad Girl sleeve prints and large Punishgirl back graphic. Condition 8/10, minor flaw: missing neck brand tag, jacket itself is in great condition.",
-      de: "Auffällige Collegejacke von Pit Bull Germany in Magenta-Pink und Creme. Druckknopfleiste, gestreifte Rippbündchen und markanter Punishgirl-Rückenprint. Zustand 8/10, ohne Nackenetikett."
-    },
-    size: "M-L"
-  },
-  {
-    id: 12,
-    brand: "pitbull",
-    brandName: "Pit Bull Germany",
-    category: "sweatshirts",
-    price: 130,
-    oldPrice: 140,
-    currency: "€",
-    badge: "sale",
-    rune: "🝊",
-    images: [
-      "tovari/photo_23_2026-08-28_11-45-48.jpg",
-      "tovari/photo_24_2026-08-28_11-45-48.jpg"
-    ],
-    names: {
-      ru: "Свитшот Pit Bull Germany «Final Attack» Grey",
-      en: "Pit Bull Germany Sweatshirt «Final Attack» Grey",
-      de: "Pit Bull Germany Sweatshirt «Final Attack» Grau"
-    },
-    categoryNames: {
-      ru: "Свитшоты",
-      en: "Sweatshirts",
-      de: "Sweatshirts"
-    },
-    badgeTexts: {
-      ru: "SALE",
-      en: "SALE",
-      de: "SALE"
-    },
-    descriptions: {
-      ru: "Легендарный коллекционный свитшот от немецкого бренда Pit Bull Germany с культовым принтом Final Attack на спине и вышитым логотипом на груди. Плотный хлопок с начесом, оригинальная бирка Deutsches Produkt. Состояние 10/10, идеальный музейный сохран без единого нюанса и без трещин на принте.",
-      en: "Legendary collector's crewneck sweatshirt by Pit Bull Germany featuring the iconic Final Attack back graphic and embroidered chest logo. Premium heavy fleece cotton, authentic Deutsches Produkt tag. Condition 10/10, flawless pristine condition without any wear or cracking.",
-      de: "Legendäres Sammler-Sweatshirt von Pit Bull Germany mit dem ikonischen Final Attack Rückenprint und gesticktem Brustlogo. Schwere Fleece-Baumwolle. Zustand 10/10, absoluter Traumzustand ohne Mängel."
-    },
-    size: "L-XL"
-  },
-  {
-    id: 13,
-    brand: "pitbull",
-    brandName: "Pit Bull Germany x Zippo",
-    category: "misc",
-    price: 75,
-    oldPrice: 85,
-    currency: "€",
-    badge: "sale",
-    rune: "🝊",
-    images: [
-      "tovari/photo_25_2026-08-28_11-45-48.jpg",
-      "tovari/photo_26_2026-08-28_11-45-48.jpg"
-    ],
-    names: {
-      ru: "Зажигалка Zippo x Pit Bull Germany «Frankfurt Dog»",
-      en: "Zippo x Pit Bull Germany Lighter «Frankfurt Dog»",
-      de: "Zippo x Pit Bull Germany Feuerzeug «Frankfurt Dog»"
-    },
-    categoryNames: {
-      ru: "Разное / Аксессуары",
-      en: "Accessories & Misc",
-      de: "Accessoires & Diverses"
-    },
-    badgeTexts: {
-      ru: "SALE",
-      en: "SALE",
-      de: "SALE"
-    },
-    descriptions: {
-      ru: "Оригинальная ветрозащитная бензиновая зажигалка Zippo Made in USA в редкой коллаборации с брендом Pit Bull Germany. Глянцевый черный корпус, рельефная металлическая эмблема питбуля и готическая гравировка Frankfurt. Полный оригинальный комплект с кейсом и инструкцией. Состояние 10/10, идеальный сохран без нюансов.",
-      en: "Original windproof lighter by Zippo Made in USA in rare collaboration with Pit Bull Germany. High polish black and chrome finish, raised metal bulldog emblem and gothic Frankfurt engraving. Complete set with original case and documentation. Condition 10/10, pristine collectors condition.",
-      de: "Originales Zippo Sturmfeuerzeug Made in USA in Kooperation mit Pit Bull Germany. Schwarzes Hochglanz-Design mit erhabenem Pitbull-Emblem und Frankfurt-Gravur. Komplettset mit Originalbox. Zustand 10/10, makellos."
-    },
-    size: "ONE SIZE"
-  },
-  {
-    id: 14,
-    brand: "pitbull",
-    brandName: "Pit Bull Germany",
-    category: "misc",
-    price: 25,
-    oldPrice: 35,
-    currency: "€",
-    badge: "sale",
-    rune: "🝊",
-    images: [
-      "tovari/photo_27_2026-08-28_11-45-48.jpg"
-    ],
-    names: {
-      ru: "Колода карт Pit Bull Germany «Gelinkt Wird Nicht»",
-      en: "Pit Bull Germany Playing Cards «Gelinkt Wird Nicht»",
-      de: "Pit Bull Germany Spielkarten «Gelinkt Wird Nicht»"
-    },
-    categoryNames: {
-      ru: "Разное / Аксессуары",
-      en: "Accessories & Misc",
-      de: "Accessoires & Diverses"
-    },
-    badgeTexts: {
-      ru: "SALE",
-      en: "SALE",
-      de: "SALE"
-    },
-    descriptions: {
-      ru: "Редкая винтажная колода игральных карт от немецкого бренда Pit Bull Germany с фирменным девизом «...gelinkt wird nicht!» и символикой бульдога. Прочный прозрачный пластиковый бокс. Состояние 10/10, сами карты в идеале, нюанс: в комплекте одна колода из двух (показано на фото).",
-      en: "Rare vintage playing card deck by Pit Bull Germany featuring the brand motto «...gelinkt wird nicht!» and signature bulldog graphics. Hard transparent case. Condition 10/10 in pristine state, note: includes one deck out of the original double set.",
-      de: "Seltenes Vintage Kartenspiel von Pit Bull Germany mit dem Aufdruck «...gelinkt wird nicht!» in transparenter Box. Zustand 10/10, makellos. Hinweis: Ein Kartendeck im Set."
-    },
-    size: "ONE SIZE"
-  },
-  {
-    id: 15,
-    brand: "pitbull",
-    brandName: "Pit Bull Germany",
-    category: "misc",
-    price: 55,
-    oldPrice: 65,
-    currency: "€",
-    badge: "sale",
-    rune: "🝊",
-    images: [
-      "tovari/photo_28_2026-08-28_11-45-48.jpg"
-    ],
-    names: {
-      ru: "Набор игральных карт Pit Bull Germany «Gelinkt Wird Nicht» (2 колоды)",
-      en: "Pit Bull Germany Playing Cards Double Set «Gelinkt Wird Nicht»",
-      de: "Pit Bull Germany Kartenspiel Doppelset «Gelinkt Wird Nicht»"
-    },
-    categoryNames: {
-      ru: "Разное / Аксессуары",
-      en: "Accessories & Misc",
-      de: "Accessoires & Diverses"
-    },
-    badgeTexts: {
-      ru: "SALE",
-      en: "SALE",
-      de: "SALE"
-    },
-    descriptions: {
-      ru: "Коллекционный полный комплект винтажных игральных карт от немецкого бренда Pit Bull Germany в оригинальном прозрачном боксе. Включает сразу 2 запечатанные колоды с культовым девизом «...gelinkt wird nicht!» и фирменной символикой. Состояние 10/10, идеальный коллекционный экземпляр без нюансов.",
-      en: "Collector's full double deck set of vintage playing cards by Pit Bull Germany in original clear hard case. Includes both decks with signature «...gelinkt wird nicht!» graphics and bulldog artwork. Condition 10/10, pristine untouched condition with zero flaws.",
-      de: "Vollständiges Sammler-Doppelset von Vintage-Spielkarten der Marke Pit Bull Germany in transparenter Box. Enthält beide Decks mit dem Motiv «...gelinkt wird nicht!». Zustand 10/10, makellos."
-    },
-    size: "ONE SIZE"
-  }
-];
+// Multilingual Products Catalog (Initialized empty - loaded dynamically from Supabase DB)
+let products = [];
 
 // Restore dynamic catalog from cache immediately to prevent visual flash
 try {
-  const cachedCatalog = localStorage.getItem('r8ilt_cached_products');
-  if (cachedCatalog) {
-    const parsed = JSON.parse(cachedCatalog);
-    if (Array.isArray(parsed) && parsed.length > 0) {
-      products = parsed;
+  const cacheVersion = localStorage.getItem('r8ilt_catalog_v');
+  if (cacheVersion === '2') {
+    const cachedCatalog = localStorage.getItem('r8ilt_cached_products');
+    if (cachedCatalog) {
+      const parsed = JSON.parse(cachedCatalog);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        products = parsed;
+      }
     }
+  } else {
+    // Purge old mock products cache
+    localStorage.removeItem('r8ilt_cached_products');
+    localStorage.setItem('r8ilt_catalog_v', '2');
   }
 } catch (e) {}
 
@@ -1083,7 +695,20 @@ async function loadDynamicCatalog() {
     const res = await fetch('/api/get-products');
     if (!res.ok) return;
     const data = await res.json();
-    if (data.success && Array.isArray(data.products) && data.products.length > 0) {
+    if (data.success && Array.isArray(data.products)) {
+      if (data.products.length === 0) {
+        products = [];
+        try {
+          localStorage.removeItem('r8ilt_cached_products');
+          localStorage.setItem('r8ilt_catalog_v', '2');
+        } catch (e) {}
+        if (productGrid) renderProducts();
+        if (document.getElementById('singleProductContainer')) {
+          initSingleProductPage(true);
+        }
+        return;
+      }
+
       const BRAND_MAP = {
         pitbull: "Pit Bull Germany",
         svastone: "Svastone",
@@ -1136,6 +761,7 @@ async function loadDynamicCatalog() {
       // Save to localStorage cache for instant zero-flash renders
       try {
         localStorage.setItem('r8ilt_cached_products', JSON.stringify(products));
+        localStorage.setItem('r8ilt_catalog_v', '2');
       } catch (e) {}
 
       // Automatically purge deleted products from cart
