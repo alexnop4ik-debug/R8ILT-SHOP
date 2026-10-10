@@ -744,7 +744,7 @@ async function loadDynamicCatalog() {
           oldPrice: p.old_price ? parseFloat(p.old_price) : null,
           currency: p.currency || '€',
           badge: badgeVal,
-          rune: p.rune || '☩',
+          rune: p.rune || ['☩', 'ᛉ', '🝊'][Math.floor(Math.random() * 3)],
           images: Array.isArray(p.images) ? p.images : (p.image ? [p.image] : []),
           names: p.names || { ru: p.name || '', en: p.name || '', de: p.name || '' },
           categoryNames: p.category_names || CAT_MAP[p.category] || { ru: p.category || '', en: p.category || '', de: p.category || '' },
