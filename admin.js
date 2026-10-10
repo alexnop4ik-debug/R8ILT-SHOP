@@ -1,341 +1,752 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>R8ILT CONTROL — Панель управления магазином</title>
-  <meta name="robots" content="noindex, nofollow">
-  
-  <!-- Fonts & Icons -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  
-  <link rel="stylesheet" href="admin.css?v=99">
-</head>
-<body>
+// ==============================================================================
+// R8ILT ADMIN CONTROL — Client JavaScript Logic
+// ==============================================================================
 
-  <!-- Atmospheric Background Glows -->
-  <div class="admin-bg-glow admin-glow-1"></div>
-  <div class="admin-bg-glow admin-glow-2"></div>
+let adminToken = sessionStorage.getItem('r8ilt_admin_token') || '';
+let allProducts = [];
+let editingProductId = null;
+let stagedImages = []; // List of URLs or { file, previewUrl, isNew }
 
-  <!-- ==============================================================================
-       1. ADMIN AUTHENTICATION GATE SCREEN
-       ============================================================================== -->
-  <div class="admin-login-screen" id="loginScreen">
-    <div class="admin-login-card">
-      <div class="admin-login-emblem">
-        <i class="fa-solid fa-shield-halved"></i>
-      </div>
-      <h1 class="admin-login-title">R8ILT CONTROL</h1>
-      <p class="admin-login-subtitle">Панель управления каталогом и товарами</p>
+// Category and Brand Mappings
+const CATEGORY_MAP = {
+  bombers: { ru: "Бомберы / Куртки", en: "Bombers & Jackets", de: "Bomber & Jacken" },
+  hoodies: { ru: "Худи", en: "Hoodie", de: "Kapuzenpullover" },
+  sweatshirts: { ru: "Свитшоты", en: "Sweatshirts", de: "Sweatshirts" },
+  tees: { ru: "Футболки / Майки", en: "T-Shirts & Tanks", de: "T-Shirts & Tanks" },
+  pants: { ru: "Штаны", en: "Pants", de: "Hosen" },
+  shorts: { ru: "Шорты", en: "Shorts", de: "Shorts" },
+  misc: { ru: "Разное", en: "Accessories & Misc", de: "Accessoires & Sonstiges" }
+};
 
-      <form id="loginForm">
-        <div class="admin-input-group">
-          <label class="admin-label" for="adminPassInput">Пароль администратора (ADMIN_PASS)</label>
-          <div class="admin-input-wrap">
-            <input type="password" id="adminPassInput" class="admin-input" placeholder="Введите ваш пароль..." required autofocus autocomplete="current-password">
+const BRAND_NAME_MAP = {
+  pitbull: "Pit Bull Germany",
+  svastone: "Svastone",
+  beloyar: "Белояр",
+  thorsteinar: "Thor Steinar",
+  lonsdale: "Lonsdale",
+  alphaindustries: "Alpha Industries",
+  m8l8th: "M8L8TH",
+  hardcoredivision: "Hardcore Division",
+  mastrum: "MA.STRUM",
+  other: "Разное"
+};
+
+// Helper for resolving image paths
+function resolveImgSrc(src) {
+  if (!src) return 'fotkii/photo_2026-08-27_11-53-52.jpg';
+  return src;
+}
+
+// Default Products (Catalog initialized empty - manage products via Admin Dashboard)
+const DEFAULT_PRODUCTS = [];
+
+// DOM Elements
+const loginScreen = document.getElementById('loginScreen');
+const dashboard = document.getElementById('dashboard');
+const loginForm = document.getElementById('loginForm');
+const adminPassInput = document.getElementById('adminPassInput');
+const loginBtn = document.getElementById('loginBtn');
+const loginError = document.getElementById('loginError');
+
+const productsTableBody = document.getElementById('productsTableBody');
+const searchInput = document.getElementById('adminSearchInput');
+const brandFilter = document.getElementById('adminBrandFilter');
+const categoryFilter = document.getElementById('adminCategoryFilter');
+const badgeFilter = document.getElementById('adminBadgeFilter');
+
+const statTotalItems = document.getElementById('statTotalItems');
+const statSaleItems = document.getElementById('statSaleItems');
+const statNewItems = document.getElementById('statNewItems');
+const statLimitedItems = document.getElementById('statLimitedItems');
+
+const productModal = document.getElementById('productModal');
+const productModalTitle = document.getElementById('productModalTitle');
+const productForm = document.getElementById('productForm');
+const btnCloseModal = document.getElementById('btnCloseModal');
+const btnCancelModal = document.getElementById('btnCancelModal');
+const btnSaveProduct = document.getElementById('btnSaveProduct');
+
+const dropzone = document.getElementById('adminDropzone');
+const fileInput = document.getElementById('adminFileInput');
+const previewsList = document.getElementById('adminPreviewsList');
+
+const toastEl = document.getElementById('adminToast');
+const toastText = document.getElementById('adminToastText');
+
+// ==============================================================================
+// Initialization & Authentication Flow
+// ==============================================================================
+document.addEventListener('DOMContentLoaded', () => {
+  initAuth();
+  initEventListeners();
+});
+
+function initAuth() {
+  if (adminToken) {
+    showDashboard();
+    loadProducts();
+  } else {
+    showLoginScreen();
+  }
+}
+
+function showLoginScreen() {
+  if (loginScreen) loginScreen.style.display = 'flex';
+  if (dashboard) dashboard.style.display = 'none';
+  if (adminPassInput) adminPassInput.focus();
+}
+
+function showDashboard() {
+  if (loginScreen) loginScreen.style.display = 'none';
+  if (dashboard) dashboard.style.display = 'block';
+}
+
+function showToast(msg) {
+  if (!toastEl || !toastText) return;
+  toastText.textContent = msg;
+  toastEl.classList.add('show');
+  setTimeout(() => toastEl.classList.remove('show'), 3500);
+}
+
+// ==============================================================================
+// Event Listeners
+// ==============================================================================
+function initEventListeners() {
+  // Login Form Submit
+  if (loginForm) {
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const pass = adminPassInput.value.trim();
+      if (!pass) return;
+
+      loginBtn.disabled = true;
+      loginBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Вход...';
+      loginError.style.display = 'none';
+
+      try {
+        const res = await fetch('/api/admin-auth', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ password: pass }),
+        });
+
+        const data = await res.json();
+        if (data.success && data.token) {
+          adminToken = data.token;
+          sessionStorage.setItem('r8ilt_admin_token', adminToken);
+          showDashboard();
+          loadProducts();
+          showToast('Добро пожаловать в панель управления R8ILT!');
+        } else {
+          loginError.textContent = data.error || 'Неверный пароль!';
+          loginError.style.display = 'block';
+        }
+      } catch (err) {
+        loginError.textContent = 'Ошибка соединения с сервером авторизации: ' + err.message;
+        loginError.style.display = 'block';
+      } finally {
+        loginBtn.disabled = false;
+        loginBtn.innerHTML = '<i class="fa-solid fa-lock-open"></i> Войти в панель';
+      }
+    });
+  }
+
+  // Logout
+  const btnLogout = document.getElementById('btnLogout');
+  if (btnLogout) {
+    btnLogout.addEventListener('click', () => {
+      adminToken = '';
+      sessionStorage.removeItem('r8ilt_admin_token');
+      showLoginScreen();
+    });
+  }
+
+  // Refresh
+  const btnRefresh = document.getElementById('btnRefresh');
+  if (btnRefresh) {
+    btnRefresh.addEventListener('click', loadProducts);
+  }
+
+  // Clear All Products Button
+  const btnClearAllProducts = document.getElementById('btnClearAllProducts');
+  if (btnClearAllProducts) {
+    btnClearAllProducts.addEventListener('click', clearAllProducts);
+  }
+
+  // Open Add Product Modal
+  const btnAddProduct = document.getElementById('btnAddProduct');
+  if (btnAddProduct) {
+    btnAddProduct.addEventListener('click', () => openProductModal(null));
+  }
+
+  // Modal Close
+  if (btnCloseModal) btnCloseModal.addEventListener('click', closeProductModal);
+  if (btnCancelModal) btnCancelModal.addEventListener('click', closeProductModal);
+
+  // Search & Filter
+  if (searchInput) searchInput.addEventListener('input', renderProductsTable);
+  if (brandFilter) brandFilter.addEventListener('change', renderProductsTable);
+  if (categoryFilter) categoryFilter.addEventListener('change', renderProductsTable);
+  if (badgeFilter) badgeFilter.addEventListener('change', renderProductsTable);
+
+  // Drag & Drop Image Uploading
+  if (dropzone && fileInput) {
+    dropzone.addEventListener('click', () => fileInput.click());
+    dropzone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      dropzone.style.borderColor = 'var(--color-bright-red)';
+    });
+    dropzone.addEventListener('dragleave', () => {
+      dropzone.style.borderColor = 'var(--border-subtle)';
+    });
+    dropzone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropzone.style.borderColor = 'var(--border-subtle)';
+      if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+        handleFilesSelected(e.dataTransfer.files);
+      }
+    });
+
+    fileInput.addEventListener('change', (e) => {
+      if (e.target.files && e.target.files.length > 0) {
+        handleFilesSelected(e.target.files);
+      }
+    });
+  }
+
+  // Product Form Submit
+  if (productForm) {
+    productForm.addEventListener('submit', handleProductFormSubmit);
+  }
+}
+
+// ==============================================================================
+// Clear All Products from Supabase DB
+// ==============================================================================
+async function clearAllProducts() {
+  if (!allProducts || allProducts.length === 0) {
+    showToast('Каталог уже пуст!');
+    return;
+  }
+
+  if (!confirm(`Внимание! Вы действительно хотите БЕЗВОЗВРАТНО удалить ВСЕ товары (${allProducts.length} шт.) из базы данных?`)) {
+    return;
+  }
+
+  const btnClear = document.getElementById('btnClearAllProducts');
+  if (btnClear) {
+    btnClear.disabled = true;
+    btnClear.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Очистка...';
+  }
+
+  try {
+    const res = await fetch('/api/admin-products?action=clear-all', {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${adminToken}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const data = await res.json();
+    if (data.success) {
+      allProducts = [];
+      renderProductsTable();
+      updateStats();
+      showToast('Все товары успешно удалены!');
+    } else {
+      showToast('Ошибка очистки каталога: ' + (data.error || ''));
+    }
+  } catch (err) {
+    console.error('Clear all error:', err);
+    showToast('Ошибка при удалении товаров');
+  } finally {
+    if (btnClear) {
+      btnClear.disabled = false;
+      btnClear.innerHTML = '<i class="fa-solid fa-trash-can"></i> Очистить весь каталог';
+    }
+  }
+}
+
+// ==============================================================================
+// Load Products from Server
+// ==============================================================================
+async function loadProducts() {
+  if (!adminToken) return;
+
+  try {
+    const res = await fetch('/api/admin-products', {
+      headers: {
+        'Authorization': `Bearer ${adminToken}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const data = await res.json();
+    if (data.success && Array.isArray(data.products)) {
+      allProducts = data.products;
+
+      // If DB has products, sort by display_order
+      allProducts.sort((a, b) => (a.display_order ?? 0) - (b.display_order ?? 0));
+      updateStats();
+      renderProductsTable();
+    } else {
+      showToast('Внимание: ' + (data.error || 'Не удалось загрузить товары'));
+    }
+  } catch (err) {
+    console.error('Fetch products error:', err);
+    showToast('Ошибка загрузки каталога товаров');
+  }
+}
+
+// Update Dashboard Header Metrics
+function updateStats() {
+  if (statTotalItems) statTotalItems.textContent = allProducts.length;
+  if (statSaleItems) statSaleItems.textContent = allProducts.filter(p => p.badge === 'sale').length;
+  if (statNewItems) statNewItems.textContent = allProducts.filter(p => p.badge === 'new').length;
+  if (statLimitedItems) statLimitedItems.textContent = allProducts.filter(p => p.badge === 'limited').length;
+}
+
+// ==============================================================================
+// Render Table with Filters and Sorting
+// ==============================================================================
+function renderProductsTable() {
+  if (!productsTableBody) return;
+
+  const q = (searchInput?.value || '').toLowerCase().trim();
+  const brandVal = brandFilter?.value || 'all';
+  const catVal = categoryFilter?.value || 'all';
+  const badgeVal = badgeFilter?.value || 'all';
+
+  const filtered = allProducts.filter(p => {
+    const nameRu = (p.names?.ru || '').toLowerCase();
+    const nameEn = (p.names?.en || '').toLowerCase();
+    const brandName = (p.brand_name || p.brand || '').toLowerCase();
+    const matchQuery = !q || nameRu.includes(q) || nameEn.includes(q) || brandName.includes(q);
+
+    const matchBrand = brandVal === 'all' || p.brand === brandVal;
+    const matchCat = catVal === 'all' || p.category === catVal;
+    const matchBadge = badgeVal === 'all' || (badgeVal === 'none' ? !p.badge : p.badge === badgeVal);
+
+    return matchQuery && matchBrand && matchCat && matchBadge;
+  });
+
+  if (filtered.length === 0) {
+    productsTableBody.innerHTML = `
+      <tr>
+        <td colspan="8" style="text-align:center; padding: 40px; color: var(--text-secondary);">
+          <i class="fa-solid fa-box-open" style="font-size: 2rem; color: var(--color-crimson); margin-bottom: 10px; display:block;"></i>
+          ${allProducts.length === 0 
+            ? 'В базе данных пока нет товаров.<br><br><button class="admin-btn admin-btn-primary" onclick="syncDefaultCatalog()"><i class="fa-solid fa-cloud-arrow-down"></i> Импортировать все товары из магазина в базу</button>' 
+            : 'Товары по выбранным фильтрам не найдены'}
+        </td>
+      </tr>
+    `;
+    return;
+  }
+
+  productsTableBody.innerHTML = filtered.map((product, idx) => {
+    const nameRu = product.names?.ru || product.names?.en || 'Без названия';
+    const brandName = product.brand_name || BRAND_NAME_MAP[product.brand] || product.brand;
+    const categoryName = product.category_names?.ru || CATEGORY_MAP[product.category]?.ru || product.category;
+    const rawImg = (Array.isArray(product.images) && product.images[0]) || 'fotkii/photo_2026-08-27_11-53-52.jpg';
+    const primaryImg = resolveImgSrc(rawImg);
+    
+    let badgeHtml = '<span class="admin-badge-pill admin-badge-none">—</span>';
+    if (product.badge === 'sale') badgeHtml = '<span class="admin-badge-pill admin-badge-sale">SALE</span>';
+    if (product.badge === 'new') badgeHtml = '<span class="admin-badge-pill admin-badge-new">NEW</span>';
+    if (product.badge === 'limited') badgeHtml = '<span class="admin-badge-pill admin-badge-limited">LIMITED</span>';
+
+    const isFirst = idx === 0;
+    const isLast = idx === filtered.length - 1;
+
+    return `
+      <tr data-id="${product.id}">
+        <td>
+          <div class="admin-order-controls">
+            <button class="admin-order-btn" onclick="moveProductOrder(${product.id}, -1)" ${isFirst ? 'disabled' : ''} title="Поднять выше">
+              <i class="fa-solid fa-chevron-up"></i>
+            </button>
+            <span class="admin-order-num">${product.display_order ?? (idx + 1)}</span>
+            <button class="admin-order-btn" onclick="moveProductOrder(${product.id}, 1)" ${isLast ? 'disabled' : ''} title="Опустить ниже">
+              <i class="fa-solid fa-chevron-down"></i>
+            </button>
           </div>
-        </div>
-
-        <button type="submit" class="admin-btn admin-btn-primary admin-btn-block" id="loginBtn">
-          <i class="fa-solid fa-lock-open"></i> Войти в панель
-        </button>
-
-        <div class="admin-login-error" id="loginError"></div>
-      </form>
-    </div>
-  </div>
-
-  <!-- ==============================================================================
-       2. MAIN ADMIN DASHBOARD
-       ============================================================================== -->
-  <div class="admin-dashboard" id="dashboard">
-    <!-- Header -->
-    <header class="admin-header">
-      <div class="admin-header-inner">
-        <a href="index.html" target="_blank" class="admin-logo-wrap" title="Открыть магазин в новой вкладке">
-          <div class="admin-logo-icon">R8</div>
-          <div>
-            <div class="admin-logo-title">R8ILT CONTROL <span class="admin-logo-badge">ADMIN</span></div>
+        </td>
+        <td>
+          <img src="${primaryImg}" alt="${nameRu}" class="admin-thumb" onerror="this.src='fotkii/photo_2026-08-27_11-53-52.jpg'">
+        </td>
+        <td>
+          <div style="font-weight:700; color:#fff; margin-bottom: 2px;">${nameRu}</div>
+          <div style="font-size:0.75rem; color:var(--text-secondary);">${brandName} • ${categoryName}</div>
+        </td>
+        <td>
+          <span style="display:inline-block; padding: 2px 6px; background: rgba(255,255,255,0.05); border-radius:4px; font-weight:600;">
+            ${product.size || 'L'}
+          </span>
+        </td>
+        <td>
+          <div style="font-weight:700; color:var(--color-bright-red);">${product.price} ${product.currency || '€'}</div>
+          ${product.old_price ? `<div style="font-size:0.75rem; color:var(--text-muted); text-decoration:line-through;">${product.old_price} €</div>` : ''}
+        </td>
+        <td>
+          <div style="cursor:pointer;" onclick="toggleBadgeQuick(${product.id})" title="Кликните, чтобы быстро сменить флажок">
+            ${badgeHtml}
           </div>
-        </a>
-
-        <div class="admin-header-actions">
-          <a href="index.html" target="_blank" class="admin-btn admin-btn-secondary admin-btn-sm">
-            <i class="fa-solid fa-arrow-up-right-from-square"></i> Перейти на сайт
-          </a>
-          <button class="admin-btn admin-btn-secondary admin-btn-sm" id="btnRefresh" title="Обновить список товаров">
-            <i class="fa-solid fa-rotate"></i>
-          </button>
-          <button class="admin-btn admin-btn-danger admin-btn-sm" id="btnLogout" title="Выйти из админки">
-            <i class="fa-solid fa-right-from-bracket"></i> Выход
-          </button>
-        </div>
-      </div>
-    </header>
-
-    <!-- Main Container -->
-    <main class="admin-container">
-      <!-- Stats Row -->
-      <section class="admin-stats-grid">
-        <div class="admin-stat-card">
-          <div class="admin-stat-icon"><i class="fa-solid fa-boxes-stacked"></i></div>
-          <div class="admin-stat-info">
-            <h4>Всего позиций</h4>
-            <div class="admin-stat-val" id="statTotalItems">0</div>
+        </td>
+        <td>
+          <div class="admin-row-actions">
+            <button class="admin-btn admin-btn-secondary admin-btn-sm" onclick="openProductModal(${product.id})" title="Редактировать">
+              <i class="fa-solid fa-pen"></i>
+            </button>
+            <button class="admin-btn admin-btn-danger admin-btn-sm" onclick="deleteProduct(${product.id})" title="Удалить">
+              <i class="fa-solid fa-trash"></i>
+            </button>
           </div>
-        </div>
+        </td>
+      </tr>
+    `;
+  }).join('');
+}
 
-        <div class="admin-stat-card">
-          <div class="admin-stat-icon"><i class="fa-solid fa-tags"></i></div>
-          <div class="admin-stat-info">
-            <h4>Флажок SALE</h4>
-            <div class="admin-stat-val" id="statSaleItems">0</div>
-          </div>
-        </div>
+// ==============================================================================
+// Move Product Display Order (▲ / ▼)
+// ==============================================================================
+window.moveProductOrder = async function(id, direction) {
+  const currentIndex = allProducts.findIndex(p => p.id == id || String(p.id) === String(id));
+  if (currentIndex === -1) return;
 
-        <div class="admin-stat-card">
-          <div class="admin-stat-icon"><i class="fa-solid fa-fire"></i></div>
-          <div class="admin-stat-info">
-            <h4>Флажок NEW</h4>
-            <div class="admin-stat-val" id="statNewItems">0</div>
-          </div>
-        </div>
+  const targetIndex = currentIndex + direction;
+  if (targetIndex < 0 || targetIndex >= allProducts.length) return;
 
-        <div class="admin-stat-card">
-          <div class="admin-stat-icon"><i class="fa-solid fa-gem"></i></div>
-          <div class="admin-stat-info">
-            <h4>Флажок LIMITED</h4>
-            <div class="admin-stat-val" id="statLimitedItems">0</div>
-          </div>
-        </div>
-      </section>
+  // Swap display_order in memory
+  const temp = allProducts[currentIndex];
+  allProducts[currentIndex] = allProducts[targetIndex];
+  allProducts[targetIndex] = temp;
 
-      <!-- Toolbar & Controls -->
-      <section class="admin-toolbar">
-        <div class="admin-search-wrap">
-          <i class="fa-solid fa-magnifying-glass" style="color:var(--text-muted);"></i>
-          <input type="text" id="adminSearchInput" class="admin-input" placeholder="Поиск по названию или бренду...">
-        </div>
+  // Re-assign sequential display_order
+  allProducts.forEach((p, idx) => {
+    p.display_order = (idx + 1) * 10;
+  });
 
-        <div class="admin-filter-selects">
-          <select id="adminBrandFilter" class="admin-select">
-            <option value="all">Все бренды</option>
-            <option value="pitbull">Pit Bull Germany</option>
-            <option value="svastone">Svastone</option>
-            <option value="beloyar">Белояр</option>
-            <option value="thorsteinar">Thor Steinar</option>
-            <option value="lonsdale">Lonsdale</option>
-            <option value="alphaindustries">Alpha Industries</option>
-            <option value="m8l8th">M8L8TH</option>
-            <option value="hardcoredivision">Hardcore Division</option>
-            <option value="mastrum">MA.STRUM</option>
-            <option value="other">Разное</option>
-          </select>
+  renderProductsTable();
 
-          <select id="adminCategoryFilter" class="admin-select">
-            <option value="all">Все категории</option>
-            <option value="bombers">Бомберы / Куртки</option>
-            <option value="hoodies">Худи</option>
-            <option value="sweatshirts">Свитшоты</option>
-            <option value="tees">Футболки / Майки</option>
-            <option value="pants">Штаны</option>
-            <option value="shorts">Шорты</option>
-            <option value="misc">Разное</option>
-          </select>
+  // Send batch reorder to server
+  try {
+    const items = allProducts.map(p => ({ id: p.id, display_order: p.display_order }));
+    const res = await fetch('/api/admin-products?action=reorder', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${adminToken}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ items }),
+    });
 
-          <select id="adminBadgeFilter" class="admin-select">
-            <option value="all">Все флажки</option>
-            <option value="sale">SALE</option>
-            <option value="new">NEW</option>
-            <option value="limited">LIMITED</option>
-            <option value="none">Без флажка</option>
-          </select>
+    const data = await res.json();
+    if (data.success) {
+      showToast('Порядок товаров обновлен!');
+    } else {
+      showToast('Ошибка сохранения порядка: ' + (data.error || ''));
+    }
+  } catch (err) {
+    console.error('Reorder error:', err);
+    showToast('Ошибка при синхронизации порядка товаров');
+  }
+};
 
-          <button class="admin-btn admin-btn-danger" id="btnClearAllProducts" title="Удалить все товары из базы данных">
-            <i class="fa-solid fa-trash-can"></i> Очистить весь каталог
-          </button>
+// ==============================================================================
+// Toggle Badge Quick (SALE -> NEW -> LIMITED -> NONE)
+// ==============================================================================
+window.toggleBadgeQuick = async function(id) {
+  const prod = allProducts.find(p => p.id == id || String(p.id) === String(id));
+  if (!prod) return;
 
-          <button class="admin-btn admin-btn-primary" id="btnAddProduct">
-            <i class="fa-solid fa-plus"></i> Добавить товар
-          </button>
-        </div>
-      </section>
+  const cycle = [null, 'sale', 'new', 'limited'];
+  const nextIdx = (cycle.indexOf(prod.badge) + 1) % cycle.length;
+  prod.badge = cycle[nextIdx];
 
-      <!-- Products Table -->
-      <section class="admin-table-wrap">
-        <table class="admin-table">
-          <thead>
-            <tr>
-              <th style="width: 80px;">Порядок</th>
-              <th style="width: 80px;">Фото</th>
-              <th>Название & Бренд</th>
-              <th>Размер</th>
-              <th>Цена</th>
-              <th>Флажок</th>
-              <th style="width: 110px; text-align: right;">Действия</th>
-            </tr>
-          </thead>
-          <tbody id="productsTableBody">
-            <!-- Dynamic rows rendered by admin.js -->
-          </tbody>
-        </table>
-      </section>
-    </main>
-  </div>
+  renderProductsTable();
+  updateStats();
 
-  <!-- ==============================================================================
-       3. ADD / EDIT PRODUCT MODAL
-       ============================================================================== -->
-  <div class="admin-modal-overlay" id="productModal">
-    <div class="admin-modal-card">
-      <div class="admin-modal-header">
-        <h2 class="admin-modal-title" id="productModalTitle">Добавить новый товар</h2>
-        <button type="button" class="admin-modal-close" id="btnCloseModal" aria-label="Закрыть">
+  try {
+    await fetch(`/api/admin-products?id=${id}`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${adminToken}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ badge: prod.badge }),
+    });
+    showToast(`Флажок обновлен: ${prod.badge ? prod.badge.toUpperCase() : 'Без флажка'}`);
+  } catch (err) {
+    console.error('Badge update error:', err);
+    showToast('Ошибка обновления флажка');
+  }
+};
+
+// ==============================================================================
+// Delete Product with Confirmation
+// ==============================================================================
+window.deleteProduct = async function(id) {
+  const prod = allProducts.find(p => p.id == id || String(p.id) === String(id));
+  const name = prod?.names?.ru || prod?.names?.en || 'товар';
+
+  if (!confirm(`Вы действительно хотите удалить «${name}» из каталога?`)) {
+    return;
+  }
+
+  try {
+    const res = await fetch(`/api/admin-products?id=${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${adminToken}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const data = await res.json();
+    if (data.success) {
+      allProducts = allProducts.filter(p => !(p.id == id || String(p.id) === String(id)));
+      renderProductsTable();
+      updateStats();
+      showToast('Товар успешно удален!');
+    } else {
+      showToast('Ошибка удаления: ' + (data.error || ''));
+    }
+  } catch (err) {
+    console.error('Delete error:', err);
+    showToast('Ошибка при удалении товара');
+  }
+};
+
+// ==============================================================================
+// Product Modal (Add / Edit) & Image Handling
+// ==============================================================================
+function handleFilesSelected(files) {
+  for (let i = 0; i < files.length; i++) {
+    const file = files[i];
+    if (!file.type.startsWith('image/')) continue;
+
+    const previewUrl = URL.createObjectURL(file);
+    stagedImages.push({
+      file: file,
+      url: previewUrl,
+      isNew: true,
+    });
+  }
+  renderImagePreviews();
+}
+
+function renderImagePreviews() {
+  if (!previewsList) return;
+
+  if (stagedImages.length === 0) {
+    previewsList.innerHTML = '<div style="font-size:0.8rem; color:var(--text-muted); width:100%;">Фотографии еще не выбраны</div>';
+    return;
+  }
+
+  previewsList.innerHTML = stagedImages.map((img, idx) => {
+    const isPrimary = idx === 0;
+    const isBack = idx === 1;
+    const tagText = isPrimary ? '1. Лицевая' : (isBack ? '2. Сзади' : `${idx + 1}. Фото`);
+    const previewSrc = img.isNew ? img.url : resolveImgSrc(img.url);
+
+    return `
+      <div class="admin-preview-item">
+        <img src="${previewSrc}" class="admin-preview-img" alt="Фото ${idx + 1}">
+        <span class="admin-preview-tag">${tagText}</span>
+        <button type="button" class="admin-preview-remove" onclick="removeStagedImage(${idx})" title="Удалить фото">
           <i class="fa-solid fa-xmark"></i>
         </button>
       </div>
+    `;
+  }).join('');
+}
 
-      <form id="productForm" style="display:flex; flex-direction:column; flex:1; overflow:hidden;">
-        <div class="admin-modal-body">
-          
-          <!-- Image Upload Strip -->
-          <div class="admin-input-group">
-            <label class="admin-label">Фотографии товара (1-е фото: Лицевая, 2-е: Вид сзади / Hover, 3+: Галерея)</label>
-            <div class="admin-dropzone" id="adminDropzone">
-              <div class="admin-dropzone-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
-              <div class="admin-dropzone-text">Нажмите или перетащите фото сюда для загрузки</div>
-              <input type="file" id="adminFileInput" multiple accept="image/*" style="display:none;">
-            </div>
-            <div class="admin-previews-list" id="adminPreviewsList"></div>
-          </div>
+window.removeStagedImage = function(idx) {
+  stagedImages.splice(idx, 1);
+  renderImagePreviews();
+};
 
-          <!-- Product Titles -->
-          <div class="admin-form-row">
-            <div class="admin-input-group">
-              <label class="admin-label" for="prodNameRu">Название (RU) *</label>
-              <input type="text" id="prodNameRu" class="admin-input" placeholder="Например: Худи Pit Bull Germany Black" required>
-            </div>
-            <div class="admin-input-group">
-              <label class="admin-label" for="prodNameEn">Название (EN / Международное)</label>
-              <input type="text" id="prodNameEn" class="admin-input" placeholder="Pit Bull Germany Black Hoodie">
-            </div>
-          </div>
+function openProductModal(productId = null) {
+  editingProductId = productId;
+  stagedImages = [];
 
-          <!-- Brand & Category -->
-          <div class="admin-form-row">
-            <div class="admin-input-group">
-              <label class="admin-label" for="prodBrandSelect">Бренд *</label>
-              <select id="prodBrandSelect" class="admin-input" required>
-                <option value="pitbull">Pit Bull Germany</option>
-                <option value="svastone">Svastone</option>
-                <option value="beloyar">Белояр</option>
-                <option value="thorsteinar">Thor Steinar</option>
-                <option value="lonsdale">Lonsdale</option>
-                <option value="alphaindustries">Alpha Industries</option>
-                <option value="m8l8th">M8L8TH</option>
-                <option value="hardcoredivision">Hardcore Division</option>
-                <option value="mastrum">MA.STRUM</option>
-                <option value="other">Разное / Другой бренд</option>
-              </select>
-            </div>
+  const nameRu = document.getElementById('prodNameRu');
+  const nameEn = document.getElementById('prodNameEn');
+  const brandSelect = document.getElementById('prodBrandSelect');
+  const catSelect = document.getElementById('prodCategorySelect');
+  const priceInput = document.getElementById('prodPrice');
+  const oldPriceInput = document.getElementById('prodOldPrice');
+  const sizeInput = document.getElementById('prodSize');
+  const orderInput = document.getElementById('prodOrder');
+  const runeInput = document.getElementById('prodRune');
+  const descRu = document.getElementById('prodDescRu');
+  const descEn = document.getElementById('prodDescEn');
 
-            <div class="admin-input-group">
-              <label class="admin-label" for="prodCategorySelect">Категория *</label>
-              <select id="prodCategorySelect" class="admin-input" required>
-                <option value="tees">Футболки / Майки</option>
-                <option value="hoodies">Худи</option>
-                <option value="sweatshirts">Свитшоты</option>
-                <option value="bombers">Бомберы / Куртки</option>
-                <option value="pants">Штаны</option>
-                <option value="shorts">Шорты</option>
-                <option value="misc">Разное</option>
-              </select>
-            </div>
-          </div>
+  if (productId) {
+    const prod = allProducts.find(p => p.id == productId || String(p.id) === String(productId));
+    if (!prod) return;
 
-          <!-- Prices, Size, Position & Rune -->
-          <div class="admin-form-row admin-form-row-3">
-            <div class="admin-input-group">
-              <label class="admin-label" for="prodPrice">Цена (€) *</label>
-              <input type="number" step="0.01" id="prodPrice" class="admin-input" placeholder="65" required>
-            </div>
-            <div class="admin-input-group">
-              <label class="admin-label" for="prodOldPrice">Старая цена (€, зачеркнутая)</label>
-              <input type="number" step="0.01" id="prodOldPrice" class="admin-input" placeholder="75 (необязательно)">
-            </div>
-            <div class="admin-input-group">
-              <label class="admin-label" for="prodSize">Размер(ы)</label>
-              <input type="text" id="prodSize" class="admin-input" placeholder="XL или L-XL или M / L" value="L">
-            </div>
-          </div>
+    if (productModalTitle) productModalTitle.textContent = 'Редактировать товар';
+    if (nameRu) nameRu.value = prod.names?.ru || '';
+    if (nameEn) nameEn.value = prod.names?.en || '';
+    if (brandSelect) brandSelect.value = prod.brand || 'pitbull';
+    if (catSelect) catSelect.value = prod.category || 'tees';
+    if (priceInput) priceInput.value = prod.price || '';
+    if (oldPriceInput) oldPriceInput.value = prod.old_price || '';
+    if (sizeInput) sizeInput.value = prod.size || 'L';
+    if (orderInput) orderInput.value = prod.display_order ?? 10;
+    if (runeInput) runeInput.value = prod.rune || '☩';
+    if (descRu) descRu.value = prod.descriptions?.ru || '';
+    if (descEn) descEn.value = prod.descriptions?.en || '';
 
-          <div class="admin-form-row">
-            <div class="admin-input-group">
-              <label class="admin-label" for="prodOrder">Позиция / Номер в каталоге (Высота вывода)</label>
-              <input type="number" id="prodOrder" class="admin-input" placeholder="10" value="10">
-            </div>
-            <div class="admin-input-group">
-              <label class="admin-label" for="prodRune">Символ / Руна (для заглушек)</label>
-              <input type="text" id="prodRune" class="admin-input" placeholder="☩ или ᛉ или ᚱ или 🝊" value="☩">
-            </div>
-          </div>
+    // Set badge radio
+    const badgeVal = prod.badge || '';
+    const radio = document.querySelector(`input[name="prodBadge"][value="${badgeVal}"]`);
+    if (radio) radio.checked = true;
 
-          <!-- Badge / Flag Selector -->
-          <div class="admin-input-group">
-            <label class="admin-label">Флажок / Бейдж на карточке</label>
-            <div class="admin-badge-options">
-              <label class="admin-badge-option">
-                <input type="radio" name="prodBadge" value="" checked>
-                <span class="admin-badge-chip">Без флажка</span>
-              </label>
-              <label class="admin-badge-option">
-                <input type="radio" name="prodBadge" value="sale">
-                <span class="admin-badge-chip" style="color:#fff;">SALE</span>
-              </label>
-              <label class="admin-badge-option">
-                <input type="radio" name="prodBadge" value="new">
-                <span class="admin-badge-chip" style="color:var(--color-bright-red);">NEW</span>
-              </label>
-              <label class="admin-badge-option">
-                <input type="radio" name="prodBadge" value="limited">
-                <span class="admin-badge-chip" style="color:#ffcc00;">LIMITED</span>
-              </label>
-            </div>
-          </div>
+    // Load existing images
+    if (Array.isArray(prod.images)) {
+      prod.images.forEach(url => {
+        stagedImages.push({ file: null, url: url, isNew: false });
+      });
+    }
+  } else {
+    if (productModalTitle) productModalTitle.textContent = 'Добавить новый товар';
+    if (productForm) productForm.reset();
+    if (orderInput) orderInput.value = (allProducts.length + 1) * 10;
+    if (runeInput) runeInput.value = '☩';
+    const noneRadio = document.querySelector(`input[name="prodBadge"][value=""]`);
+    if (noneRadio) noneRadio.checked = true;
+  }
 
-          <!-- Descriptions -->
-          <div class="admin-input-group">
-            <label class="admin-label" for="prodDescRu">Описание товара (RU)</label>
-            <textarea id="prodDescRu" class="admin-input admin-textarea" placeholder="Подробное описание состояния, материалов, деталей..."></textarea>
-          </div>
+  renderImagePreviews();
+  if (productModal) productModal.classList.add('active');
+}
 
-          <div class="admin-input-group">
-            <label class="admin-label" for="prodDescEn">Описание товара (EN)</label>
-            <textarea id="prodDescEn" class="admin-input admin-textarea" placeholder="Product details, condition, materials..."></textarea>
-          </div>
+function closeProductModal() {
+  if (productModal) productModal.classList.remove('active');
+  editingProductId = null;
+  stagedImages = [];
+}
 
-        </div>
+// ==============================================================================
+// Save Product (Submit Handler with Photo Uploads)
+// ==============================================================================
+async function handleProductFormSubmit(e) {
+  e.preventDefault();
 
-        <div class="admin-modal-footer">
-          <button type="button" class="admin-btn admin-btn-secondary" id="btnCancelModal">Отмена</button>
-          <button type="submit" class="admin-btn admin-btn-primary" id="btnSaveProduct">
-            <i class="fa-solid fa-check"></i> Сохранить товар
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
+  const nameRu = document.getElementById('prodNameRu')?.value.trim();
+  const nameEn = document.getElementById('prodNameEn')?.value.trim() || nameRu;
+  const brand = document.getElementById('prodBrandSelect')?.value || 'pitbull';
+  const category = document.getElementById('prodCategorySelect')?.value || 'tees';
+  const price = parseFloat(document.getElementById('prodPrice')?.value) || 0;
+  const oldPriceVal = document.getElementById('prodOldPrice')?.value.trim();
+  const oldPrice = oldPriceVal ? parseFloat(oldPriceVal) : null;
+  const size = document.getElementById('prodSize')?.value.trim() || 'L';
+  const displayOrder = parseInt(document.getElementById('prodOrder')?.value) || 10;
+  const rune = document.getElementById('prodRune')?.value.trim() || '☩';
+  const descRu = document.getElementById('prodDescRu')?.value.trim() || '';
+  const descEn = document.getElementById('prodDescEn')?.value.trim() || descRu;
 
-  <!-- Toast Notifications -->
-  <div class="admin-toast" id="adminToast">
-    <i class="fa-solid fa-circle-info admin-toast-icon"></i>
-    <span id="adminToastText">Уведомление</span>
-  </div>
+  const badgeRadio = document.querySelector('input[name="prodBadge"]:checked');
+  const badge = (badgeRadio && badgeRadio.value) ? badgeRadio.value : null;
 
-  <script src="admin.js?v=100"></script>
-</body>
-</html>
+  if (!nameRu || price <= 0) {
+    showToast('Пожалуйста, укажите название и корректную цену товара!');
+    return;
+  }
+
+  btnSaveProduct.disabled = true;
+  btnSaveProduct.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Сохранение...';
+
+  try {
+    // 1. Upload any newly staged images to Supabase Storage via /api/admin-products?action=upload
+    const finalImageUrls = [];
+    for (const item of stagedImages) {
+      if (item.isNew && item.file) {
+        const formData = new FormData();
+        formData.append('file', item.file);
+
+        const uploadRes = await fetch('/api/admin-products?action=upload', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${adminToken}`,
+          },
+          body: formData,
+        });
+
+        const uploadData = await uploadRes.json();
+        if (uploadData.success && uploadData.url) {
+          finalImageUrls.push(uploadData.url);
+        } else {
+          console.warn('Image upload fallback, using local preview url', uploadData.error);
+          finalImageUrls.push(item.url);
+        }
+      } else {
+        finalImageUrls.push(item.url);
+      }
+    }
+
+    const payload = {
+      brand: brand,
+      brand_name: BRAND_NAME_MAP[brand] || brand,
+      category: category,
+      price: price,
+      old_price: oldPrice,
+      currency: '€',
+      badge: badge,
+      rune: rune,
+      images: finalImageUrls,
+      names: { ru: nameRu, en: nameEn, de: nameEn },
+      category_names: CATEGORY_MAP[category] || { ru: category, en: category, de: category },
+      badge_texts: { ru: badge ? badge.toUpperCase() : '', en: badge ? badge.toUpperCase() : '', de: badge ? badge.toUpperCase() : '' },
+      descriptions: { ru: descRu, en: descEn, de: descEn },
+      size: size,
+      display_order: displayOrder,
+      is_active: true,
+    };
+
+    let res;
+    if (editingProductId) {
+      // Update
+      payload.id = editingProductId;
+      res = await fetch(`/api/admin-products?id=${editingProductId}`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${adminToken}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+    } else {
+      // Create
+      res = await fetch('/api/admin-products', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${adminToken}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+    }
+
+    const data = await res.json();
+    if (data.success) {
+      showToast(editingProductId ? 'Товар успешно обновлен!' : 'Новый товар успешно добавлен!');
+      closeProductModal();
+      await loadProducts();
+    } else {
+      showToast('Ошибка сохранения: ' + (data.error || ''));
+    }
+  } catch (err) {
+    console.error('Save product error:', err);
+    showToast('Ошибка при сохранении товара: ' + err.message);
+  } finally {
+    btnSaveProduct.disabled = false;
+    btnSaveProduct.innerHTML = '<i class="fa-solid fa-check"></i> Сохранить товар';
+  }
+}
 
