@@ -40,6 +40,12 @@ function resolveImgSrc(src) {
 // Default Products (Catalog initialized empty - manage products via Admin Dashboard)
 const DEFAULT_PRODUCTS = [];
 
+// Automatic Random Rune Pool (1 of 3 chosen randomly for placeholders)
+const RANDOM_RUNES = ['☩', 'ᛉ', '🝊'];
+function getRandomRune() {
+  return RANDOM_RUNES[Math.floor(Math.random() * RANDOM_RUNES.length)];
+}
+
 // DOM Elements
 const loginScreen = document.getElementById('loginScreen');
 const dashboard = document.getElementById('dashboard');
@@ -581,7 +587,6 @@ function openProductModal(productId = null) {
   const oldPriceInput = document.getElementById('prodOldPrice');
   const sizeInput = document.getElementById('prodSize');
   const orderInput = document.getElementById('prodOrder');
-  const runeInput = document.getElementById('prodRune');
   const descRu = document.getElementById('prodDescRu');
   const descEn = document.getElementById('prodDescEn');
 
@@ -598,7 +603,6 @@ function openProductModal(productId = null) {
     if (oldPriceInput) oldPriceInput.value = prod.old_price || '';
     if (sizeInput) sizeInput.value = prod.size || 'L';
     if (orderInput) orderInput.value = prod.display_order ?? 10;
-    if (runeInput) runeInput.value = prod.rune || '☩';
     if (descRu) descRu.value = prod.descriptions?.ru || '';
     if (descEn) descEn.value = prod.descriptions?.en || '';
 
@@ -617,7 +621,6 @@ function openProductModal(productId = null) {
     if (productModalTitle) productModalTitle.textContent = 'Добавить новый товар';
     if (productForm) productForm.reset();
     if (orderInput) orderInput.value = (allProducts.length + 1) * 10;
-    if (runeInput) runeInput.value = '☩';
     const noneRadio = document.querySelector(`input[name="prodBadge"][value=""]`);
     if (noneRadio) noneRadio.checked = true;
   }
@@ -646,8 +649,8 @@ async function handleProductFormSubmit(e) {
   const oldPriceVal = document.getElementById('prodOldPrice')?.value.trim();
   const oldPrice = oldPriceVal ? parseFloat(oldPriceVal) : null;
   const size = document.getElementById('prodSize')?.value.trim() || 'L';
-  const displayOrder = parseInt(document.getElementById('prodOrder')?.value) || 10;
-  const rune = document.getElementById('prodRune')?.value.trim() || '☩';
+  const existingProd = editingProductId ? allProducts.find(p => p.id == editingProductId || String(p.id) === String(editingProductId)) : null;
+  const rune = (existingProd && existingProd.rune) ? existingProd.rune : getRandomRune();
   const descRu = document.getElementById('prodDescRu')?.value.trim() || '';
   const descEn = document.getElementById('prodDescEn')?.value.trim() || descRu;
 
