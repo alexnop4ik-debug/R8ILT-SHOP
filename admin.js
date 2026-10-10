@@ -649,6 +649,7 @@ async function handleProductFormSubmit(e) {
   const oldPriceVal = document.getElementById('prodOldPrice')?.value.trim();
   const oldPrice = oldPriceVal ? parseFloat(oldPriceVal) : null;
   const size = document.getElementById('prodSize')?.value.trim() || 'L';
+  const displayOrder = parseInt(document.getElementById('prodOrder')?.value) || (allProducts.length + 1) * 10;
   const existingProd = editingProductId ? allProducts.find(p => p.id == editingProductId || String(p.id) === String(editingProductId)) : null;
   const rune = (existingProd && existingProd.rune) ? existingProd.rune : getRandomRune();
   const descRu = document.getElementById('prodDescRu')?.value.trim() || '';
